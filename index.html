@@ -1,0 +1,644 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aasha Super-App - Master Earnings & GPay Base</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-main: #080D1A;
+    --bg-card: #111C30;
+    --border: #22324D;
+    --primary: #2563EB;
+    --accent: #38BDF8;
+    --emerald: #10B981;
+    --emerald-bg: rgba(16, 185, 129, 0.15);
+    --amber: #F59E0B;
+    --amber-bg: rgba(245, 158, 11, 0.15);
+    --purple: #8B5CF6;
+    --purple-bg: rgba(139, 92, 246, 0.15);
+    --danger: #EF4444;
+    --danger-bg: rgba(239, 68, 68, 0.15);
+    --text: #F8FAFC;
+    --text-muted: #94A3B8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+  body { background-color: var(--bg-main); color: var(--text); padding: 18px 12px; }
+  .container { max-width: 1250px; margin: 0 auto; }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #16243E, #0A101D);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header h1 { font-size: 22px; font-weight: 800; color: var(--accent); }
+  .header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  .owner-badge {
+    background: var(--emerald-bg);
+    color: var(--emerald);
+    border: 1px solid var(--emerald);
+    padding: 6px 12px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* STATS CARDS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .stat-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+  .stat-val { font-size: 24px; font-weight: 800; margin-top: 4px; font-family: 'JetBrains Mono', monospace; }
+  .stat-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ACTIONS ROW */
+  .action-banner {
+    background: linear-gradient(135deg, #1E293B, #111C30);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* BUTTONS */
+  .btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: 0.2s;
+  }
+  .btn-primary { background: var(--primary); color: #FFF; }
+  .btn-primary:hover { background: #1D4ED8; }
+  .btn-emerald { background: var(--emerald); color: #000; font-weight: 800; }
+  .btn-emerald:hover { background: #059669; color: #FFF; }
+  .btn-purple { background: var(--purple); color: #FFF; font-weight: 800; }
+  .btn-purple:hover { background: #7C3AED; }
+  .btn-upi { background: #16A34A; color: #FFF; }
+  .btn-upi:hover { background: #15803D; }
+  .btn-toggle { background: #22324D; color: #FFF; }
+
+  /* CONTROLS */
+  .control-strip {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .filter-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn {
+    background: #080D1A;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .filter-btn.active, .filter-btn:hover { background: var(--primary); color: #FFF; border-color: var(--primary); }
+
+  /* FIXTURE GRID */
+  .fixtures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .fixture-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .card-top { display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .category-tag { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; }
+  
+  .status-badge {
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .status-open { background: var(--emerald-bg); color: var(--emerald); border: 1px solid var(--emerald); }
+  .status-used { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber); }
+  .status-closed { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger); }
+
+  .fixture-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; color: #FFF; }
+  .fixture-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; }
+  
+  .deal-info {
+    background: #080D1A;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+  }
+  .deal-val { font-weight: 700; color: #FFF; font-family: 'JetBrains Mono', monospace; }
+  .cut-val { font-weight: 700; color: var(--emerald); font-family: 'JetBrains Mono', monospace; }
+
+  /* HISTORY TABLE */
+  .history-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 20px;
+  }
+  .history-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--accent); }
+  .history-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .history-table th, .history-table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+  .history-table th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 14px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    max-width: 460px;
+    width: 100%;
+    padding: 20px;
+  }
+  .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #FFF; }
+  .input-field {
+    width: 100%;
+    background: #080D1A;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 12px;
+    color: #FFF;
+    font-size: 13px;
+    margin-bottom: 10px;
+    outline: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- HEADER -->
+  <header class="header">
+    <div>
+      <h1>AASHA COMMAND HUB</h1>
+      <p>Master Earnings Base &bull; Live GPay UPI Direct &bull; Personal Usage Engine</p>
+    </div>
+    <div class="owner-badge">&#128274; SURAJ MISHRA (surajmishr999-1@oksbi)</div>
+  </header>
+
+  <!-- LIVE METRICS BAR -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-title">Available Usable Balance (Aapka Paisa)</div>
+      <div class="stat-val" id="usableBalanceDisplay" style="color: var(--emerald);">₹0.00</div>
+      <div class="stat-sub">&#9679; Ready to Spend or Withdraw Anytime</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-title">Total Lifetime Earnings Base</div>
+      <div class="stat-val" id="totalEarnedDisplay" style="color: var(--accent);">₹0.00</div>
+      <div class="stat-sub">&#9679; UPI: surajmishr999-1@oksbi</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-title">Total Personally Used / Spent</div>
+      <div class="stat-val" id="totalUsedDisplay" style="color: var(--purple);">₹0.00</div>
+      <div class="stat-sub">&#9679; Personal Expenses & Withdrawals</div>
+    </div>
+  </div>
+
+  <!-- PERSONAL USAGE ACTION STRIP -->
+  <div class="action-banner">
+    <div>
+      <div style="font-weight: 700; font-size: 14px;">Master Financial Controls</div>
+      <div style="font-size: 12px; color: var(--text-muted);">Apni kamai ko personally use karein, QR show karein ya bank payout lein</div>
+    </div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <button class="btn btn-upi" onclick="openQrModal()">📲 Show My GPay QR</button>
+      <button class="btn btn-purple" onclick="openExpenseModal()">💸 Personally Use / Spend</button>
+      <button class="btn btn-emerald" onclick="openWithdrawModal()">🏦 Withdraw to Bank / UPI</button>
+      <button class="btn btn-primary" onclick="openAddModal()">+ Add New Fixture</button>
+    </div>
+  </div>
+
+  <!-- CONTROLS & FEED -->
+  <div class="control-strip">
+    <div class="filter-group">
+      <button class="filter-btn active" onclick="filterFixtures('ALL')">All Fixtures</button>
+      <button class="filter-btn" onclick="filterFixtures('OPEN')">🟢 Open</button>
+      <button class="filter-btn" onclick="filterFixtures('USED')">🟡 In-Use</button>
+      <button class="filter-btn" onclick="filterFixtures('CLOSED')">🔴 Closed</button>
+    </div>
+  </div>
+
+  <!-- FIXTURES GRID -->
+  <div class="fixtures-grid" id="fixturesContainer"></div>
+
+  <!-- PERSONAL USAGE & EXPENSE HISTORY -->
+  <div class="history-box">
+    <div class="history-title">&#128220; Personal Expense & Usage Ledger</div>
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Usage Reason / Destination</th>
+          <th>Category</th>
+          <th>Amount Used</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="historyTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL: SHOW GPAY QR -->
+<div class="modal-overlay" id="qrModal">
+  <div class="modal-box" style="text-align: center;">
+    <div class="modal-title">📲 Scan to Pay (Google Pay UPI)</div>
+    <div style="font-size: 13px; color: var(--accent); font-weight: 700; margin-bottom: 8px;">SURAJ MISHRA</div>
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; font-family: 'JetBrains Mono';">UPI ID: surajmishr999-1@oksbi</div>
+    
+    <!-- Dynamic GPay QR Generated via API -->
+    <div style="background:#FFF; padding:12px; border-radius:12px; display:inline-block; margin-bottom:12px;">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=upi://pay?pa=surajmishr999-1@oksbi%26pn=SURAJ%20MISHRA%26cu=INR" alt="UPI QR Code" style="width:200px; height:200px; display:block;">
+    </div>
+    
+    <div>
+      <button class="btn btn-toggle" style="width: 100%;" onclick="closeQrModal()">Close QR</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: PERSONALLY USE / SPEND -->
+<div class="modal-overlay" id="expenseModal">
+  <div class="modal-box">
+    <div class="modal-title">💸 Use Earnings for Personal Expense</div>
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+      Available Balance: <strong id="modalExpAvailableBal" style="color: var(--emerald);">₹0.00</strong>
+    </div>
+
+    <label style="font-size: 11px; color: var(--text-muted);">Amount to Use (₹)</label>
+    <input type="number" id="expenseAmount" class="input-field" placeholder="Enter amount">
+
+    <label style="font-size: 11px; color: var(--text-muted);">Expense Purpose / Use Case</label>
+    <input type="text" id="expensePurpose" class="input-field" placeholder="e.g. Home Bill, Shopping, Cash Expense, Travel">
+
+    <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 10px;">
+      <button class="btn btn-toggle" onclick="closeExpenseModal()">Cancel</button>
+      <button class="btn btn-purple" onclick="processPersonalExpense()">Deduct & Use Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: WITHDRAW TO BANK -->
+<div class="modal-overlay" id="withdrawModal">
+  <div class="modal-box">
+    <div class="modal-title">🏦 Bank / UPI Payout</div>
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+      Available Balance: <strong id="modalWithAvailableBal" style="color: var(--emerald);">₹0.00</strong>
+    </div>
+
+    <label style="font-size: 11px; color: var(--text-muted);">Withdrawal Amount (₹)</label>
+    <input type="number" id="withdrawAmount" class="input-field" placeholder="Enter amount">
+    <button class="btn btn-toggle" style="width: 100%; margin-bottom: 10px;" onclick="setFullWithdrawal()">Select 100% Balance</button>
+
+    <label style="font-size: 11px; color: var(--text-muted);">Destination</label>
+    <select id="payoutMode" class="input-field">
+      <option value="UPI: surajmishr999-1@oksbi">UPI: surajmishr999-1@oksbi (Instant)</option>
+      <option value="SBI Bank Account">State Bank of India Account (IMPS)</option>
+    </select>
+
+    <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 10px;">
+      <button class="btn btn-toggle" onclick="closeWithdrawModal()">Cancel</button>
+      <button class="btn btn-emerald" onclick="processBankWithdrawal()">Confirm Withdrawal</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ADD FIXTURE -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal-box">
+    <div class="modal-title">+ Add New Business Deal / Fixture</div>
+    <input type="text" id="newCategory" class="input-field" placeholder="Category (e.g. Wedding, Carpentry, Supply)">
+    <input type="text" id="newTitle" class="input-field" placeholder="Project / Deal Name">
+    <input type="text" id="newDesc" class="input-field" placeholder="Description">
+    <input type="number" id="newAmount" class="input-field" placeholder="Total Deal Package (₹)">
+    <input type="number" id="newCut" class="input-field" placeholder="Your Cut (%)">
+    
+    <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 8px;">
+      <button class="btn btn-toggle" onclick="closeAddModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveNewFixture()">Publish</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const MY_UPI_ID = "surajmishr999-1@oksbi";
+  const MY_NAME = "SURAJ MISHRA";
+
+  let usableBalance = parseFloat(localStorage.getItem('aasha_usable_bal')) || 45000;
+  let totalEarned = parseFloat(localStorage.getItem('aasha_total_earned')) || 45000;
+  let totalUsed = parseFloat(localStorage.getItem('aasha_total_used')) || 0;
+
+  let usageHistory = JSON.parse(localStorage.getItem('aasha_usage_history')) || [
+    {
+      date: "2026-08-30",
+      reason: "Initial GPay UPI Base Integration",
+      category: "System Base",
+      amount: 45000,
+      type: "CREDIT"
+    }
+  ];
+
+  let fixtures = JSON.parse(localStorage.getItem('aasha_master_fixtures')) || [
+    {
+      id: "FIX-101",
+      category: "Builder Infrastructure",
+      title: "Lodha Luxury Wings Modular Paneling",
+      desc: "Turnkey High-Rise Carpentry Subcontract in Mumbai.",
+      dealAmount: 2850000,
+      cutPercent: 3.0,
+      status: "OPEN",
+      isCollected: false
+    },
+    {
+      id: "FIX-102",
+      category: "Marriage & Events",
+      title: "Royal Heritage 5-Star Mandap Setup",
+      desc: "5-Acre Lawn & Teak Mandap Booking, Dhanbad.",
+      dealAmount: 850000,
+      cutPercent: 12.0,
+      status: "USED",
+      isCollected: false
+    }
+  ];
+
+  let currentFilter = "ALL";
+
+  function saveState() {
+    localStorage.setItem('aasha_usable_bal', usableBalance.toString());
+    localStorage.setItem('aasha_total_earned', totalEarned.toString());
+    localStorage.setItem('aasha_total_used', totalUsed.toString());
+    localStorage.setItem('aasha_usage_history', JSON.stringify(usageHistory));
+    localStorage.setItem('aasha_master_fixtures', JSON.stringify(fixtures));
+  }
+
+  function render() {
+    document.getElementById('usableBalanceDisplay').innerText = "₹" + usableBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    document.getElementById('totalEarnedDisplay').innerText = "₹" + totalEarned.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    document.getElementById('totalUsedDisplay').innerText = "₹" + totalUsed.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+
+    const container = document.getElementById('fixturesContainer');
+    container.innerHTML = "";
+
+    fixtures.forEach(item => {
+      const cutINR = (item.dealAmount * item.cutPercent) / 100;
+      if (currentFilter !== 'ALL' && item.status !== currentFilter) return;
+
+      const directUpiLink = `upi://pay?pa=${encodeURIComponent(MY_UPI_ID)}&pn=${encodeURIComponent(MY_NAME)}&am=${cutINR}&cu=INR&tn=${encodeURIComponent(item.title)}`;
+
+      const card = document.createElement('div');
+      card.className = "fixture-card";
+      card.innerHTML = `
+        <div>
+          <div class="card-top">
+            <span class="category-tag">${item.category}</span>
+            <span class="status-badge status-${item.status.toLowerCase()}">${item.status}</span>
+          </div>
+          <div class="fixture-title">${item.title}</div>
+          <div class="fixture-desc">${item.desc}</div>
+          <div class="deal-info">
+            <span>Deal: <span class="deal-val">₹${item.dealAmount.toLocaleString('en-IN')}</span></span>
+            <span>Your Cut: <span class="cut-val">+₹${cutINR.toLocaleString('en-IN')}</span></span>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; margin-top:auto;">
+          <a href="${directUpiLink}" class="btn btn-upi" style="width:100%;">⚡ Pay ₹${cutINR.toLocaleString('en-IN')} via GPay / UPI</a>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-toggle" style="flex:1;" onclick="toggleStatus('${item.id}')">Status: ${item.status}</button>
+            <button class="btn btn-emerald" style="flex:1;" onclick="collectDealEarning('${item.id}', ${cutINR})">
+              ${item.isCollected ? '&#9989; In Base' : '+ Add to Base'}
+            </button>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const tbody = document.getElementById('historyTableBody');
+    tbody.innerHTML = "";
+    usageHistory.forEach(h => {
+      const tr = document.createElement('tr');
+      const isCredit = h.type === "CREDIT";
+      tr.innerHTML = `
+        <td>${h.date}</td>
+        <td>${h.reason}</td>
+        <td><span style="color:var(--text-muted);">${h.category}</span></td>
+        <td style="font-weight:700; color:${isCredit ? 'var(--emerald)' : 'var(--purple)'};">
+          ${isCredit ? '+' : '-'}₹${h.amount.toLocaleString('en-IN')}
+        </td>
+        <td><span style="color:var(--emerald); font-weight:700;">● SETTLED</span></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function collectDealEarning(id, amount) {
+    const item = fixtures.find(f => f.id === id);
+    if (!item) return;
+    if (!item.isCollected) {
+      item.isCollected = true;
+      usableBalance += amount;
+      totalEarned += amount;
+      usageHistory.unshift({
+        date: new Date().toISOString().split('T')[0],
+        reason: `Deal Commission: ${item.title}`,
+        category: item.category,
+        amount: amount,
+        type: "CREDIT"
+      });
+      saveState();
+      render();
+      alert(`₹${amount.toLocaleString('en-IN')} successfully added to your Usable Base!`);
+    } else {
+      alert("This deal commission is already added in your base.");
+    }
+  }
+
+  function openQrModal() { document.getElementById('qrModal').classList.add('active'); }
+  function closeQrModal() { document.getElementById('qrModal').classList.remove('active'); }
+
+  function openExpenseModal() {
+    document.getElementById('modalExpAvailableBal').innerText = "₹" + usableBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    document.getElementById('expenseAmount').value = "";
+    document.getElementById('expensePurpose').value = "";
+    document.getElementById('expenseModal').classList.add('active');
+  }
+  function closeExpenseModal() { document.getElementById('expenseModal').classList.remove('active'); }
+
+  function processPersonalExpense() {
+    const amount = parseFloat(document.getElementById('expenseAmount').value);
+    const purpose = document.getElementById('expensePurpose').value.trim() || "Personal Expense";
+
+    if (isNaN(amount) || amount <= 0) { alert("Enter valid amount"); return; }
+    if (amount > usableBalance) { alert("Insufficient usable balance!"); return; }
+
+    usableBalance -= amount;
+    totalUsed += amount;
+
+    usageHistory.unshift({
+      date: new Date().toISOString().split('T')[0],
+      reason: purpose,
+      category: "Personal Expense",
+      amount: amount,
+      type: "DEBIT"
+    });
+
+    saveState();
+    closeExpenseModal();
+    render();
+    alert(`₹${amount.toLocaleString('en-IN')} used for '${purpose}'. Remaining usable balance updated!`);
+  }
+
+  function openWithdrawModal() {
+    document.getElementById('modalWithAvailableBal').innerText = "₹" + usableBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    document.getElementById('withdrawAmount').value = "";
+    document.getElementById('withdrawModal').classList.add('active');
+  }
+  function closeWithdrawModal() { document.getElementById('withdrawModal').classList.remove('active'); }
+  function setFullWithdrawal() { document.getElementById('withdrawAmount').value = usableBalance; }
+
+  function processBankWithdrawal() {
+    const amount = parseFloat(document.getElementById('withdrawAmount').value);
+    const dest = document.getElementById('payoutMode').value;
+
+    if (isNaN(amount) || amount <= 0) { alert("Enter valid amount"); return; }
+    if (amount > usableBalance) { alert("Insufficient usable balance!"); return; }
+
+    usableBalance -= amount;
+    totalUsed += amount;
+
+    usageHistory.unshift({
+      date: new Date().toISOString().split('T')[0],
+      reason: `Payout to ${dest}`,
+      category: "Bank Transfer",
+      amount: amount,
+      type: "DEBIT"
+    });
+
+    saveState();
+    closeWithdrawModal();
+    render();
+    alert(`₹${amount.toLocaleString('en-IN')} successfully processed to ${dest}!`);
+  }
+
+  function toggleStatus(id) {
+    const item = fixtures.find(f => f.id === id);
+    if (!item) return;
+    if (item.status === 'OPEN') item.status = 'USED';
+    else if (item.status === 'USED') item.status = 'CLOSED';
+    else item.status = 'OPEN';
+    saveState();
+    render();
+  }
+
+  function filterFixtures(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    render();
+  }
+
+  function openAddModal() { document.getElementById('addModal').classList.add('active'); }
+  function closeAddModal() { document.getElementById('addModal').classList.remove('active'); }
+
+  function saveNewFixture() {
+    const title = document.getElementById('newTitle').value.trim();
+    const cat = document.getElementById('newCategory').value.trim() || "Service";
+    const desc = document.getElementById('newDesc').value.trim() || "Active Business Fixture";
+    const amount = parseFloat(document.getElementById('newAmount').value) || 50000;
+    const cut = parseFloat(document.getElementById('newCut').value) || 5.0;
+
+    if (!title) { alert("Title is required!"); return; }
+
+    fixtures.unshift({
+      id: "FIX-" + Math.floor(100 + Math.random() * 900),
+      category: cat,
+      title: title,
+      desc: desc,
+      dealAmount: amount,
+      cutPercent: cut,
+      status: "OPEN",
+      isCollected: false
+    });
+
+    closeAddModal();
+    saveState();
+    render();
+  }
+
+  render();
+</script>
+</body>
+</html>
