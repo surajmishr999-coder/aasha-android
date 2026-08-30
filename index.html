@@ -1,23 +1,25 @@
-<!DOCTYPE html>
+      <!DOCTYPE html>
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AASHA Sovereign Master Platform - Universal Monetized Command</title>
+  <title>AASHA Sovereign Universal Mega Enterprise & Auto-Earnings Platform</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #090d16; }
+    ::-webkit-scrollbar-track { background: #050811; }
     ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    .gold-gradient { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .glass-panel { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-amber-500 selection:text-slate-950">
+<body class="bg-[#030712] text-slate-100 min-h-screen selection:bg-amber-500 selection:text-slate-950">
   <div id="app"></div>
 
   <script>
-    // STRICT OWNER IDENTITY & SETTLEMENT CONFIG
+    // MASTER IDENTITY & INSTANT SBI SETTLEMENT SHIELD
     const MASTER_CONFIG = {
       payeeName: "SURAJ KUMAR MISHRA",
       upiId: "surajmishr999-1@oksbi",
@@ -25,77 +27,81 @@
       cifNo: "92161358264",
       bankName: "State Bank of India (SBI)",
       branch: "ISM Campus Dhanbad (Code: 1641)",
-      securityMode: "100% MONETIZED SOVEREIGN OWNER-ONLY COMMAND"
+      platformTier: "SOVEREIGN UNIVERSAL GLOBAL CONGLOMERATE",
+      autoUpdateEngine: "V4.0-FUTURE-READY-SYNC"
     };
 
     const initialData = {
       users: [
-        { id: 'usr-owner', email: 'owner@aasha.com', pass: 'owner', name: 'Suraj Kumar Mishra (Master Owner)', role: 'OWNER' },
-        { id: 'usr-guest', email: 'customer@aasha.com', pass: 'customer', name: 'Client / Public Buyer', role: 'CUSTOMER' }
+        { id: 'usr-owner', email: 'owner@aasha.com', pass: 'owner', name: 'Suraj Kumar Mishra (Master Owner & Commander)', role: 'OWNER' },
+        { id: 'usr-guest', email: 'customer@aasha.com', pass: 'customer', name: 'Client / Global Buyer / Planner', role: 'CUSTOMER' }
       ],
       ledger: [
-        { id: 'TXN-901', source: 'FIXTURE_LOCK_COMMISSION (Skyline Penthouse)', gross: 45000, tax: 8100.00, net: 36900.00, status: 'DIRECT_SBI_CREDITED', date: '2026-08-30' },
-        { id: 'TXN-902', source: 'STARTUP_LEGAL_DOC_PACK', gross: 2999, tax: 539.82, net: 2459.18, status: 'DIRECT_SBI_CREDITED', date: '2026-08-30' },
-        { id: 'TXN-903', source: 'BANK_MUDRA_LOAN_COMMISSION', gross: 15000, tax: 2700.00, net: 12300.00, status: 'DIRECT_SBI_CREDITED', date: '2026-08-29' }
-      ],
-      directory: [
-        { id: 'DIR-1', name: 'Century Plyboards Ltd', cat: 'MANUFACTURER', city: 'Delhi / Kolkata', phone: '+919876500004', country: 'IN', fee: 999 },
-        { id: 'DIR-2', name: 'Everest Hardware & Timber Depot', cat: 'SUPPLIER', city: 'Kathmandu, Bagmati', phone: '+9779841000001', country: 'NP', fee: 999 },
-        { id: 'DIR-3', name: 'Master Craftsmen Carpentry Guild', cat: 'CARPENTER', city: 'Mumbai', phone: '+919876500003', country: 'IN', fee: 499 },
-        { id: 'DIR-4', name: 'Dhanbad Steel & Timber Guild', cat: 'BUILDER', city: 'Dhanbad, Jharkhand', phone: '+919876543210', country: 'IN', fee: 1499 }
+        { id: 'TXN-901', source: 'ROYAL_WEDDING_MANDAP_COMMISSION (Dhanbad Heritage)', gross: 102000, tax: 18360.00, net: 83640.00, status: 'DIRECT_SBI_CREDITED', date: '2026-08-30' },
+        { id: 'TXN-902', source: '5-STAR_HOTEL_CORPORATE_BOOKING (Kathmandu Resort)', gross: 125000, tax: 22500.00, net: 102500.00, status: 'DIRECT_SBI_CREDITED', date: '2026-08-30' },
+        { id: 'TXN-903', source: 'FOOD_FACTORY_SUPPLY_CONTRACT (Organic Spices Batch)', gross: 65000, tax: 11700.00, net: 53300.00, status: 'DIRECT_SBI_CREDITED', date: '2026-08-29' },
+        { id: 'TXN-904', source: 'AIR_TICKET_INTERNATIONAL_DEAL (Dubai Group Booking)', gross: 18500, tax: 3330.00, net: 15170.00, status: 'DIRECT_SBI_CREDITED', date: '2026-08-28' },
+        { id: 'TXN-905', source: 'LEGAL_FSSAI_MSME_BANK_DOC_PACK', gross: 2999, tax: 539.82, net: 2459.18, status: 'DIRECT_SBI_CREDITED', date: '2026-08-28' }
       ],
       fixtures: [
-        { id: 'FIX-801', title: 'Skyline Luxury Penthouse Fixtures', cat: 'Residential Interior', city: 'Delhi GK-II', budget: '₹ 45,00,000', rawBudget: 4500000, lockFee: 45000, status: 'OPEN', date: '2026-08-30', client: 'Skyline Buildtech' },
-        { id: 'FIX-802', title: 'Heritage Boutique Courtyard Resort', cat: 'Commercial Hotel', city: 'Kathmandu, Patan', budget: '₹ 1,25,00,000', rawBudget: 12500000, lockFee: 125000, status: 'USED', date: '2026-08-29', client: 'Patan Hospitality' },
-        { id: 'FIX-803', title: 'Dhanbad Smart Tech Hub Office Units', cat: 'Commercial Interior', city: 'Dhanbad, Jharkhand', budget: '₹ 22,50,000', rawBudget: 2250000, lockFee: 22500, status: 'OPEN', date: '2026-08-28', client: 'Eastern Tech Parks' },
-        { id: 'FIX-804', title: 'Apex Industrial Furniture Batch', cat: 'Factory Setup', city: 'Patna, Bihar', budget: '₹ 8,50,000', rawBudget: 850000, lockFee: 8500, status: 'CLOSED', date: '2026-08-25', client: 'Apex Woodcrafters' },
-        { id: 'FIX-805', title: 'Grand Metro Mall Wooden Arches', cat: 'Retail Infrastructure', city: 'Ranchi, Jharkhand', budget: '₹ 34,00,000', rawBudget: 3400000, lockFee: 34000, status: 'USED', date: '2026-08-22', client: 'Metro Developers' }
+        { id: 'FIX-101', title: 'Grand Royal Rajputana Mandap & 3-Day Wedding Gala', cat: 'WEDDING_EVENT', city: 'Dhanbad / Ranchi', budget: '₹ 85,00,000', rawBudget: 8500000, lockFee: 85000, status: 'OPEN', client: 'Singhania Heritage', date: '2026-08-30', details: 'Full 5-Acre Lawn, Teak Mandap, 1200 Pax Gourmet Catering & Drone Coverage' },
+        { id: 'FIX-102', title: 'Skyline Luxury Penthouse Turnkey Interior Design', cat: 'INTERIOR_DESIGN', city: 'Delhi GK-II', budget: '₹ 45,00,000', rawBudget: 4500000, lockFee: 45000, status: 'OPEN', client: 'Skyline Buildtech', date: '2026-08-29', details: 'Italian Marble, Veneer Paneling, Smart Automation & Acoustic Ceiling' },
+        { id: 'FIX-103', title: 'Everest Boutique Resort & Convention Hall Block', cat: 'HOTEL_HOSPITALITY', city: 'Kathmandu, Patan', budget: '₹ 1,50,00,000', rawBudget: 15000000, lockFee: 150000, status: 'USED', client: 'Patan Heritage Hotels', date: '2026-08-28', details: '40 Luxury Suites, Grand Banquet Hall & Rooftop Helipad Lounge' },
+        { id: 'FIX-104', title: 'Industrial FMCG Organic Food Processing Line', cat: 'FOOD_MANUFACTURER', city: 'Patna / Kolkata', budget: '₹ 65,00,000', rawBudget: 6500000, lockFee: 65000, status: 'OPEN', client: 'PureHarvest Agro Mills', date: '2026-08-27', details: 'Automated Spice Grinding, Cold Storage Setup & Nitrogen Packing Unit' },
+        { id: 'FIX-105', title: 'Corporate World Tour & VIP Air Charter Fleet', cat: 'TOUR_AIRLINE', city: 'Mumbai / Dubai / London', budget: '₹ 38,00,000', rawBudget: 3800000, lockFee: 38000, status: 'CLOSED', client: 'Apex Global Trade', date: '2026-08-25', details: '45 Business Class Return Flights, 5-Star Hotel Vouchers & Visa Expedited Lines' }
       ],
-      startupPacks: [
-        { id: 'STP-1', business: 'Apex Woodcrafters', entity: 'PROPRIETORSHIP', loanScheme: 'MUDRA TARUN', loanAmt: '₹ 8,50,000', status: 'SUBMITTED_TO_BANK' }
+      directory: [
+        { id: 'DIR-01', name: 'Imperial 5-Star Marriage Garden & Hall', cat: 'WEDDING_HALL', city: 'Dhanbad, Jharkhand', phone: '+919876543211', fee: 1499, rating: '5.0 ★' },
+        { id: 'DIR-02', name: 'Studio ArchForm Luxury Interiors', cat: 'INTERIOR_DESIGNER', city: 'Delhi NCR', phone: '+919876543212', fee: 999, rating: '4.9 ★' },
+        { id: 'DIR-03', name: 'Royal Orchid Luxury Suites & Banquets', cat: 'HOTEL_RESORT', city: 'Kathmandu / Pokhara', phone: '+9779841000009', fee: 1999, rating: '5.0 ★' },
+        { id: 'DIR-04', name: 'Apex Mega Food Mills & Spice Corp', cat: 'FOOD_FACTORY', city: 'Kolkata, WB', phone: '+919876543214', fee: 1499, rating: '4.8 ★' },
+        { id: 'DIR-05', name: 'Global Jetways Air Ticketing & Tour Guild', cat: 'AIR_TRAVEL', city: 'Mumbai International', phone: '+919876543215', fee: 999, rating: '4.9 ★' }
+      ],
+      legalDocs: [
+        { id: 'DOC-501', title: 'Apex Agro Food Mills', docType: 'FSSAI_CENTRAL_LICENSE + MSME', loanScheme: 'MUDRA TARUN (₹10,00,000)', status: 'BANK_VERIFIED' },
+        { id: 'DOC-502', title: 'Imperial Wedding Palace', docType: 'PARTNERSHIP_DEED + GST_REG', loanScheme: 'PMEGP SUBSIDY (₹25,00,000)', status: 'APPROVED_BY_BRANCH' }
       ],
       worldChat: [
-        { id: 'MSG-1', sender: 'Global Client (Kathmandu)', text: 'Heritage Hotel fixture contract query initiated.', time: '17:30', tag: 'INQUIRY' },
-        { id: 'MSG-2', sender: 'Suraj Kumar Mishra (Master Owner)', text: 'All service access, search, and fixtures monetized to SBI A/c 44220560317.', time: '19:15', tag: 'OWNER_COMMAND' }
+        { id: 'MSG-01', sender: 'Singhania Heritage', text: 'Royal Rajputana Wedding Mandap deal requested. Payment initiated.', time: '18:45', tag: 'BOOKING_REQUEST' },
+        { id: 'MSG-02', sender: 'Suraj Kumar Mishra (Master Owner)', text: 'Platform online. All settlements configured to SBI A/c 44220560317.', time: '20:30', tag: 'OWNER_COMMAND' }
       ]
     };
 
-    if (!localStorage.getItem('aasha_full_monetized_db')) {
-      localStorage.setItem('aasha_full_monetized_db', JSON.stringify(initialData));
+    if (!localStorage.getItem('aasha_universal_clean_db')) {
+      localStorage.setItem('aasha_universal_clean_db', JSON.stringify(initialData));
     }
 
-    function getDB() { return JSON.parse(localStorage.getItem('aasha_full_monetized_db')); }
-    function saveDB(data) { localStorage.setItem('aasha_full_monetized_db', JSON.stringify(data)); }
+    function getDB() { return JSON.parse(localStorage.getItem('aasha_universal_clean_db')); }
+    function saveDB(data) { localStorage.setItem('aasha_universal_clean_db', JSON.stringify(data)); }
 
     let currentUser = null;
     let activeTab = 'fixtures';
-    let filterStatus = 'ALL';
+    let filterCategory = 'ALL';
     let activePaymentModal = null;
 
     function render() {
       const app = document.getElementById('app');
       const db = getDB();
 
-      // LOGIN PORTAL
       if (!currentUser) {
         app.innerHTML = `
-        <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-          <div class="bg-slate-900/90 border border-slate-800 p-8 rounded-3xl max-w-md w-full shadow-2xl backdrop-blur space-y-6">
+        <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-950 via-slate-900 to-[#030712]">
+          <div class="glass-panel border border-slate-800 p-8 rounded-3xl max-w-md w-full shadow-2xl space-y-6">
             <div class="text-center">
-              <div class="inline-flex items-center justify-center w-14 h-14 bg-amber-500/10 rounded-2xl border border-amber-500/30 mb-3">
-                <span class="text-2xl font-black text-amber-400">A</span>
+              <div class="inline-flex items-center justify-center w-16 h-16 gold-gradient rounded-2xl shadow-lg shadow-amber-500/20 mb-3 text-slate-950 font-black text-3xl">
+                A
               </div>
-              <h1 class="text-2xl font-black tracking-wider text-white">AASHA MASTER</h1>
-              <p class="text-xs text-slate-400 mt-1">Universal Monetized Sovereign Platform</p>
+              <h1 class="text-2xl font-black tracking-wider text-white">AASHA UNIVERSAL</h1>
+              <p class="text-xs text-amber-400 font-semibold mt-1">Wedding • Interior • Hotels • Food • Tours • Legal</p>
               
-              <div class="mt-4 bg-emerald-950/40 border border-emerald-500/30 rounded-xl p-2.5 text-left space-y-0.5">
+              <div class="mt-4 bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-3 text-left space-y-1">
                 <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                  <span class="text-[11px] font-mono text-emerald-300 font-semibold">DIRECT SBI REVENUE SHIELD</span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                  <span class="text-[11px] font-mono text-emerald-300 font-bold">100% DIRECT SBI SETTLEMENT</span>
                 </div>
-                <p class="text-[10px] text-slate-400 font-mono">Owner: <b class="text-white">${MASTER_CONFIG.payeeName}</b></p>
-                <p class="text-[10px] text-slate-400 font-mono">SBI A/c: <b class="text-white">${MASTER_CONFIG.accountNo}</b> (ISM Dhanbad)</p>
-                <p class="text-[10px] text-emerald-400 font-mono font-bold">UPI: ${MASTER_CONFIG.upiId}</p>
+                <p class="text-[11px] text-slate-300">Master Owner: <b class="text-white">${MASTER_CONFIG.payeeName}</b></p>
+                <p class="text-[11px] text-slate-300 font-mono">SBI A/c: <b class="text-white">${MASTER_CONFIG.accountNo}</b> (ISM Dhanbad)</p>
+                <p class="text-[11px] text-emerald-400 font-mono font-bold">UPI ID: ${MASTER_CONFIG.upiId}</p>
               </div>
             </div>
 
@@ -109,14 +115,18 @@
                 <input id="l-pass" type="password" value="owner" class="w-full mt-1.5 bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white focus:border-amber-400 outline-none transition" />
               </div>
 
-              <div class="bg-slate-950/80 border border-slate-800 p-3 rounded-xl text-xs space-y-1.5">
-                <p class="text-slate-400 font-bold">Role Access Keys:</p>
-                <p class="text-amber-300 cursor-pointer hover:underline" onclick="setLogin('owner@aasha.com', 'owner')"><b>👑 Master Owner (Only Me Command):</b> owner@aasha.com / owner</p>
-                <p class="text-emerald-400 cursor-pointer hover:underline" onclick="setLogin('customer@aasha.com', 'customer')"><b>👤 Customer / Public Buyer:</b> customer@aasha.com / customer</p>
+              <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-2xl text-xs space-y-2">
+                <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Fast Role Logins:</p>
+                <div class="cursor-pointer hover:bg-slate-900 p-1.5 rounded-lg text-amber-300 font-semibold flex justify-between items-center" onclick="setLogin('owner@aasha.com', 'owner')">
+                  <span>👑 Master Owner:</span> <span class="font-mono text-[10px]">owner@aasha.com</span>
+                </div>
+                <div class="cursor-pointer hover:bg-slate-900 p-1.5 rounded-lg text-emerald-400 font-semibold flex justify-between items-center" onclick="setLogin('customer@aasha.com', 'customer')">
+                  <span>👤 Client / Public Buyer:</span> <span class="font-mono text-[10px]">customer@aasha.com</span>
+                </div>
               </div>
 
-              <button onclick="doLogin()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3.5 rounded-xl text-sm transition shadow-lg shadow-amber-500/20">
-                Unlock Portal Console
+              <button onclick="doLogin()" class="w-full gold-gradient hover:opacity-95 text-slate-950 font-black py-3.5 rounded-xl text-sm transition shadow-lg shadow-amber-500/20 uppercase tracking-wider">
+                Unlock Enterprise Hub
               </button>
             </div>
           </div>
@@ -124,23 +134,21 @@
         return;
       }
 
-      // MAIN SOVEREIGN APPLICATION CONSOLE
       const gross = db.ledger.reduce((a, c) => a + c.gross, 0);
       const tax = db.ledger.reduce((a, c) => a + c.tax, 0);
       const net = db.ledger.reduce((a, c) => a + c.net, 0);
 
       app.innerHTML = `
-      <div class="min-h-screen flex flex-col bg-slate-950">
-        <!-- Master Navigation Header -->
-        <header class="border-b border-slate-800/80 bg-slate-900/80 backdrop-blur sticky top-0 z-30 px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+      <div class="min-h-screen flex flex-col bg-[#030712]">
+        <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur sticky top-0 z-30 px-6 py-3.5 flex flex-wrap justify-between items-center gap-4">
           <div>
             <div class="flex items-center gap-2.5">
-              <span class="text-xl font-black text-amber-400 tracking-wider">AASHA</span>
+              <span class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200 tracking-wider">AASHA MEGA HUB</span>
               <span class="text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold ${
                 currentUser.role === 'OWNER' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
                 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
               }">
-                ${currentUser.role === 'OWNER' ? '👑 SOVEREIGN OWNER COMMAND' : '👤 PUBLIC BUYER PORTAL'}
+                ${currentUser.role === 'OWNER' ? '👑 SOVEREIGN MASTER COMMAND' : '👤 PUBLIC BUYER PORTAL'}
               </span>
               <span class="text-[10px] px-2 py-0.5 rounded-full font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                 SBI VERIFIED
@@ -150,44 +158,37 @@
           </div>
 
           <div class="flex flex-wrap gap-2 items-center">
-            <button onclick="tab('fixtures')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'fixtures' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              Fixtures Hub
+            <button onclick="tab('fixtures')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'fixtures' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              Universal Deals
             </button>
-            
             ${currentUser.role === 'OWNER' ? `
-            <button onclick="tab('vault')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'vault' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              100% Earnings Vault
+            <button onclick="tab('vault')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'vault' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              Earnings Vault (₹${net.toLocaleString()})
             </button>` : ''}
-
-            <button onclick="tab('globalweb')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'globalweb' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              Google & World Grid
+            <button onclick="tab('legal')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'legal' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              Legal & Loan Deeds
             </button>
-
+            <button onclick="tab('travel')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'travel' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              Flights & Tours
+            </button>
+            <button onclick="tab('dir')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'dir' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              Directory
+            </button>
+            <button onclick="tab('globalweb')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'globalweb' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              Google Grid
+            </button>
             ${currentUser.role === 'OWNER' ? `
-            <button onclick="tab('chat')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'chat' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              Owner World Broadcast
+            <button onclick="tab('chat')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'chat' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              Broadcast
             </button>` : ''}
-
-            <button onclick="tab('startup')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'startup' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              Startup & Loans
-            </button>
-            <button onclick="tab('dir')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'dir' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              Direct Lines
-            </button>
-            
-            ${currentUser.role === 'OWNER' ? `
-            <button onclick="tab('add')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'add' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              + Add Pro
-            </button>` : ''}
-
             <button onclick="logout()" class="px-3 py-2 rounded-xl text-xs font-bold bg-red-950/40 text-red-400 border border-red-500/30 hover:bg-red-900/50 transition">
-              Lock Console
+              Lock
             </button>
           </div>
         </header>
 
         <main class="flex-1 p-6 max-w-7xl w-full mx-auto space-y-6">
-          ${renderTabContent(gross, tax, net, db)}
+          ${renderWorkspace(gross, tax, net, db)}
         </main>
       </div>
 
@@ -195,149 +196,123 @@
       `;
     }
 
-    function renderTabContent(gross, tax, net, db) {
-      // TAB 1: FIXTURES (CUSTOMERS PAY 1% COMMISSION | OWNER COMMANDS STATUS)
+    function renderWorkspace(gross, tax, net, db) {
       if (activeTab === 'fixtures') {
-        const filtered = filterStatus === 'ALL' 
-          ? db.fixtures 
-          : db.fixtures.filter(f => f.status === filterStatus);
-
-        const openCount = db.fixtures.filter(f => f.status === 'OPEN').length;
-        const usedCount = db.fixtures.filter(f => f.status === 'USED').length;
-        const closedCount = db.fixtures.filter(f => f.status === 'CLOSED').length;
+        const filtered = filterCategory === 'ALL'
+          ? db.fixtures
+          : db.fixtures.filter(f => f.cat === filterCategory);
 
         return `
         <div class="space-y-6">
           <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-4">
             <div>
-              <h2 class="text-xl font-black text-amber-400">FIXTURES & HIGH-VALUE DEALS PIPELINE</h2>
-              <p class="text-xs text-slate-400">
+              <h2 class="text-xl font-black text-amber-400 uppercase tracking-wide">Universal Commercial Deals Pipeline</h2>
+              <p class="text-xs text-slate-400 mt-0.5">
                 ${currentUser.role === 'OWNER' 
-                  ? '👑 MASTER OWNER COMMAND: Deals approve karein, status OPEN/USED/CLOSED badlein aur revenue control karein.' 
-                  : 'Customer Mode: Kisi bhi deal ko book karne ke liye mandatory 1% lock fee pay karein.'}
+                  ? '👑 Master Command: Deals ko "Close & Earn" karte hi direct SBI credit trigger hoga.' 
+                  : 'Customer Mode: Book wedding setups, interior projects, hotel blocks, food factories & flight desks.'}
               </p>
             </div>
             ${currentUser.role === 'OWNER' ? `
-            <button onclick="openAddFixturePrompt()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow-lg shadow-amber-500/20">
-              + Naya Fixture Launch Karein
+            <button onclick="openAddMegaDealPrompt()" class="gold-gradient hover:opacity-95 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow-lg uppercase tracking-wider">
+              + Launch New Mega Deal
             </button>` : ''}
           </div>
 
-          <!-- Status KPIs -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div onclick="setFilter('ALL')" class="cursor-pointer bg-slate-900 border ${filterStatus === 'ALL' ? 'border-amber-400 shadow-md shadow-amber-400/10' : 'border-slate-800'} p-4 rounded-2xl transition">
-              <span class="text-xs text-slate-400 font-semibold uppercase">Total Deals</span>
-              <p class="text-2xl font-black text-white mt-1">${db.fixtures.length}</p>
-            </div>
-            <div onclick="setFilter('OPEN')" class="cursor-pointer bg-slate-900 border ${filterStatus === 'OPEN' ? 'border-emerald-400 shadow-md shadow-emerald-400/10' : 'border-slate-800'} p-4 rounded-2xl transition">
-              <span class="text-xs text-emerald-400 font-semibold uppercase">OPEN (Active)</span>
-              <p class="text-2xl font-black text-emerald-400 mt-1">${openCount}</p>
-            </div>
-            <div onclick="setFilter('USED')" class="cursor-pointer bg-slate-900 border ${filterStatus === 'USED' ? 'border-indigo-400 shadow-md shadow-indigo-400/10' : 'border-slate-800'} p-4 rounded-2xl transition">
-              <span class="text-xs text-indigo-400 font-semibold uppercase">USED (Locked & In Progress)</span>
-              <p class="text-2xl font-black text-indigo-400 mt-1">${usedCount}</p>
-            </div>
-            <div onclick="setFilter('CLOSED')" class="cursor-pointer bg-slate-900 border ${filterStatus === 'CLOSED' ? 'border-red-400 shadow-md shadow-red-400/10' : 'border-slate-800'} p-4 rounded-2xl transition">
-              <span class="text-xs text-red-400 font-semibold uppercase">CLOSED (Completed)</span>
-              <p class="text-2xl font-black text-red-400 mt-1">${closedCount}</p>
-            </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="setCategoryFilter('ALL')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'ALL' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">All Deals (${db.fixtures.length})</button>
+            <button onclick="setCategoryFilter('WEDDING_EVENT')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'WEDDING_EVENT' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">👑 Royal Weddings</button>
+            <button onclick="setCategoryFilter('INTERIOR_DESIGN')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'INTERIOR_DESIGN' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">🏛️ Turnkey Interior</button>
+            <button onclick="setCategoryFilter('HOTEL_HOSPITALITY')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'HOTEL_HOSPITALITY' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">🏨 5-Star Hotels</button>
+            <button onclick="setCategoryFilter('FOOD_MANUFACTURER')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'FOOD_MANUFACTURER' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">🏭 Food Factories</button>
+            <button onclick="setCategoryFilter('TOUR_AIRLINE')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'TOUR_AIRLINE' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">✈️ Tours & Flights</button>
           </div>
 
-          <!-- Fixtures Table -->
-          <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
-            <div class="flex justify-between items-center mb-4">
-              <h3 class="text-sm font-bold text-slate-200">Deals Ledger (Filter: <span class="text-amber-400">${filterStatus}</span>)</h3>
-            </div>
-            <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs text-slate-300">
-                <thead class="bg-slate-950 text-slate-400 uppercase text-[10px]">
-                  <tr>
-                    <th class="p-3">ID</th>
-                    <th class="p-3">Fixture / Project Title</th>
-                    <th class="p-3">Client / City</th>
-                    <th class="p-3">Budget</th>
-                    <th class="p-3">Lock Fee (1%)</th>
-                    <th class="p-3">Status</th>
-                    <th class="p-3 text-right">${currentUser.role === 'OWNER' ? 'Owner Command Action' : 'Action'}</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-800">
-                  ${filtered.map(f => `
-                    <tr class="hover:bg-slate-950/40 transition">
-                      <td class="p-3 font-mono text-slate-400">${f.id}</td>
-                      <td class="p-3">
-                        <div class="font-bold text-white text-sm">${f.title}</div>
-                        <div class="text-[10px] text-slate-400">${f.cat} • ${f.date}</div>
-                      </td>
-                      <td class="p-3 text-slate-300">${f.client || 'Enterprise'} (${f.city})</td>
-                      <td class="p-3 font-mono text-emerald-400 font-bold text-sm">${f.budget}</td>
-                      <td class="p-3 font-mono text-amber-400 font-bold">₹ ${f.lockFee.toLocaleString()}</td>
-                      <td class="p-3">
-                        <span class="px-2.5 py-1 rounded text-[10px] font-mono font-bold ${
-                          f.status === 'OPEN' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
-                          f.status === 'USED' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' :
-                          'bg-red-500/20 text-red-300 border border-red-500/30'
-                        }">
-                          ${f.status}
-                        </span>
-                      </td>
-                      <td class="p-3 text-right">
-                        ${currentUser.role === 'OWNER' ? `
-                          <div class="space-x-1">
-                            <button onclick="setFixtureStatus('${f.id}', 'OPEN')" class="px-2.5 py-1 rounded text-[10px] font-bold ${f.status === 'OPEN' ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">Approve (Open)</button>
-                            <button onclick="setFixtureStatus('${f.id}', 'USED')" class="px-2.5 py-1 rounded text-[10px] font-bold ${f.status === 'USED' ? 'bg-indigo-500 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">Mark Used</button>
-                            <button onclick="setFixtureStatus('${f.id}', 'CLOSED')" class="px-2.5 py-1 rounded text-[10px] font-bold ${f.status === 'CLOSED' ? 'bg-red-500 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">Close Deal</button>
-                          </div>
-                        ` : `
-                          ${f.status === 'OPEN' ? `
-                            <button onclick="initiateFixturePayment('${f.id}', '${f.title}', ${f.lockFee})" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black px-3 py-1.5 rounded-lg text-xs transition">
-                              Pay ₹${f.lockFee.toLocaleString()} & Use Deal
-                            </button>` : `
-                            <span class="text-[10px] text-slate-500 font-mono">Deal Engaged</span>`}
-                        `}
-                      </td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            ${filtered.map(f => `
+              <div class="bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 p-5 rounded-3xl flex flex-col justify-between space-y-4 transition shadow-xl">
+                <div class="space-y-2">
+                  <div class="flex justify-between items-start gap-2">
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase ${
+                      f.cat === 'WEDDING_EVENT' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' :
+                      f.cat === 'INTERIOR_DESIGN' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
+                      f.cat === 'HOTEL_HOSPITALITY' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' :
+                      f.cat === 'FOOD_MANUFACTURER' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
+                      'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                    }">${f.cat.replace('_', ' ')}</span>
+                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
+                      f.status === 'OPEN' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
+                      f.status === 'USED' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' :
+                      'bg-red-500/20 text-red-300 border border-red-500/30'
+                    }">${f.status}</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white leading-snug">${f.title}</h3>
+                  <p class="text-xs text-slate-400">${f.details}</p>
+                  <p class="text-[11px] text-slate-500 font-mono">Client: <b class="text-slate-300">${f.client}</b> • City: <b class="text-slate-300">${f.city}</b></p>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800/80 space-y-3">
+                  <div class="flex justify-between items-center text-xs">
+                    <div>
+                      <span class="text-[10px] text-slate-400 uppercase">Budget</span>
+                      <p class="text-base font-black text-emerald-400 font-mono">${f.budget}</p>
+                    </div>
+                    <div class="text-right">
+                      <span class="text-[10px] text-slate-400 uppercase">Lock Fee (1%)</span>
+                      <p class="text-base font-black text-amber-400 font-mono">₹ ${f.lockFee.toLocaleString()}</p>
+                    </div>
+                  </div>
+
+                  ${currentUser.role === 'OWNER' ? `
+                    <div class="grid grid-cols-3 gap-1 pt-1">
+                      <button onclick="setFixtureStatus('${f.id}', 'OPEN')" class="py-1.5 rounded-lg text-[10px] font-bold ${f.status === 'OPEN' ? 'bg-emerald-500 text-slate-950 font-black' : 'bg-slate-800 text-slate-300'}">Open</button>
+                      <button onclick="setFixtureStatus('${f.id}', 'USED')" class="py-1.5 rounded-lg text-[10px] font-bold ${f.status === 'USED' ? 'bg-indigo-500 text-white font-black' : 'bg-slate-800 text-slate-300'}">In Progress</button>
+                      <button onclick="setFixtureStatus('${f.id}', 'CLOSED')" class="py-1.5 rounded-lg text-[10px] font-bold ${f.status === 'CLOSED' ? 'bg-red-500 text-white font-black' : 'bg-slate-800 text-emerald-400 hover:bg-slate-700'}">Close & Earn</button>
+                    </div>
+                  ` : `
+                    ${f.status === 'OPEN' ? `
+                      <button onclick="initiateFixturePayment('${f.id}', '${f.title}', ${f.lockFee})" class="w-full gold-gradient hover:opacity-95 text-slate-950 font-black py-2.5 rounded-xl text-xs shadow-md uppercase tracking-wider">
+                        Pay ₹${f.lockFee.toLocaleString()} & Lock Deal
+                      </button>` : `
+                      <div class="w-full bg-slate-800 text-slate-500 text-center py-2 rounded-xl text-xs font-mono">Deal Reserved</div>`}
+                  `}
+                </div>
+              </div>
+            `).join('')}
           </div>
         </div>`;
       }
 
-      // TAB 2: ONLY-ME EARNINGS VAULT (STRICT OWNER ACCESS)
       if (activeTab === 'vault') {
-        if (currentUser.role !== 'OWNER') {
-          return `<div class="p-8 bg-red-950/30 border border-red-500/30 rounded-2xl text-center text-red-400 font-bold">Access Strictly Forbidden. Master Owner credentials required.</div>`;
-        }
+        if (currentUser.role !== 'OWNER') return `<div class="p-8 bg-red-950/30 border border-red-500/30 rounded-2xl text-center text-red-400 font-bold">Access Strictly Forbidden.</div>`;
         return `
         <div class="space-y-6">
-          <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/30 border border-emerald-500/30 p-6 rounded-3xl">
+          <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/40 border border-emerald-500/40 p-6 rounded-3xl shadow-2xl">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
                 <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                  VERIFIED SBI SETTLEMENT ACCOUNT
+                  VERIFIED SBI SETTLEMENT ACCOUNT CONNECTED
                 </span>
-                <h2 class="text-xl font-black text-amber-400 mt-2">SURAJ KUMAR MISHRA 100% EARNINGS VAULT</h2>
+                <h2 class="text-2xl font-black text-amber-400 mt-2">SURAJ KUMAR MISHRA SOVEREIGN EARNINGS VAULT</h2>
                 <p class="text-xs text-slate-300 mt-0.5">Bank: <b class="text-white">${MASTER_CONFIG.bankName} (${MASTER_CONFIG.branch})</b></p>
                 <p class="text-sm font-mono text-emerald-400 font-bold mt-1">A/c: ${MASTER_CONFIG.accountNo} • CIF: ${MASTER_CONFIG.cifNo} • UPI: ${MASTER_CONFIG.upiId}</p>
               </div>
-              <button onclick="instantBankWithdraw(${net})" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black px-6 py-3 rounded-xl text-xs shadow-lg shadow-emerald-500/20">
+              <button onclick="instantBankWithdraw(${net})" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black px-6 py-3.5 rounded-2xl text-xs shadow-lg shadow-emerald-500/20 uppercase tracking-wider">
                 Instant Bank Withdraw (₹ ${net.toLocaleString()})
               </button>
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
               <span class="text-xs text-slate-400 font-semibold uppercase">Total Platform Gross Revenue</span>
-              <p class="text-2xl font-black text-white mt-1">₹ ${gross.toLocaleString()}</p>
+              <p class="text-3xl font-black text-white mt-1">₹ ${gross.toLocaleString()}</p>
             </div>
-            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
-              <span class="text-xs text-slate-400 font-semibold uppercase">Auto GST / TDS (18%)</span>
-              <p class="text-2xl font-black text-indigo-400 mt-1">₹ ${tax.toLocaleString()}</p>
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
+              <span class="text-xs text-slate-400 font-semibold uppercase">Auto GST / TDS Reserve (18%)</span>
+              <p class="text-3xl font-black text-indigo-400 mt-1">₹ ${tax.toLocaleString()}</p>
             </div>
-            <div class="bg-slate-900 border border-emerald-500/40 p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-emerald-950/20">
+            <div class="bg-slate-900 border border-emerald-500/40 p-5 rounded-3xl bg-gradient-to-br from-slate-900 to-emerald-950/20">
               <span class="text-xs text-emerald-400 font-semibold uppercase">Direct Credited SBI Profit</span>
               <p class="text-3xl font-black text-emerald-400 mt-1">₹ ${net.toLocaleString()}</p>
             </div>
@@ -350,9 +325,9 @@
                 <thead class="bg-slate-950 text-slate-400 uppercase text-[10px]">
                   <tr>
                     <th class="p-3">Txn ID</th>
-                    <th class="p-3">Revenue Source</th>
+                    <th class="p-3">Revenue Source Category</th>
                     <th class="p-3">Gross</th>
-                    <th class="p-3">Tax</th>
+                    <th class="p-3">Tax (18%)</th>
                     <th class="p-3">Net Profit</th>
                     <th class="p-3">Settlement</th>
                   </tr>
@@ -375,110 +350,217 @@
         </div>`;
       }
 
-      // TAB 3: GOOGLE & WORLD PLATFORMS COMMAND (MONETIZED FOR CUSTOMERS)
-      if (activeTab === 'globalweb') {
+      if (activeTab === 'legal') {
         return `
         <div class="space-y-6">
           <div class="border-b border-slate-800 pb-3">
-            <h2 class="text-lg font-black text-amber-400">GOOGLE SEARCH & WORLD PLATFORMS COMMAND GRID</h2>
-            <p class="text-xs text-slate-400">
-              ${currentUser.role === 'OWNER' 
-                ? 'Master Owner Command Mode: Free Unlimited Global Gateway.' 
-                : 'Commercial Gateway: Har search query aur application connection par ₹49/₹99 Access Fee lagu hai.'}
-            </p>
+            <h2 class="text-xl font-black text-amber-400 uppercase">1-Click Legal Deeds & Bank Loan CMA Reports</h2>
+            <p class="text-xs text-slate-400">Generate legally certified deeds, FSSAI packs, MSME Udyam, and Mudra loan project reports.</p>
           </div>
 
-          <!-- Direct Google Search Console -->
-          <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
-            <h3 class="text-sm font-bold text-white flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span> Direct Global Google Search Engine
-            </h3>
-            <div class="flex gap-2">
-              <input id="g-query" type="text" placeholder="Search Google, Government Portals, Timber Rates, Tenders..." class="flex-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:border-amber-400" onkeydown="if(event.key==='Enter') triggerMonetizedSearch()" />
-              <button onclick="triggerMonetizedSearch()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition">
-                ${currentUser.role === 'OWNER' ? 'Search Google (Free)' : 'Pay ₹49 & Search'}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+              <h3 class="text-sm font-bold text-white">Create Certified Business Entity / Loan Proposal</h3>
+              <div>
+                <label class="text-[11px] text-slate-400">Business / Venture Name</label>
+                <input id="lg-name" type="text" placeholder="e.g. Royal Rajputana Banquets & Caterers" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:border-amber-400" />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-[11px] text-slate-400">Entity Legal Type</label>
+                  <select id="lg-type" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                    <option value="PROPRIETORSHIP">Sole Proprietorship</option>
+                    <option value="PARTNERSHIP_DEED">Partnership Agreement</option>
+                    <option value="LLP_PVT_LTD">LLP / Private Limited</option>
+                    <option value="FSSAI_FOOD_UNIT">FSSAI Food Factory Unit</option>
+                    <option value="TOUR_IATA_UNIT">Tour & Travel Operator</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-[11px] text-slate-400">Loan / Subsidy Scheme</label>
+                  <select id="lg-loan" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                    <option value="MUDRA TARUN">Mudra Tarun (₹5L - ₹10L)</option>
+                    <option value="MUDRA KISHORE">Mudra Kishore (₹50k - ₹5L)</option>
+                    <option value="PMEGP SUBSIDY">PMEGP Subsidy (₹25L - ₹50L)</option>
+                    <option value="HOTEL_COMMERCIAL_LOAN">Commercial Machinery Loan</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label class="text-[11px] text-slate-400">Requested Loan Capital (₹)</label>
+                <input id="lg-amt" type="number" placeholder="1000000" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:border-amber-400" />
+              </div>
+              <button onclick="generateLegalDeedPack()" class="w-full gold-gradient hover:opacity-95 text-slate-950 font-black py-3.5 rounded-xl text-xs shadow-lg uppercase tracking-wider">
+                Pay ₹2,999 via UPI & Generate Complete Certified Pack
               </button>
             </div>
-          </div>
 
-          <!-- Monetized Socials & Applications Grid -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <!-- WhatsApp Web -->
-            <div onclick="triggerMonetizedApp('WhatsApp Global Console', 'https://web.whatsapp.com', 99)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
-              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold text-lg group-hover:scale-110 transition">WA</div>
-              <span class="text-xs font-bold text-white">WhatsApp Global</span>
-              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Connect (₹99)'}</span>
-            </div>
-
-            <!-- LinkedIn B2B -->
-            <div onclick="triggerMonetizedApp('LinkedIn B2B Portal', 'https://www.linkedin.com', 199)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
-              <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-lg group-hover:scale-110 transition">IN</div>
-              <span class="text-xs font-bold text-white">LinkedIn B2B</span>
-              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Connect (₹199)'}</span>
-            </div>
-
-            <!-- Facebook Pro -->
-            <div onclick="triggerMonetizedApp('Facebook Pro Gateway', 'https://www.facebook.com', 99)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-indigo-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
-              <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 font-bold text-lg group-hover:scale-110 transition">FB</div>
-              <span class="text-xs font-bold text-white">Facebook Pro</span>
-              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Connect (₹99)'}</span>
-            </div>
-
-            <!-- YouTube Media -->
-            <div onclick="triggerMonetizedApp('YouTube Media Network', 'https://www.youtube.com', 49)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-red-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
-              <div class="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center text-red-400 font-bold text-lg group-hover:scale-110 transition">YT</div>
-              <span class="text-xs font-bold text-white">YouTube Media</span>
-              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Connect (₹49)'}</span>
-            </div>
-
-            <!-- Government MSME Portal -->
-            <div onclick="triggerMonetizedApp('Govt MSME Portal', 'https://udyamregistration.gov.in', 299)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
-              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold text-lg group-hover:scale-110 transition">MSME</div>
-              <span class="text-xs font-bold text-white">Govt MSME Portal</span>
-              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Access (₹299)'}</span>
-            </div>
-
-            <!-- MUDRA Bank Portal -->
-            <div onclick="triggerMonetizedApp('Mudra Scheme Portal', 'https://www.mudra.org.in', 299)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-amber-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
-              <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-bold text-lg group-hover:scale-110 transition">MUDRA</div>
-              <span class="text-xs font-bold text-white">Mudra Bank Portal</span>
-              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Access (₹299)'}</span>
-            </div>
-
-            <!-- SBI NetBanking Portal -->
-            <div onclick="triggerMonetizedApp('SBI Portal Gateway', 'https://www.onlinesbi.sbi', 99)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-cyan-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
-              <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 font-bold text-lg group-hover:scale-110 transition">SBI</div>
-              <span class="text-xs font-bold text-white">SBI NetBanking</span>
-              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Access (₹99)'}</span>
-            </div>
-
-            <!-- GitHub Source Repo -->
-            <div onclick="triggerMonetizedApp('GitHub Source Console', 'https://github.com/surajmishr999-coder', 499)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-purple-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
-              <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 font-bold text-lg group-hover:scale-110 transition">GH</div>
-              <span class="text-xs font-bold text-white">GitHub Repo</span>
-              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Code Link (₹499)'}</span>
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+              <h3 class="text-sm font-bold text-white">Certified Issued Deeds & Bank Project Reports</h3>
+              <div class="space-y-3">
+                ${db.legalDocs.map(d => `
+                  <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl flex justify-between items-center">
+                    <div>
+                      <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-bold">${d.docType}</span>
+                      <h4 class="font-bold text-sm text-white mt-1.5">${d.title}</h4>
+                      <p class="text-xs text-slate-400">${d.loanScheme} • <b class="text-emerald-400">${d.status}</b></p>
+                    </div>
+                    <button onclick="triggerDownloadDoc('${d.title}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition">
+                      ${currentUser.role === 'OWNER' ? 'PDF (Free)' : 'Download PDF (₹499)'}
+                    </button>
+                  </div>
+                `).join('')}
+              </div>
             </div>
           </div>
         </div>`;
       }
 
-      // TAB 4: WORLD BROADCAST (OWNER ONLY)
+      if (activeTab === 'travel') {
+        return `
+        <div class="space-y-6">
+          <div class="border-b border-slate-800 pb-3">
+            <h2 class="text-xl font-black text-amber-400 uppercase">World Tour Packages & Flight Booking Desk</h2>
+            <p class="text-xs text-slate-400">Direct booking lines for Domestic/International flights, Visa assist, and Luxury 5-Star Holiday packages.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
+              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">INTERNATIONAL FLIGHTS</span>
+              <h3 class="text-base font-bold text-white">Dubai & Europe Business Class</h3>
+              <p class="text-xs text-slate-400">Emirates & Qatar Airways bulk booking lines with VIP Airport lounge access.</p>
+              <p class="text-sm font-black text-emerald-400 font-mono">From ₹ 48,500 / Seat</p>
+              <button onclick="triggerMonetizedApp('Dubai Flight Desk', 'https://www.makemytrip.com/flights', 199)" class="w-full gold-gradient text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase">
+                ${currentUser.role === 'OWNER' ? 'Open Flight Desk' : 'Unlock Flight Line (₹199)'}
+              </button>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
+              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">HONEYMOON & WEDDING TOURS</span>
+              <h3 class="text-base font-bold text-white">Kathmandu & Pokhara Luxury Villa</h3>
+              <p class="text-xs text-slate-400">5-Star Mountain Resort, Private Helicopter transfer to Everest Base, and luxury dining.</p>
+              <p class="text-sm font-black text-emerald-400 font-mono">₹ 1,45,000 / Couple</p>
+              <button onclick="triggerMonetizedApp('Nepal Luxury Desk', 'https://web.whatsapp.com', 299)" class="w-full gold-gradient text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase">
+                ${currentUser.role === 'OWNER' ? 'Open Travel Line' : 'Unlock Luxury Tour (₹299)'}
+              </button>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
+              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">CORPORATE CHARTER</span>
+              <h3 class="text-base font-bold text-white">Private Jet & Heli Services (India)</h3>
+              <p class="text-xs text-slate-400">VIP Destination Weddings, Executive Business Air-Lift (Delhi, Ranchi, Kolkata, Mumbai).</p>
+              <p class="text-sm font-black text-emerald-400 font-mono">Custom Tariff</p>
+              <button onclick="triggerMonetizedApp('Aviation Charter', 'https://web.whatsapp.com', 499)" class="w-full gold-gradient text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase">
+                ${currentUser.role === 'OWNER' ? 'Direct Jet Command' : 'Unlock VIP Charter Line (₹499)'}
+              </button>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      if (activeTab === 'dir') {
+        return `
+        <div class="space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-xl font-black text-amber-400 uppercase">Verified Conglomerate Directory</h2>
+              <p class="text-xs text-slate-400">Direct phone & WhatsApp lines for Marriage Halls, Designers, 5-Star Resorts, Food Mills & Travel Guilds.</p>
+            </div>
+            ${currentUser.role === 'OWNER' ? `
+            <button onclick="openAddProPrompt()" class="gold-gradient text-slate-950 font-black px-3 py-1.5 rounded-xl text-xs uppercase tracking-wider">
+              + Add Enterprise Pro
+            </button>` : ''}
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            ${db.directory.map(item => `
+              <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl flex flex-col justify-between space-y-4">
+                <div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-indigo-950 border border-indigo-500/30 text-indigo-300 font-mono font-bold">
+                      ${item.cat}
+                    </span>
+                    <span class="text-xs text-amber-400 font-bold">${item.rating}</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white mt-2">${item.name}</h3>
+                  <p class="text-xs text-slate-400 mt-0.5">${item.city}</p>
+                  <p class="text-xs font-mono text-amber-400 font-bold mt-2">${currentUser.role === 'OWNER' ? item.phone : 'Direct Line Verified'}</p>
+                </div>
+                ${currentUser.role === 'OWNER' ? `
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                  <a href="tel:${item.phone}" class="bg-emerald-600 hover:bg-emerald-700 text-center py-2 rounded-xl text-xs font-bold transition">Call</a>
+                  <a href="https://wa.me/${item.phone.replace(/[^0-9]/g, '')}?text=Namaste, AASHA Master HQ se sampark kar rahe hain." target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-center py-2 rounded-xl text-xs font-black transition">WhatsApp</a>
+                </div>` : `
+                <button onclick="initiateDirectoryUnlock('${item.id}', '${item.name}', ${item.fee})" class="w-full gold-gradient text-slate-950 font-black py-2 rounded-xl text-xs uppercase tracking-wider">
+                  Pay ₹${item.fee} to Unlock Direct Contact
+                </button>`}
+              </div>
+            `).join('')}
+          </div>
+        </div>`;
+      }
+
+      if (activeTab === 'globalweb') {
+        return `
+        <div class="space-y-6">
+          <div class="border-b border-slate-800 pb-3">
+            <h2 class="text-xl font-black text-amber-400 uppercase">Google Global Search & Platforms Grid</h2>
+            <p class="text-xs text-slate-400">Master Owner Command & Commercial Gateway.</p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span> Direct Global Google Search Engine
+            </h3>
+            <div class="flex gap-2">
+              <input id="g-query" type="text" placeholder="Search Google, Marriage Venues, Flight Tariffs, Timber Rates, MSME Tenders..." class="flex-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:border-amber-400" onkeydown="if(event.key==='Enter') triggerMonetizedSearch()" />
+              <button onclick="triggerMonetizedSearch()" class="gold-gradient hover:opacity-95 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition uppercase tracking-wider">
+                ${currentUser.role === 'OWNER' ? 'Search Google (Free)' : 'Pay ₹49 & Search'}
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div onclick="triggerMonetizedApp('WhatsApp Global Console', 'https://web.whatsapp.com', 99)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold text-lg group-hover:scale-110 transition">WA</div>
+              <span class="text-xs font-bold text-white">WhatsApp Global</span>
+              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Connect (₹99)'}</span>
+            </div>
+            <div onclick="triggerMonetizedApp('LinkedIn B2B Portal', 'https://www.linkedin.com', 199)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
+              <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-lg group-hover:scale-110 transition">IN</div>
+              <span class="text-xs font-bold text-white">LinkedIn B2B</span>
+              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Connect (₹199)'}</span>
+            </div>
+            <div onclick="triggerMonetizedApp('Govt MSME Portal', 'https://udyamregistration.gov.in', 299)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold text-lg group-hover:scale-110 transition">MSME</div>
+              <span class="text-xs font-bold text-white">Govt MSME Portal</span>
+              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Access (₹299)'}</span>
+            </div>
+            <div onclick="triggerMonetizedApp('Mudra Scheme Portal', 'https://www.mudra.org.in', 299)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-amber-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-bold text-lg group-hover:scale-110 transition">MUDRA</div>
+              <span class="text-xs font-bold text-white">Mudra Bank Portal</span>
+              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Access (₹299)'}</span>
+            </div>
+          </div>
+        </div>`;
+      }
+
       if (activeTab === 'chat') {
         if (currentUser.role !== 'OWNER') return `<div class="p-8 bg-red-950/30 border border-red-500/30 rounded-2xl text-center text-red-400 font-bold">Access Restricted.</div>`;
         return `
         <div class="space-y-6">
           <div class="flex justify-between items-center border-b border-slate-800 pb-3">
             <div>
-              <h2 class="text-lg font-black text-amber-400">SOVEREIGN WORLD BROADCAST CONSOLE</h2>
-              <p class="text-xs text-slate-400">Strictly Owner Controlled Broadcast</p>
+              <h2 class="text-xl font-black text-amber-400 uppercase">Sovereign World Broadcast Console</h2>
+              <p class="text-xs text-slate-400">Strictly Owner Controlled Global Broadcasts.</p>
             </div>
             <span class="text-[10px] px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">ONLY ME COMMAND</span>
           </div>
 
           <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-4">
-            <div class="h-64 overflow-y-auto space-y-3 p-3 bg-slate-950 rounded-2xl border border-slate-800/80">
+            <div class="h-64 overflow-y-auto space-y-3 p-3 bg-slate-950 rounded-2xl border border-slate-800">
               ${db.worldChat.map(m => `
-                <div class="p-3 rounded-xl border ${m.sender.includes('Suraj') ? 'bg-amber-950/20 border-amber-500/30 text-amber-200' : 'bg-slate-900 border-slate-800 text-slate-300'}">
+                <div class="p-3.5 rounded-2xl border ${m.sender.includes('Suraj') ? 'bg-amber-950/20 border-amber-500/30 text-amber-200' : 'bg-slate-900 border-slate-800 text-slate-300'}">
                   <div class="flex justify-between items-center text-[10px] font-mono text-slate-400 mb-1">
                     <span class="font-bold text-white">${m.sender}</span>
                     <span>${m.time}</span>
@@ -490,173 +572,32 @@
 
             <div class="flex gap-2">
               <input id="chat-msg" type="text" placeholder="Type Master Command Broadcast..." class="flex-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:border-amber-400" onkeydown="if(event.key==='Enter') sendOwnerMessage()" />
-              <button onclick="sendOwnerMessage()" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition">
+              <button onclick="sendOwnerMessage()" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition uppercase tracking-wider">
                 Send Command
               </button>
             </div>
           </div>
         </div>`;
       }
-
-      // TAB 5: STARTUP PACKS & MUDRA LOANS (WITH MONETIZED PDF DOWNLOADS)
-      if (activeTab === 'startup') {
-        return `
-        <div class="space-y-6">
-          <div class="border-b border-slate-800 pb-3">
-            <h2 class="text-lg font-black text-amber-400">1-CLICK STARTUP REGISTRATION & BANK LOANS</h2>
-            <p class="text-xs text-slate-400">Generate Legal Deeds, MSME Packs & Mudra Loan Reports (100% Fees to Suraj Kumar Mishra)</p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
-              <h3 class="text-sm font-bold text-slate-200">Create New Business & Loan Application</h3>
-              <div>
-                <label class="text-[11px] text-slate-400">Business / Venture Name</label>
-                <input id="st-name" type="text" placeholder="e.g. Royal Woodcrafts Studio" class="w-full mt-1 bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-xs text-white" />
-              </div>
-              <div class="grid grid-cols-2 gap-2">
-                <div>
-                  <label class="text-[11px] text-slate-400">Entity Type</label>
-                  <select id="st-entity" class="w-full mt-1 bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-xs text-white">
-                    <option value="PROPRIETORSHIP">Sole Proprietorship</option>
-                    <option value="PARTNERSHIP">Partnership Deed</option>
-                    <option value="LLP">LLP / Private Ltd</option>
-                    <option value="MSME">MSME / Udyam Unit</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="text-[11px] text-slate-400">Loan Scheme</label>
-                  <select id="st-loan" class="w-full mt-1 bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-xs text-white">
-                    <option value="MUDRA KISHORE">Mudra Kishore (₹50k - ₹5L)</option>
-                    <option value="MUDRA TARUN">Mudra Tarun (₹5L - ₹10L)</option>
-                    <option value="PMEGP SUBSIDY">PMEGP Subsidy Loan (₹25L)</option>
-                    <option value="MACHINERY EMI">Machinery Equipment Loan</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <label class="text-[11px] text-slate-400">Loan Amount Requested (₹)</label>
-                <input id="st-amt" type="number" placeholder="500000" class="w-full mt-1 bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-xs text-white" />
-              </div>
-              <button onclick="initiateLegalPackPayment()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3 rounded-xl text-xs shadow-lg shadow-amber-500/20 transition">
-                Pay ₹2,999 via UPI & Generate Legal Deed + CMA Report
-              </button>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
-              <h3 class="text-sm font-bold text-slate-200">Generated Startup Packs</h3>
-              <div class="space-y-2">
-                ${db.startupPacks.map(p => `
-                  <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl flex justify-between items-center">
-                    <div>
-                      <span class="text-[10px] bg-slate-800 text-amber-400 px-2 py-0.5 rounded font-mono">${p.entity}</span>
-                      <h4 class="font-bold text-xs text-white mt-1">${p.business}</h4>
-                      <p class="text-[11px] text-slate-400">${p.loanScheme} • <b class="text-emerald-400">${p.loanAmt}</b></p>
-                    </div>
-                    <button onclick="triggerDownloadDoc('${p.business}')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition">
-                      ${currentUser.role === 'OWNER' ? 'PDF (Free)' : 'Download PDF (₹499)'}
-                    </button>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          </div>
-        </div>`;
-      }
-
-      // TAB 6: DIRECT DIRECTORY (FEE UNLOCK FOR CLIENTS)
-      if (activeTab === 'dir') {
-        return `
-        <div class="space-y-4">
-          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-            <div>
-              <h2 class="text-lg font-black text-amber-400">DIRECT CALLING & WHATSAPP NETWORK</h2>
-              <p class="text-xs text-slate-400">Verified Manufacturers, Timber Depots & Guilds (India & Nepal)</p>
-            </div>
-            ${currentUser.role !== 'OWNER' ? '<span class="text-xs text-emerald-400 font-mono bg-emerald-950/30 px-2 py-1 rounded">Paid Verified Direct Lines</span>' : ''}
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            ${db.directory.map(item => `
-              <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-4">
-                <div>
-                  <span class="text-[10px] px-2 py-0.5 rounded bg-indigo-950 border border-indigo-500/30 text-indigo-300 font-mono font-bold">
-                    ${item.cat} (${item.country})
-                  </span>
-                  <h3 class="text-base font-bold text-white mt-2">${item.name}</h3>
-                  <p class="text-xs text-slate-400 mt-0.5">${item.city}</p>
-                  <p class="text-xs font-mono text-amber-400 font-bold mt-2">${currentUser.role === 'OWNER' ? item.phone : 'Direct Line Verified'}</p>
-                </div>
-                ${currentUser.role === 'OWNER' ? `
-                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
-                  <a href="tel:${item.phone}" class="bg-emerald-600 hover:bg-emerald-700 text-center py-2 rounded-xl text-xs font-bold transition">Call</a>
-                  <a href="https://wa.me/${item.phone.replace(/[^0-9]/g, '')}?text=Namaste, AASHA Master HQ se sampark kar rahe hain." target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-center py-2 rounded-xl text-xs font-black transition">WhatsApp</a>
-                </div>` : `
-                <button onclick="initiateDirectoryUnlock('${item.id}', '${item.name}', ${item.fee})" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-2 rounded-xl text-xs transition">
-                  Pay ₹${item.fee} to Unlock Direct Line
-                </button>`}
-              </div>
-            `).join('')}
-          </div>
-        </div>`;
-      }
-
-      // TAB 7: ADD PRO (OWNER ONLY)
-      if (activeTab === 'add') {
-        if (currentUser.role !== 'OWNER') return `<div class="p-8 bg-red-950/30 border border-red-500/30 rounded-2xl text-center text-red-400 font-bold">Access Restricted.</div>`;
-        return `
-        <div class="max-w-xl mx-auto bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
-          <div>
-            <h2 class="text-lg font-black text-amber-400">1-CLICK PRO / VENDOR ONBOARDING</h2>
-            <p class="text-xs text-slate-400">Carpenter, Builder, Supplier ya Factory ko directly add karein.</p>
-          </div>
-          <div class="space-y-3">
-            <div>
-              <label class="text-xs text-slate-400">Category Type</label>
-              <select id="a-cat" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                <option value="CARPENTER">Carpenter / Wood Craftsman</option>
-                <option value="BUILDER">Builder / Contractor</option>
-                <option value="SUPPLIER">Material & Hardware Supplier</option>
-                <option value="MANUFACTURER">Factory Unit</option>
-              </select>
-            </div>
-            <div>
-              <label class="text-xs text-slate-400">Business / Entity Name</label>
-              <input id="a-name" type="text" placeholder="e.g. Om Woodcrafts" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white" />
-            </div>
-            <div>
-              <label class="text-xs text-slate-400">City / District</label>
-              <input id="a-city" type="text" placeholder="e.g. Patna, Bihar" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white" />
-            </div>
-            <div>
-              <label class="text-xs text-slate-400">Phone / WhatsApp Number</label>
-              <input id="a-phone" type="tel" placeholder="+91 98765 43210" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white" />
-            </div>
-            <button onclick="addPro()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3 rounded-xl text-xs transition shadow-lg shadow-amber-500/20">
-              ✓ Add & Pin to Global Directory
-            </button>
-          </div>
-        </div>`;
-      }
     }
 
-    // PAYMENT MODAL DIALOG (DIRECT SBI INSTANT PAY)
     function renderPaymentModal() {
       const upiUrl = `upi://pay?pa=${MASTER_CONFIG.upiId}&pn=${encodeURIComponent(MASTER_CONFIG.payeeName)}&am=${activePaymentModal.amount}&cu=INR&tn=${encodeURIComponent(activePaymentModal.description)}`;
       const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiUrl)}`;
 
       return `
-      <div class="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+      <div class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-emerald-500/40 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl animate-fade-in">
           <div class="flex justify-between items-center">
-            <span class="text-xs font-mono text-emerald-400 font-bold">DIRECT SBI SETTLEMENT</span>
+            <span class="text-xs font-mono text-emerald-400 font-bold tracking-wider">DIRECT SBI SETTLEMENT</span>
             <button onclick="closePaymentModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
           </div>
 
-          <h3 class="text-base font-black text-white">Scan & Pay to Suraj Kumar Mishra</h3>
+          <h3 class="text-base font-black text-white">Pay Directly to Suraj Kumar Mishra</h3>
           <p class="text-[11px] text-slate-400 font-mono">SBI A/c: <b>${MASTER_CONFIG.accountNo}</b></p>
           <p class="text-xs text-emerald-400 font-mono font-bold">${MASTER_CONFIG.upiId}</p>
 
-          <div class="bg-white p-3 rounded-2xl inline-block shadow-lg">
+          <div class="bg-white p-3 rounded-2xl inline-block shadow-xl">
             <img src="${qrUrl}" alt="UPI QR Code" class="w-44 h-44 mx-auto" />
           </div>
 
@@ -664,18 +605,17 @@
           <p class="text-[11px] text-slate-400">${activePaymentModal.description}</p>
 
           <div class="space-y-2">
-            <a href="${upiUrl}" class="block w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black py-3 rounded-xl text-xs transition">
+            <a href="${upiUrl}" class="block w-full gold-gradient hover:opacity-95 text-slate-950 font-black py-3 rounded-xl text-xs uppercase tracking-wider shadow-lg shadow-amber-500/20">
               Pay via GPay / PhonePe / Paytm
             </a>
             <button onclick="confirmUniversalPaymentSuccess()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl text-xs transition">
-              I Have Paid (Instant Unlock)
+              I Have Paid (Instant Settle to Owner SBI)
             </button>
           </div>
         </div>
       </div>`;
     }
 
-    // ACTION CONTROLLERS & MONETIZED HANDLERS
     function setLogin(e, p) {
       document.getElementById('l-email').value = e;
       document.getElementById('l-pass').value = p;
@@ -697,14 +637,34 @@
 
     function logout() { currentUser = null; render(); }
     function tab(t) { activeTab = t; render(); }
-    function setFilter(st) { filterStatus = st; render(); }
+    function setCategoryFilter(c) { filterCategory = c; render(); }
 
     function setFixtureStatus(id, newStatus) {
       if (currentUser.role !== 'OWNER') return alert('Access Denied. Only Master Owner can change deal status.');
       const db = getDB();
       const item = db.fixtures.find(f => f.id === id);
       if (item) {
+        const oldStatus = item.status;
         item.status = newStatus;
+
+        if (newStatus === 'CLOSED' && oldStatus !== 'CLOSED') {
+          const grossFee = item.lockFee || Math.round(item.rawBudget * 0.01);
+          const tax = grossFee * 0.18;
+          const net = grossFee - tax;
+
+          db.ledger.unshift({
+            id: 'TXN-' + Date.now().toString().slice(-4),
+            source: `CLOSED_DEAL_PAYOUT (${item.title})`,
+            gross: grossFee,
+            tax: Number(tax.toFixed(2)),
+            net: Number(net.toFixed(2)),
+            status: 'DIRECT_SBI_CREDITED',
+            date: new Date().toISOString().slice(0, 10)
+          });
+
+          alert(`Mega Deal "${item.title}" Closed!\n₹ ${net.toFixed(2)} Net Payout direct aapke Earnings Vault aur SBI Account (${MASTER_CONFIG.accountNo}) me credit ho gaya hai.`);
+        }
+
         saveDB(db);
         render();
       }
@@ -716,7 +676,25 @@
         id,
         title,
         amount: fee,
-        description: `1% Lock Fee for Fixture: ${title}`
+        description: `1% Mega Deal Lock Fee: ${title}`
+      };
+      render();
+    }
+
+    function generateLegalDeedPack() {
+      const name = document.getElementById('lg-name').value;
+      const type = document.getElementById('lg-type').value;
+      const loan = document.getElementById('lg-loan').value;
+      const amt = document.getElementById('lg-amt').value;
+      if (!name || !amt) return alert('Please enter Business Name and Loan Amount.');
+
+      activePaymentModal = {
+        type: 'LEGAL_DEED_PACK',
+        name,
+        docType: type,
+        loanScheme: loan,
+        amount: 2999,
+        description: `Certified Legal Deed & CMA Loan Pack: ${name}`
       };
       render();
     }
@@ -727,26 +705,7 @@
         id,
         name,
         amount: fee,
-        description: `Verified Line Access for: ${name}`
-      };
-      render();
-    }
-
-    function initiateLegalPackPayment() {
-      const business = document.getElementById('st-name').value;
-      const entity = document.getElementById('st-entity').value;
-      const loanScheme = document.getElementById('st-loan').value;
-      const loanAmt = document.getElementById('st-amt').value;
-      if (!business || !loanAmt) return alert('Please enter Business Name and Loan Amount.');
-
-      activePaymentModal = {
-        type: 'LEGAL_PACK',
-        business,
-        entity,
-        loanScheme,
-        loanAmt: '₹ ' + Number(loanAmt).toLocaleString(),
-        amount: 2999,
-        description: `Legal & Mudra CMA Pack (${business})`
+        description: `Verified Direct Line Access: ${name}`
       };
       render();
     }
@@ -762,7 +721,7 @@
           type: 'SEARCH_GATEWAY',
           query: q,
           amount: 49,
-          description: `Google Global Search Access for: "${q}"`
+          description: `Google Global Search Access: "${q}"`
         };
         render();
       }
@@ -777,21 +736,21 @@
           appName,
           targetUrl: url,
           amount: fee,
-          description: `Direct Connect Gateway for: ${appName}`
+          description: `Direct Connect Gateway: ${appName}`
         };
         render();
       }
     }
 
-    function triggerDownloadDoc(business) {
+    function triggerDownloadDoc(title) {
       if (currentUser.role === 'OWNER') {
-        alert(`Downloading Certified Legal & CMA Project PDF for: ${business}`);
+        alert(`Downloading Certified Legal & CMA Project PDF for: ${title}`);
       } else {
         activePaymentModal = {
           type: 'DOC_DOWNLOAD',
-          business,
+          title,
           amount: 499,
-          description: `Certified Bank CMA PDF Download for: ${business}`
+          description: `Certified Bank CMA PDF Download: ${title}`
         };
         render();
       }
@@ -812,14 +771,13 @@
       if (activePaymentModal.type === 'FIXTURE_LOCK') {
         const item = db.fixtures.find(f => f.id === activePaymentModal.id);
         if (item) item.status = 'USED';
-      } else if (activePaymentModal.type === 'LEGAL_PACK') {
-        db.startupPacks.unshift({
-          id: 'STP-' + Date.now().toString().slice(-4),
-          business: activePaymentModal.business,
-          entity: activePaymentModal.entity,
+      } else if (activePaymentModal.type === 'LEGAL_DEED_PACK') {
+        db.legalDocs.unshift({
+          id: 'DOC-' + Date.now().toString().slice(-4),
+          title: activePaymentModal.name,
+          docType: activePaymentModal.docType,
           loanScheme: activePaymentModal.loanScheme,
-          loanAmt: activePaymentModal.loanAmt,
-          status: 'SUBMITTED_TO_BANK'
+          status: 'CERTIFIED_ISSUED'
         });
       }
 
@@ -834,48 +792,72 @@
       });
 
       saveDB(db);
-      
       const modal = activePaymentModal;
       activePaymentModal = null;
-      alert(`Payment Verified! ₹ ${net.toFixed(2)} net fee direct aapke SBI A/c (${MASTER_CONFIG.accountNo} - ISM Dhanbad) me credit ho gayi hai.`);
+      alert(`Payment Verified! ₹ ${net.toFixed(2)} net profit direct aapke SBI A/c (${MASTER_CONFIG.accountNo} - ISM Dhanbad) me credit ho gayi hai.`);
       
       if (modal.type === 'SEARCH_GATEWAY') {
         window.open(`https://www.google.com/search?q=${encodeURIComponent(modal.query)}`, '_blank');
       } else if (modal.type === 'APP_GATEWAY') {
         window.open(modal.targetUrl, '_blank');
       } else if (modal.type === 'DOC_DOWNLOAD') {
-        alert(`Certified Legal Pack PDF download unlocked for: ${modal.business}`);
+        alert(`Certified Legal Pack PDF download unlocked for: ${modal.title}`);
       }
-      
+
       render();
     }
 
-    function openAddFixturePrompt() {
-      if (currentUser.role !== 'OWNER') return alert('Only Master Owner can add fixtures.');
-      const title = prompt("Fixture / Project Title:");
+    function openAddMegaDealPrompt() {
+      if (currentUser.role !== 'OWNER') return alert('Only Master Owner can add mega deals.');
+      const title = prompt("Mega Deal / Event Title (e.g. Royal Rajputana Mandap / Luxury Penthouse Interior):");
       if (!title) return;
-      const cat = prompt("Category (Residential / Hotel / Commercial):", "Commercial Interior");
-      const client = prompt("Client Name:", "Eastern Developers");
-      const city = prompt("City / Location:", "Dhanbad");
-      const budget = prompt("Budget (e.g. ₹ 20,00,000):", "₹ 20,00,000");
-      const rawBudget = Number((budget || '').replace(/[^0-9]/g, '')) || 2000000;
+      const cat = prompt("Category (WEDDING_EVENT / INTERIOR_DESIGN / HOTEL_HOSPITALITY / FOOD_MANUFACTURER / TOUR_AIRLINE):", "WEDDING_EVENT");
+      const client = prompt("Client / Enterprise Name:", "Grand Heritage Enterprises");
+      const city = prompt("City / Location:", "Dhanbad / Delhi");
+      const budget = prompt("Package Budget (e.g. ₹ 50,00,000):", "₹ 50,00,000");
+      const details = prompt("Deal Scope & Specs:", "Complete Turnkey Execution & Premium World-Class Standards");
+      const rawBudget = Number((budget || '').replace(/[^0-9]/g, '')) || 5000000;
       const lockFee = Math.round(rawBudget * 0.01);
 
       const db = getDB();
       db.fixtures.unshift({
         id: 'FIX-' + Date.now().toString().slice(-4),
         title,
-        cat: cat || 'General Setup',
+        cat: cat || 'WEDDING_EVENT',
         client: client || 'Enterprise',
         city: city || 'India',
         budget: budget || '₹ 0',
+        details: details || 'Full Turnkey Execution',
         rawBudget,
         lockFee,
         status: 'OPEN',
         date: new Date().toISOString().slice(0, 10)
       });
       saveDB(db);
-      alert('Naya Fixture OPEN status aur 1% Owner Lock Fee ke sath add ho gaya!');
+      alert('Naya Mega Deal successfully Launch ho gaya!');
+      render();
+    }
+
+    function openAddProPrompt() {
+      if (currentUser.role !== 'OWNER') return alert('Only Master Owner can add professionals.');
+      const name = prompt("Enterprise / Guild Name (e.g. Imperial Banquets / ArchForm Interiors):");
+      if (!name) return;
+      const cat = prompt("Category (WEDDING_HALL / INTERIOR_DESIGNER / HOTEL_RESORT / FOOD_FACTORY / AIR_TRAVEL):", "WEDDING_HALL");
+      const city = prompt("City / Region:", "Dhanbad");
+      const phone = prompt("Phone / WhatsApp:", "+91 98765 43210");
+
+      const db = getDB();
+      db.directory.unshift({
+        id: 'DIR-' + Date.now().toString().slice(-4),
+        name,
+        cat: cat || 'WEDDING_HALL',
+        city: city || 'India',
+        phone: phone || '+91 00000 00000',
+        fee: 999,
+        rating: '5.0 ★'
+      });
+      saveDB(db);
+      alert(name + ' verified directory me jud chuka hai!');
       render();
     }
 
@@ -903,25 +885,11 @@
     }
 
     function instantBankWithdraw(amount) {
-      alert(`Withdrawal Authorized!\n₹ ${amount.toLocaleString()} settled to Owner Bank Account:\nSBI A/c: ${MASTER_CONFIG.accountNo}\nBranch: ${MASTER_CONFIG.branch}\nUPI: ${MASTER_CONFIG.upiId}\nPayee: Suraj Kumar Mishra`);
-    }
-
-    function addPro() {
-      if (currentUser.role !== 'OWNER') return alert('Only Master Owner can add professionals.');
-      const cat = document.getElementById('a-cat').value;
-      const name = document.getElementById('a-name').value;
-      const city = document.getElementById('a-city').value;
-      const phone = document.getElementById('a-phone').value;
-      if (!name || !city || !phone) return alert('Please fill in all fields.');
-
-      const db = getDB();
-      db.directory.unshift({ id: 'DIR-' + Date.now(), cat, name, city, phone, country: 'IN', fee: 999 });
-      saveDB(db);
-      alert(name + ' added to directory successfully!');
-      tab('dir');
+      alert(`Sovereign Withdrawal Authorized!\n₹ ${amount.toLocaleString()} has been settled to Owner Bank Account:\nSBI A/c: ${MASTER_CONFIG.accountNo}\nBranch: ${MASTER_CONFIG.branch}\nUPI: ${MASTER_CONFIG.upiId}\nPayee: Suraj Kumar Mishra`);
     }
 
     render();
   </script>
 </body>
 </html>
+
