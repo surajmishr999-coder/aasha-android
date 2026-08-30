@@ -1,0 +1,130 @@
+const AASHA_AUTO_UPDATE = {
+  ownerMode: true,
+  approvalRequired: true,
+
+  categories: [
+    "manufacturer",
+    "supplier",
+    "project",
+    "tour",
+    "financial",
+    "technology",
+    "social"
+  ],
+
+  pending: [],
+
+  addUpdate(data) {
+    if (!data || !data.name || !data.category) {
+      throw new Error("Invalid AASHA update");
+    }
+
+    const update = {
+      id: "AASHA-" + Date.now(),
+      name: data.name,
+      category: data.category,
+      country: data.country || "",
+      city: data.city || "",
+      website: data.website || "",
+      contact: data.contact || "",
+      description: data.description || "",
+      source: data.source || "",
+      verified: false,
+      status: "PENDING_OWNER_APPROVAL",
+      createdAt: new Date().toISOString()
+    };
+
+    this.pending.push(update);
+    this.save();
+
+    return update;
+  },
+
+  approve(id) {
+    const index = this.pending.findIndex(x => x.id === id);
+
+    if (index === -1) {
+      return { success: false, message: "Update not found" };
+    }
+
+    const item = this.pending[index];
+
+    item.verified = true;
+    item.status = "APPROVED";
+    item.approvedAt = new Date().toISOString();
+
+    this.publish(item);
+
+    this.pending.splice(index, 1);
+    this.save();
+
+    return {
+      success: true,
+      message: "Approved and published",
+      item
+    };
+  },
+
+  reject(id) {
+    const index = this.pending.findIndex(x => x.id === id);
+
+    if (index === -1) {
+      return { success: false, message: "Update not found" };
+    }
+
+    this.pending[index].status = "REJECTED";
+    this.pending.splice(index, 1);
+    this.save();
+
+    return {
+      success: true,
+      message: "Update rejected"
+    };
+  },
+
+  publish(item) {
+    const published =
+      JSON.parse(localStorage.getItem("aashaPublishedData") || "[]");
+
+    published.push(item);
+
+    localStorage.setItem(
+      "aashaPublishedData",
+      JSON.stringify(published)
+    );
+
+    window.dispatchEvent(
+      new CustomEvent("aasha:data-published", {
+        detail: item
+      })
+    );
+  },
+
+  save() {
+    localStorage.setItem(
+      "aashaPendingUpdates",
+      JSON.stringify(this.pending)
+    );
+  },
+
+  load() {
+    this.pending =
+      JSON.parse(
+        localStorage.getItem("aashaPendingUpdates") || "[]"
+      );
+
+    return this.pending;
+  },
+
+  getPending() {
+    return this.pending;
+  },
+
+  getPublished() {
+    return JSON.parse(
+      localStorage.getItem("aashaPublishedData") || "[]"
+    );
+  }
+};
+
+AASHA_AUTO_UPDATE.load();
