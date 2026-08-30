@@ -1,644 +1,927 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aasha Super-App - Master Earnings & GPay Base</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg-main: #080D1A;
-    --bg-card: #111C30;
-    --border: #22324D;
-    --primary: #2563EB;
-    --accent: #38BDF8;
-    --emerald: #10B981;
-    --emerald-bg: rgba(16, 185, 129, 0.15);
-    --amber: #F59E0B;
-    --amber-bg: rgba(245, 158, 11, 0.15);
-    --purple: #8B5CF6;
-    --purple-bg: rgba(139, 92, 246, 0.15);
-    --danger: #EF4444;
-    --danger-bg: rgba(239, 68, 68, 0.15);
-    --text: #F8FAFC;
-    --text-muted: #94A3B8;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-  body { background-color: var(--bg-main); color: var(--text); padding: 18px 12px; }
-  .container { max-width: 1250px; margin: 0 auto; }
-
-  /* HEADER */
-  .header {
-    background: linear-gradient(135deg, #16243E, #0A101D);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .header h1 { font-size: 22px; font-weight: 800; color: var(--accent); }
-  .header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
-  .owner-badge {
-    background: var(--emerald-bg);
-    color: var(--emerald);
-    border: 1px solid var(--emerald);
-    padding: 6px 12px;
-    border-radius: 9999px;
-    font-size: 11px;
-    font-weight: 700;
-  }
-
-  /* STATS CARDS */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  .stat-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .stat-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
-  .stat-val { font-size: 24px; font-weight: 800; margin-top: 4px; font-family: 'JetBrains Mono', monospace; }
-  .stat-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
-
-  /* ACTIONS ROW */
-  .action-banner {
-    background: linear-gradient(135deg, #1E293B, #111C30);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  /* BUTTONS */
-  .btn {
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    transition: 0.2s;
-  }
-  .btn-primary { background: var(--primary); color: #FFF; }
-  .btn-primary:hover { background: #1D4ED8; }
-  .btn-emerald { background: var(--emerald); color: #000; font-weight: 800; }
-  .btn-emerald:hover { background: #059669; color: #FFF; }
-  .btn-purple { background: var(--purple); color: #FFF; font-weight: 800; }
-  .btn-purple:hover { background: #7C3AED; }
-  .btn-upi { background: #16A34A; color: #FFF; }
-  .btn-upi:hover { background: #15803D; }
-  .btn-toggle { background: #22324D; color: #FFF; }
-
-  /* CONTROLS */
-  .control-strip {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .filter-group { display: flex; gap: 6px; flex-wrap: wrap; }
-  .filter-btn {
-    background: #080D1A;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .filter-btn.active, .filter-btn:hover { background: var(--primary); color: #FFF; border-color: var(--primary); }
-
-  /* FIXTURE GRID */
-  .fixtures-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-  .fixture-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .card-top { display: flex; justify-content: space-between; margin-bottom: 8px; }
-  .category-tag { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; }
-  
-  .status-badge {
-    padding: 2px 7px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-weight: 800;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .status-open { background: var(--emerald-bg); color: var(--emerald); border: 1px solid var(--emerald); }
-  .status-used { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber); }
-  .status-closed { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger); }
-
-  .fixture-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; color: #FFF; }
-  .fixture-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; }
-  
-  .deal-info {
-    background: #080D1A;
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 6px;
-    padding: 8px 10px;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-  }
-  .deal-val { font-weight: 700; color: #FFF; font-family: 'JetBrains Mono', monospace; }
-  .cut-val { font-weight: 700; color: var(--emerald); font-family: 'JetBrains Mono', monospace; }
-
-  /* HISTORY TABLE */
-  .history-box {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px;
-    margin-top: 20px;
-  }
-  .history-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--accent); }
-  .history-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .history-table th, .history-table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
-  .history-table th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; }
-
-  /* MODAL */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-    padding: 14px;
-  }
-  .modal-overlay.active { display: flex; }
-  .modal-box {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    max-width: 460px;
-    width: 100%;
-    padding: 20px;
-  }
-  .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #FFF; }
-  .input-field {
-    width: 100%;
-    background: #080D1A;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 9px 12px;
-    color: #FFF;
-    font-size: 13px;
-    margin-bottom: 10px;
-    outline: none;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AASHA Sovereign Master Platform - Universal Monetized Command</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #090d16; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+  </style>
 </head>
-<body>
+<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-amber-500 selection:text-slate-950">
+  <div id="app"></div>
 
-<div class="container">
-  <!-- HEADER -->
-  <header class="header">
-    <div>
-      <h1>AASHA COMMAND HUB</h1>
-      <p>Master Earnings Base &bull; Live GPay UPI Direct &bull; Personal Usage Engine</p>
-    </div>
-    <div class="owner-badge">&#128274; SURAJ MISHRA (surajmishr999-1@oksbi)</div>
-  </header>
+  <script>
+    // STRICT OWNER IDENTITY & SETTLEMENT CONFIG
+    const MASTER_CONFIG = {
+      payeeName: "SURAJ KUMAR MISHRA",
+      upiId: "surajmishr999-1@oksbi",
+      accountNo: "44220560317",
+      cifNo: "92161358264",
+      bankName: "State Bank of India (SBI)",
+      branch: "ISM Campus Dhanbad (Code: 1641)",
+      securityMode: "100% MONETIZED SOVEREIGN OWNER-ONLY COMMAND"
+    };
 
-  <!-- LIVE METRICS BAR -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-title">Available Usable Balance (Aapka Paisa)</div>
-      <div class="stat-val" id="usableBalanceDisplay" style="color: var(--emerald);">₹0.00</div>
-      <div class="stat-sub">&#9679; Ready to Spend or Withdraw Anytime</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-title">Total Lifetime Earnings Base</div>
-      <div class="stat-val" id="totalEarnedDisplay" style="color: var(--accent);">₹0.00</div>
-      <div class="stat-sub">&#9679; UPI: surajmishr999-1@oksbi</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-title">Total Personally Used / Spent</div>
-      <div class="stat-val" id="totalUsedDisplay" style="color: var(--purple);">₹0.00</div>
-      <div class="stat-sub">&#9679; Personal Expenses & Withdrawals</div>
-    </div>
-  </div>
+    const initialData = {
+      users: [
+        { id: 'usr-owner', email: 'owner@aasha.com', pass: 'owner', name: 'Suraj Kumar Mishra (Master Owner)', role: 'OWNER' },
+        { id: 'usr-guest', email: 'customer@aasha.com', pass: 'customer', name: 'Client / Public Buyer', role: 'CUSTOMER' }
+      ],
+      ledger: [
+        { id: 'TXN-901', source: 'FIXTURE_LOCK_COMMISSION (Skyline Penthouse)', gross: 45000, tax: 8100.00, net: 36900.00, status: 'DIRECT_SBI_CREDITED', date: '2026-08-30' },
+        { id: 'TXN-902', source: 'STARTUP_LEGAL_DOC_PACK', gross: 2999, tax: 539.82, net: 2459.18, status: 'DIRECT_SBI_CREDITED', date: '2026-08-30' },
+        { id: 'TXN-903', source: 'BANK_MUDRA_LOAN_COMMISSION', gross: 15000, tax: 2700.00, net: 12300.00, status: 'DIRECT_SBI_CREDITED', date: '2026-08-29' }
+      ],
+      directory: [
+        { id: 'DIR-1', name: 'Century Plyboards Ltd', cat: 'MANUFACTURER', city: 'Delhi / Kolkata', phone: '+919876500004', country: 'IN', fee: 999 },
+        { id: 'DIR-2', name: 'Everest Hardware & Timber Depot', cat: 'SUPPLIER', city: 'Kathmandu, Bagmati', phone: '+9779841000001', country: 'NP', fee: 999 },
+        { id: 'DIR-3', name: 'Master Craftsmen Carpentry Guild', cat: 'CARPENTER', city: 'Mumbai', phone: '+919876500003', country: 'IN', fee: 499 },
+        { id: 'DIR-4', name: 'Dhanbad Steel & Timber Guild', cat: 'BUILDER', city: 'Dhanbad, Jharkhand', phone: '+919876543210', country: 'IN', fee: 1499 }
+      ],
+      fixtures: [
+        { id: 'FIX-801', title: 'Skyline Luxury Penthouse Fixtures', cat: 'Residential Interior', city: 'Delhi GK-II', budget: '₹ 45,00,000', rawBudget: 4500000, lockFee: 45000, status: 'OPEN', date: '2026-08-30', client: 'Skyline Buildtech' },
+        { id: 'FIX-802', title: 'Heritage Boutique Courtyard Resort', cat: 'Commercial Hotel', city: 'Kathmandu, Patan', budget: '₹ 1,25,00,000', rawBudget: 12500000, lockFee: 125000, status: 'USED', date: '2026-08-29', client: 'Patan Hospitality' },
+        { id: 'FIX-803', title: 'Dhanbad Smart Tech Hub Office Units', cat: 'Commercial Interior', city: 'Dhanbad, Jharkhand', budget: '₹ 22,50,000', rawBudget: 2250000, lockFee: 22500, status: 'OPEN', date: '2026-08-28', client: 'Eastern Tech Parks' },
+        { id: 'FIX-804', title: 'Apex Industrial Furniture Batch', cat: 'Factory Setup', city: 'Patna, Bihar', budget: '₹ 8,50,000', rawBudget: 850000, lockFee: 8500, status: 'CLOSED', date: '2026-08-25', client: 'Apex Woodcrafters' },
+        { id: 'FIX-805', title: 'Grand Metro Mall Wooden Arches', cat: 'Retail Infrastructure', city: 'Ranchi, Jharkhand', budget: '₹ 34,00,000', rawBudget: 3400000, lockFee: 34000, status: 'USED', date: '2026-08-22', client: 'Metro Developers' }
+      ],
+      startupPacks: [
+        { id: 'STP-1', business: 'Apex Woodcrafters', entity: 'PROPRIETORSHIP', loanScheme: 'MUDRA TARUN', loanAmt: '₹ 8,50,000', status: 'SUBMITTED_TO_BANK' }
+      ],
+      worldChat: [
+        { id: 'MSG-1', sender: 'Global Client (Kathmandu)', text: 'Heritage Hotel fixture contract query initiated.', time: '17:30', tag: 'INQUIRY' },
+        { id: 'MSG-2', sender: 'Suraj Kumar Mishra (Master Owner)', text: 'All service access, search, and fixtures monetized to SBI A/c 44220560317.', time: '19:15', tag: 'OWNER_COMMAND' }
+      ]
+    };
 
-  <!-- PERSONAL USAGE ACTION STRIP -->
-  <div class="action-banner">
-    <div>
-      <div style="font-weight: 700; font-size: 14px;">Master Financial Controls</div>
-      <div style="font-size: 12px; color: var(--text-muted);">Apni kamai ko personally use karein, QR show karein ya bank payout lein</div>
-    </div>
-    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-      <button class="btn btn-upi" onclick="openQrModal()">📲 Show My GPay QR</button>
-      <button class="btn btn-purple" onclick="openExpenseModal()">💸 Personally Use / Spend</button>
-      <button class="btn btn-emerald" onclick="openWithdrawModal()">🏦 Withdraw to Bank / UPI</button>
-      <button class="btn btn-primary" onclick="openAddModal()">+ Add New Fixture</button>
-    </div>
-  </div>
-
-  <!-- CONTROLS & FEED -->
-  <div class="control-strip">
-    <div class="filter-group">
-      <button class="filter-btn active" onclick="filterFixtures('ALL')">All Fixtures</button>
-      <button class="filter-btn" onclick="filterFixtures('OPEN')">🟢 Open</button>
-      <button class="filter-btn" onclick="filterFixtures('USED')">🟡 In-Use</button>
-      <button class="filter-btn" onclick="filterFixtures('CLOSED')">🔴 Closed</button>
-    </div>
-  </div>
-
-  <!-- FIXTURES GRID -->
-  <div class="fixtures-grid" id="fixturesContainer"></div>
-
-  <!-- PERSONAL USAGE & EXPENSE HISTORY -->
-  <div class="history-box">
-    <div class="history-title">&#128220; Personal Expense & Usage Ledger</div>
-    <table class="history-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Usage Reason / Destination</th>
-          <th>Category</th>
-          <th>Amount Used</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="historyTableBody"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- MODAL: SHOW GPAY QR -->
-<div class="modal-overlay" id="qrModal">
-  <div class="modal-box" style="text-align: center;">
-    <div class="modal-title">📲 Scan to Pay (Google Pay UPI)</div>
-    <div style="font-size: 13px; color: var(--accent); font-weight: 700; margin-bottom: 8px;">SURAJ MISHRA</div>
-    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; font-family: 'JetBrains Mono';">UPI ID: surajmishr999-1@oksbi</div>
-    
-    <!-- Dynamic GPay QR Generated via API -->
-    <div style="background:#FFF; padding:12px; border-radius:12px; display:inline-block; margin-bottom:12px;">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=upi://pay?pa=surajmishr999-1@oksbi%26pn=SURAJ%20MISHRA%26cu=INR" alt="UPI QR Code" style="width:200px; height:200px; display:block;">
-    </div>
-    
-    <div>
-      <button class="btn btn-toggle" style="width: 100%;" onclick="closeQrModal()">Close QR</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: PERSONALLY USE / SPEND -->
-<div class="modal-overlay" id="expenseModal">
-  <div class="modal-box">
-    <div class="modal-title">💸 Use Earnings for Personal Expense</div>
-    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
-      Available Balance: <strong id="modalExpAvailableBal" style="color: var(--emerald);">₹0.00</strong>
-    </div>
-
-    <label style="font-size: 11px; color: var(--text-muted);">Amount to Use (₹)</label>
-    <input type="number" id="expenseAmount" class="input-field" placeholder="Enter amount">
-
-    <label style="font-size: 11px; color: var(--text-muted);">Expense Purpose / Use Case</label>
-    <input type="text" id="expensePurpose" class="input-field" placeholder="e.g. Home Bill, Shopping, Cash Expense, Travel">
-
-    <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 10px;">
-      <button class="btn btn-toggle" onclick="closeExpenseModal()">Cancel</button>
-      <button class="btn btn-purple" onclick="processPersonalExpense()">Deduct & Use Now</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: WITHDRAW TO BANK -->
-<div class="modal-overlay" id="withdrawModal">
-  <div class="modal-box">
-    <div class="modal-title">🏦 Bank / UPI Payout</div>
-    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
-      Available Balance: <strong id="modalWithAvailableBal" style="color: var(--emerald);">₹0.00</strong>
-    </div>
-
-    <label style="font-size: 11px; color: var(--text-muted);">Withdrawal Amount (₹)</label>
-    <input type="number" id="withdrawAmount" class="input-field" placeholder="Enter amount">
-    <button class="btn btn-toggle" style="width: 100%; margin-bottom: 10px;" onclick="setFullWithdrawal()">Select 100% Balance</button>
-
-    <label style="font-size: 11px; color: var(--text-muted);">Destination</label>
-    <select id="payoutMode" class="input-field">
-      <option value="UPI: surajmishr999-1@oksbi">UPI: surajmishr999-1@oksbi (Instant)</option>
-      <option value="SBI Bank Account">State Bank of India Account (IMPS)</option>
-    </select>
-
-    <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 10px;">
-      <button class="btn btn-toggle" onclick="closeWithdrawModal()">Cancel</button>
-      <button class="btn btn-emerald" onclick="processBankWithdrawal()">Confirm Withdrawal</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: ADD FIXTURE -->
-<div class="modal-overlay" id="addModal">
-  <div class="modal-box">
-    <div class="modal-title">+ Add New Business Deal / Fixture</div>
-    <input type="text" id="newCategory" class="input-field" placeholder="Category (e.g. Wedding, Carpentry, Supply)">
-    <input type="text" id="newTitle" class="input-field" placeholder="Project / Deal Name">
-    <input type="text" id="newDesc" class="input-field" placeholder="Description">
-    <input type="number" id="newAmount" class="input-field" placeholder="Total Deal Package (₹)">
-    <input type="number" id="newCut" class="input-field" placeholder="Your Cut (%)">
-    
-    <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 8px;">
-      <button class="btn btn-toggle" onclick="closeAddModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveNewFixture()">Publish</button>
-    </div>
-  </div>
-</div>
-
-<script>
-  const MY_UPI_ID = "surajmishr999-1@oksbi";
-  const MY_NAME = "SURAJ MISHRA";
-
-  let usableBalance = parseFloat(localStorage.getItem('aasha_usable_bal')) || 45000;
-  let totalEarned = parseFloat(localStorage.getItem('aasha_total_earned')) || 45000;
-  let totalUsed = parseFloat(localStorage.getItem('aasha_total_used')) || 0;
-
-  let usageHistory = JSON.parse(localStorage.getItem('aasha_usage_history')) || [
-    {
-      date: "2026-08-30",
-      reason: "Initial GPay UPI Base Integration",
-      category: "System Base",
-      amount: 45000,
-      type: "CREDIT"
+    if (!localStorage.getItem('aasha_full_monetized_db')) {
+      localStorage.setItem('aasha_full_monetized_db', JSON.stringify(initialData));
     }
-  ];
 
-  let fixtures = JSON.parse(localStorage.getItem('aasha_master_fixtures')) || [
-    {
-      id: "FIX-101",
-      category: "Builder Infrastructure",
-      title: "Lodha Luxury Wings Modular Paneling",
-      desc: "Turnkey High-Rise Carpentry Subcontract in Mumbai.",
-      dealAmount: 2850000,
-      cutPercent: 3.0,
-      status: "OPEN",
-      isCollected: false
-    },
-    {
-      id: "FIX-102",
-      category: "Marriage & Events",
-      title: "Royal Heritage 5-Star Mandap Setup",
-      desc: "5-Acre Lawn & Teak Mandap Booking, Dhanbad.",
-      dealAmount: 850000,
-      cutPercent: 12.0,
-      status: "USED",
-      isCollected: false
+    function getDB() { return JSON.parse(localStorage.getItem('aasha_full_monetized_db')); }
+    function saveDB(data) { localStorage.setItem('aasha_full_monetized_db', JSON.stringify(data)); }
+
+    let currentUser = null;
+    let activeTab = 'fixtures';
+    let filterStatus = 'ALL';
+    let activePaymentModal = null;
+
+    function render() {
+      const app = document.getElementById('app');
+      const db = getDB();
+
+      // LOGIN PORTAL
+      if (!currentUser) {
+        app.innerHTML = `
+        <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+          <div class="bg-slate-900/90 border border-slate-800 p-8 rounded-3xl max-w-md w-full shadow-2xl backdrop-blur space-y-6">
+            <div class="text-center">
+              <div class="inline-flex items-center justify-center w-14 h-14 bg-amber-500/10 rounded-2xl border border-amber-500/30 mb-3">
+                <span class="text-2xl font-black text-amber-400">A</span>
+              </div>
+              <h1 class="text-2xl font-black tracking-wider text-white">AASHA MASTER</h1>
+              <p class="text-xs text-slate-400 mt-1">Universal Monetized Sovereign Platform</p>
+              
+              <div class="mt-4 bg-emerald-950/40 border border-emerald-500/30 rounded-xl p-2.5 text-left space-y-0.5">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                  <span class="text-[11px] font-mono text-emerald-300 font-semibold">DIRECT SBI REVENUE SHIELD</span>
+                </div>
+                <p class="text-[10px] text-slate-400 font-mono">Owner: <b class="text-white">${MASTER_CONFIG.payeeName}</b></p>
+                <p class="text-[10px] text-slate-400 font-mono">SBI A/c: <b class="text-white">${MASTER_CONFIG.accountNo}</b> (ISM Dhanbad)</p>
+                <p class="text-[10px] text-emerald-400 font-mono font-bold">UPI: ${MASTER_CONFIG.upiId}</p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div>
+                <label class="text-xs text-slate-300 font-semibold">Account Email ID</label>
+                <input id="l-email" type="email" value="owner@aasha.com" class="w-full mt-1.5 bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white focus:border-amber-400 outline-none transition" />
+              </div>
+              <div>
+                <label class="text-xs text-slate-300 font-semibold">Security Password</label>
+                <input id="l-pass" type="password" value="owner" class="w-full mt-1.5 bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white focus:border-amber-400 outline-none transition" />
+              </div>
+
+              <div class="bg-slate-950/80 border border-slate-800 p-3 rounded-xl text-xs space-y-1.5">
+                <p class="text-slate-400 font-bold">Role Access Keys:</p>
+                <p class="text-amber-300 cursor-pointer hover:underline" onclick="setLogin('owner@aasha.com', 'owner')"><b>👑 Master Owner (Only Me Command):</b> owner@aasha.com / owner</p>
+                <p class="text-emerald-400 cursor-pointer hover:underline" onclick="setLogin('customer@aasha.com', 'customer')"><b>👤 Customer / Public Buyer:</b> customer@aasha.com / customer</p>
+              </div>
+
+              <button onclick="doLogin()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3.5 rounded-xl text-sm transition shadow-lg shadow-amber-500/20">
+                Unlock Portal Console
+              </button>
+            </div>
+          </div>
+        </div>`;
+        return;
+      }
+
+      // MAIN SOVEREIGN APPLICATION CONSOLE
+      const gross = db.ledger.reduce((a, c) => a + c.gross, 0);
+      const tax = db.ledger.reduce((a, c) => a + c.tax, 0);
+      const net = db.ledger.reduce((a, c) => a + c.net, 0);
+
+      app.innerHTML = `
+      <div class="min-h-screen flex flex-col bg-slate-950">
+        <!-- Master Navigation Header -->
+        <header class="border-b border-slate-800/80 bg-slate-900/80 backdrop-blur sticky top-0 z-30 px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+          <div>
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl font-black text-amber-400 tracking-wider">AASHA</span>
+              <span class="text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold ${
+                currentUser.role === 'OWNER' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
+                'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+              }">
+                ${currentUser.role === 'OWNER' ? '👑 SOVEREIGN OWNER COMMAND' : '👤 PUBLIC BUYER PORTAL'}
+              </span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                SBI VERIFIED
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5">Owner: <b class="text-white">${MASTER_CONFIG.payeeName}</b> | Settlement: <b class="text-emerald-400 font-mono">${MASTER_CONFIG.upiId}</b></p>
+          </div>
+
+          <div class="flex flex-wrap gap-2 items-center">
+            <button onclick="tab('fixtures')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'fixtures' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              Fixtures Hub
+            </button>
+            
+            ${currentUser.role === 'OWNER' ? `
+            <button onclick="tab('vault')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'vault' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              100% Earnings Vault
+            </button>` : ''}
+
+            <button onclick="tab('globalweb')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'globalweb' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              Google & World Grid
+            </button>
+
+            ${currentUser.role === 'OWNER' ? `
+            <button onclick="tab('chat')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'chat' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              Owner World Broadcast
+            </button>` : ''}
+
+            <button onclick="tab('startup')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'startup' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              Startup & Loans
+            </button>
+            <button onclick="tab('dir')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'dir' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              Direct Lines
+            </button>
+            
+            ${currentUser.role === 'OWNER' ? `
+            <button onclick="tab('add')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'add' ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
+              + Add Pro
+            </button>` : ''}
+
+            <button onclick="logout()" class="px-3 py-2 rounded-xl text-xs font-bold bg-red-950/40 text-red-400 border border-red-500/30 hover:bg-red-900/50 transition">
+              Lock Console
+            </button>
+          </div>
+        </header>
+
+        <main class="flex-1 p-6 max-w-7xl w-full mx-auto space-y-6">
+          ${renderTabContent(gross, tax, net, db)}
+        </main>
+      </div>
+
+      ${activePaymentModal ? renderPaymentModal() : ''}
+      `;
     }
-  ];
 
-  let currentFilter = "ALL";
+    function renderTabContent(gross, tax, net, db) {
+      // TAB 1: FIXTURES (CUSTOMERS PAY 1% COMMISSION | OWNER COMMANDS STATUS)
+      if (activeTab === 'fixtures') {
+        const filtered = filterStatus === 'ALL' 
+          ? db.fixtures 
+          : db.fixtures.filter(f => f.status === filterStatus);
 
-  function saveState() {
-    localStorage.setItem('aasha_usable_bal', usableBalance.toString());
-    localStorage.setItem('aasha_total_earned', totalEarned.toString());
-    localStorage.setItem('aasha_total_used', totalUsed.toString());
-    localStorage.setItem('aasha_usage_history', JSON.stringify(usageHistory));
-    localStorage.setItem('aasha_master_fixtures', JSON.stringify(fixtures));
-  }
+        const openCount = db.fixtures.filter(f => f.status === 'OPEN').length;
+        const usedCount = db.fixtures.filter(f => f.status === 'USED').length;
+        const closedCount = db.fixtures.filter(f => f.status === 'CLOSED').length;
 
-  function render() {
-    document.getElementById('usableBalanceDisplay').innerText = "₹" + usableBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    document.getElementById('totalEarnedDisplay').innerText = "₹" + totalEarned.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    document.getElementById('totalUsedDisplay').innerText = "₹" + totalUsed.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-
-    const container = document.getElementById('fixturesContainer');
-    container.innerHTML = "";
-
-    fixtures.forEach(item => {
-      const cutINR = (item.dealAmount * item.cutPercent) / 100;
-      if (currentFilter !== 'ALL' && item.status !== currentFilter) return;
-
-      const directUpiLink = `upi://pay?pa=${encodeURIComponent(MY_UPI_ID)}&pn=${encodeURIComponent(MY_NAME)}&am=${cutINR}&cu=INR&tn=${encodeURIComponent(item.title)}`;
-
-      const card = document.createElement('div');
-      card.className = "fixture-card";
-      card.innerHTML = `
-        <div>
-          <div class="card-top">
-            <span class="category-tag">${item.category}</span>
-            <span class="status-badge status-${item.status.toLowerCase()}">${item.status}</span>
+        return `
+        <div class="space-y-6">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <h2 class="text-xl font-black text-amber-400">FIXTURES & HIGH-VALUE DEALS PIPELINE</h2>
+              <p class="text-xs text-slate-400">
+                ${currentUser.role === 'OWNER' 
+                  ? '👑 MASTER OWNER COMMAND: Deals approve karein, status OPEN/USED/CLOSED badlein aur revenue control karein.' 
+                  : 'Customer Mode: Kisi bhi deal ko book karne ke liye mandatory 1% lock fee pay karein.'}
+              </p>
+            </div>
+            ${currentUser.role === 'OWNER' ? `
+            <button onclick="openAddFixturePrompt()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow-lg shadow-amber-500/20">
+              + Naya Fixture Launch Karein
+            </button>` : ''}
           </div>
-          <div class="fixture-title">${item.title}</div>
-          <div class="fixture-desc">${item.desc}</div>
-          <div class="deal-info">
-            <span>Deal: <span class="deal-val">₹${item.dealAmount.toLocaleString('en-IN')}</span></span>
-            <span>Your Cut: <span class="cut-val">+₹${cutINR.toLocaleString('en-IN')}</span></span>
+
+          <!-- Status KPIs -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div onclick="setFilter('ALL')" class="cursor-pointer bg-slate-900 border ${filterStatus === 'ALL' ? 'border-amber-400 shadow-md shadow-amber-400/10' : 'border-slate-800'} p-4 rounded-2xl transition">
+              <span class="text-xs text-slate-400 font-semibold uppercase">Total Deals</span>
+              <p class="text-2xl font-black text-white mt-1">${db.fixtures.length}</p>
+            </div>
+            <div onclick="setFilter('OPEN')" class="cursor-pointer bg-slate-900 border ${filterStatus === 'OPEN' ? 'border-emerald-400 shadow-md shadow-emerald-400/10' : 'border-slate-800'} p-4 rounded-2xl transition">
+              <span class="text-xs text-emerald-400 font-semibold uppercase">OPEN (Active)</span>
+              <p class="text-2xl font-black text-emerald-400 mt-1">${openCount}</p>
+            </div>
+            <div onclick="setFilter('USED')" class="cursor-pointer bg-slate-900 border ${filterStatus === 'USED' ? 'border-indigo-400 shadow-md shadow-indigo-400/10' : 'border-slate-800'} p-4 rounded-2xl transition">
+              <span class="text-xs text-indigo-400 font-semibold uppercase">USED (Locked & In Progress)</span>
+              <p class="text-2xl font-black text-indigo-400 mt-1">${usedCount}</p>
+            </div>
+            <div onclick="setFilter('CLOSED')" class="cursor-pointer bg-slate-900 border ${filterStatus === 'CLOSED' ? 'border-red-400 shadow-md shadow-red-400/10' : 'border-slate-800'} p-4 rounded-2xl transition">
+              <span class="text-xs text-red-400 font-semibold uppercase">CLOSED (Completed)</span>
+              <p class="text-2xl font-black text-red-400 mt-1">${closedCount}</p>
+            </div>
           </div>
-        </div>
-        <div style="display:flex; flex-direction:column; gap:6px; margin-top:auto;">
-          <a href="${directUpiLink}" class="btn btn-upi" style="width:100%;">⚡ Pay ₹${cutINR.toLocaleString('en-IN')} via GPay / UPI</a>
-          <div style="display:flex; gap:6px;">
-            <button class="btn btn-toggle" style="flex:1;" onclick="toggleStatus('${item.id}')">Status: ${item.status}</button>
-            <button class="btn btn-emerald" style="flex:1;" onclick="collectDealEarning('${item.id}', ${cutINR})">
-              ${item.isCollected ? '&#9989; In Base' : '+ Add to Base'}
+
+          <!-- Fixtures Table -->
+          <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-sm font-bold text-slate-200">Deals Ledger (Filter: <span class="text-amber-400">${filterStatus}</span>)</h3>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-slate-950 text-slate-400 uppercase text-[10px]">
+                  <tr>
+                    <th class="p-3">ID</th>
+                    <th class="p-3">Fixture / Project Title</th>
+                    <th class="p-3">Client / City</th>
+                    <th class="p-3">Budget</th>
+                    <th class="p-3">Lock Fee (1%)</th>
+                    <th class="p-3">Status</th>
+                    <th class="p-3 text-right">${currentUser.role === 'OWNER' ? 'Owner Command Action' : 'Action'}</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                  ${filtered.map(f => `
+                    <tr class="hover:bg-slate-950/40 transition">
+                      <td class="p-3 font-mono text-slate-400">${f.id}</td>
+                      <td class="p-3">
+                        <div class="font-bold text-white text-sm">${f.title}</div>
+                        <div class="text-[10px] text-slate-400">${f.cat} • ${f.date}</div>
+                      </td>
+                      <td class="p-3 text-slate-300">${f.client || 'Enterprise'} (${f.city})</td>
+                      <td class="p-3 font-mono text-emerald-400 font-bold text-sm">${f.budget}</td>
+                      <td class="p-3 font-mono text-amber-400 font-bold">₹ ${f.lockFee.toLocaleString()}</td>
+                      <td class="p-3">
+                        <span class="px-2.5 py-1 rounded text-[10px] font-mono font-bold ${
+                          f.status === 'OPEN' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
+                          f.status === 'USED' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' :
+                          'bg-red-500/20 text-red-300 border border-red-500/30'
+                        }">
+                          ${f.status}
+                        </span>
+                      </td>
+                      <td class="p-3 text-right">
+                        ${currentUser.role === 'OWNER' ? `
+                          <div class="space-x-1">
+                            <button onclick="setFixtureStatus('${f.id}', 'OPEN')" class="px-2.5 py-1 rounded text-[10px] font-bold ${f.status === 'OPEN' ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">Approve (Open)</button>
+                            <button onclick="setFixtureStatus('${f.id}', 'USED')" class="px-2.5 py-1 rounded text-[10px] font-bold ${f.status === 'USED' ? 'bg-indigo-500 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">Mark Used</button>
+                            <button onclick="setFixtureStatus('${f.id}', 'CLOSED')" class="px-2.5 py-1 rounded text-[10px] font-bold ${f.status === 'CLOSED' ? 'bg-red-500 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">Close Deal</button>
+                          </div>
+                        ` : `
+                          ${f.status === 'OPEN' ? `
+                            <button onclick="initiateFixturePayment('${f.id}', '${f.title}', ${f.lockFee})" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black px-3 py-1.5 rounded-lg text-xs transition">
+                              Pay ₹${f.lockFee.toLocaleString()} & Use Deal
+                            </button>` : `
+                            <span class="text-[10px] text-slate-500 font-mono">Deal Engaged</span>`}
+                        `}
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // TAB 2: ONLY-ME EARNINGS VAULT (STRICT OWNER ACCESS)
+      if (activeTab === 'vault') {
+        if (currentUser.role !== 'OWNER') {
+          return `<div class="p-8 bg-red-950/30 border border-red-500/30 rounded-2xl text-center text-red-400 font-bold">Access Strictly Forbidden. Master Owner credentials required.</div>`;
+        }
+        return `
+        <div class="space-y-6">
+          <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/30 border border-emerald-500/30 p-6 rounded-3xl">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div>
+                <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  VERIFIED SBI SETTLEMENT ACCOUNT
+                </span>
+                <h2 class="text-xl font-black text-amber-400 mt-2">SURAJ KUMAR MISHRA 100% EARNINGS VAULT</h2>
+                <p class="text-xs text-slate-300 mt-0.5">Bank: <b class="text-white">${MASTER_CONFIG.bankName} (${MASTER_CONFIG.branch})</b></p>
+                <p class="text-sm font-mono text-emerald-400 font-bold mt-1">A/c: ${MASTER_CONFIG.accountNo} • CIF: ${MASTER_CONFIG.cifNo} • UPI: ${MASTER_CONFIG.upiId}</p>
+              </div>
+              <button onclick="instantBankWithdraw(${net})" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black px-6 py-3 rounded-xl text-xs shadow-lg shadow-emerald-500/20">
+                Instant Bank Withdraw (₹ ${net.toLocaleString()})
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+              <span class="text-xs text-slate-400 font-semibold uppercase">Total Platform Gross Revenue</span>
+              <p class="text-2xl font-black text-white mt-1">₹ ${gross.toLocaleString()}</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+              <span class="text-xs text-slate-400 font-semibold uppercase">Auto GST / TDS (18%)</span>
+              <p class="text-2xl font-black text-indigo-400 mt-1">₹ ${tax.toLocaleString()}</p>
+            </div>
+            <div class="bg-slate-900 border border-emerald-500/40 p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-emerald-950/20">
+              <span class="text-xs text-emerald-400 font-semibold uppercase">Direct Credited SBI Profit</span>
+              <p class="text-3xl font-black text-emerald-400 mt-1">₹ ${net.toLocaleString()}</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
+            <h3 class="text-sm font-bold text-slate-200 mb-3">Live Universal Settlement Ledger</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-slate-950 text-slate-400 uppercase text-[10px]">
+                  <tr>
+                    <th class="p-3">Txn ID</th>
+                    <th class="p-3">Revenue Source</th>
+                    <th class="p-3">Gross</th>
+                    <th class="p-3">Tax</th>
+                    <th class="p-3">Net Profit</th>
+                    <th class="p-3">Settlement</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                  ${db.ledger.map(i => `
+                    <tr class="hover:bg-slate-950/40">
+                      <td class="p-3 font-mono text-slate-400">${i.id}</td>
+                      <td class="p-3 text-white font-medium">${i.source}</td>
+                      <td class="p-3 font-mono">₹ ${i.gross.toLocaleString()}</td>
+                      <td class="p-3 font-mono text-indigo-400">₹ ${i.tax.toLocaleString()}</td>
+                      <td class="p-3 font-mono text-emerald-400 font-bold">₹ ${i.net.toLocaleString()}</td>
+                      <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-mono">${i.status}</span></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // TAB 3: GOOGLE & WORLD PLATFORMS COMMAND (MONETIZED FOR CUSTOMERS)
+      if (activeTab === 'globalweb') {
+        return `
+        <div class="space-y-6">
+          <div class="border-b border-slate-800 pb-3">
+            <h2 class="text-lg font-black text-amber-400">GOOGLE SEARCH & WORLD PLATFORMS COMMAND GRID</h2>
+            <p class="text-xs text-slate-400">
+              ${currentUser.role === 'OWNER' 
+                ? 'Master Owner Command Mode: Free Unlimited Global Gateway.' 
+                : 'Commercial Gateway: Har search query aur application connection par ₹49/₹99 Access Fee lagu hai.'}
+            </p>
+          </div>
+
+          <!-- Direct Google Search Console -->
+          <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span> Direct Global Google Search Engine
+            </h3>
+            <div class="flex gap-2">
+              <input id="g-query" type="text" placeholder="Search Google, Government Portals, Timber Rates, Tenders..." class="flex-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:border-amber-400" onkeydown="if(event.key==='Enter') triggerMonetizedSearch()" />
+              <button onclick="triggerMonetizedSearch()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition">
+                ${currentUser.role === 'OWNER' ? 'Search Google (Free)' : 'Pay ₹49 & Search'}
+              </button>
+            </div>
+          </div>
+
+          <!-- Monetized Socials & Applications Grid -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- WhatsApp Web -->
+            <div onclick="triggerMonetizedApp('WhatsApp Global Console', 'https://web.whatsapp.com', 99)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold text-lg group-hover:scale-110 transition">WA</div>
+              <span class="text-xs font-bold text-white">WhatsApp Global</span>
+              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Connect (₹99)'}</span>
+            </div>
+
+            <!-- LinkedIn B2B -->
+            <div onclick="triggerMonetizedApp('LinkedIn B2B Portal', 'https://www.linkedin.com', 199)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
+              <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-lg group-hover:scale-110 transition">IN</div>
+              <span class="text-xs font-bold text-white">LinkedIn B2B</span>
+              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Connect (₹199)'}</span>
+            </div>
+
+            <!-- Facebook Pro -->
+            <div onclick="triggerMonetizedApp('Facebook Pro Gateway', 'https://www.facebook.com', 99)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-indigo-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
+              <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 font-bold text-lg group-hover:scale-110 transition">FB</div>
+              <span class="text-xs font-bold text-white">Facebook Pro</span>
+              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Connect (₹99)'}</span>
+            </div>
+
+            <!-- YouTube Media -->
+            <div onclick="triggerMonetizedApp('YouTube Media Network', 'https://www.youtube.com', 49)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-red-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
+              <div class="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center text-red-400 font-bold text-lg group-hover:scale-110 transition">YT</div>
+              <span class="text-xs font-bold text-white">YouTube Media</span>
+              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Connect (₹49)'}</span>
+            </div>
+
+            <!-- Government MSME Portal -->
+            <div onclick="triggerMonetizedApp('Govt MSME Portal', 'https://udyamregistration.gov.in', 299)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold text-lg group-hover:scale-110 transition">MSME</div>
+              <span class="text-xs font-bold text-white">Govt MSME Portal</span>
+              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Access (₹299)'}</span>
+            </div>
+
+            <!-- MUDRA Bank Portal -->
+            <div onclick="triggerMonetizedApp('Mudra Scheme Portal', 'https://www.mudra.org.in', 299)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-amber-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-bold text-lg group-hover:scale-110 transition">MUDRA</div>
+              <span class="text-xs font-bold text-white">Mudra Bank Portal</span>
+              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Access (₹299)'}</span>
+            </div>
+
+            <!-- SBI NetBanking Portal -->
+            <div onclick="triggerMonetizedApp('SBI Portal Gateway', 'https://www.onlinesbi.sbi', 99)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-cyan-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
+              <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 font-bold text-lg group-hover:scale-110 transition">SBI</div>
+              <span class="text-xs font-bold text-white">SBI NetBanking</span>
+              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Access (₹99)'}</span>
+            </div>
+
+            <!-- GitHub Source Repo -->
+            <div onclick="triggerMonetizedApp('GitHub Source Console', 'https://github.com/surajmishr999-coder', 499)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-purple-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
+              <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 font-bold text-lg group-hover:scale-110 transition">GH</div>
+              <span class="text-xs font-bold text-white">GitHub Repo</span>
+              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Code Link (₹499)'}</span>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // TAB 4: WORLD BROADCAST (OWNER ONLY)
+      if (activeTab === 'chat') {
+        if (currentUser.role !== 'OWNER') return `<div class="p-8 bg-red-950/30 border border-red-500/30 rounded-2xl text-center text-red-400 font-bold">Access Restricted.</div>`;
+        return `
+        <div class="space-y-6">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-lg font-black text-amber-400">SOVEREIGN WORLD BROADCAST CONSOLE</h2>
+              <p class="text-xs text-slate-400">Strictly Owner Controlled Broadcast</p>
+            </div>
+            <span class="text-[10px] px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">ONLY ME COMMAND</span>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-4">
+            <div class="h-64 overflow-y-auto space-y-3 p-3 bg-slate-950 rounded-2xl border border-slate-800/80">
+              ${db.worldChat.map(m => `
+                <div class="p-3 rounded-xl border ${m.sender.includes('Suraj') ? 'bg-amber-950/20 border-amber-500/30 text-amber-200' : 'bg-slate-900 border-slate-800 text-slate-300'}">
+                  <div class="flex justify-between items-center text-[10px] font-mono text-slate-400 mb-1">
+                    <span class="font-bold text-white">${m.sender}</span>
+                    <span>${m.time}</span>
+                  </div>
+                  <p class="text-xs font-medium">${m.text}</p>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="flex gap-2">
+              <input id="chat-msg" type="text" placeholder="Type Master Command Broadcast..." class="flex-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:border-amber-400" onkeydown="if(event.key==='Enter') sendOwnerMessage()" />
+              <button onclick="sendOwnerMessage()" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition">
+                Send Command
+              </button>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // TAB 5: STARTUP PACKS & MUDRA LOANS (WITH MONETIZED PDF DOWNLOADS)
+      if (activeTab === 'startup') {
+        return `
+        <div class="space-y-6">
+          <div class="border-b border-slate-800 pb-3">
+            <h2 class="text-lg font-black text-amber-400">1-CLICK STARTUP REGISTRATION & BANK LOANS</h2>
+            <p class="text-xs text-slate-400">Generate Legal Deeds, MSME Packs & Mudra Loan Reports (100% Fees to Suraj Kumar Mishra)</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
+              <h3 class="text-sm font-bold text-slate-200">Create New Business & Loan Application</h3>
+              <div>
+                <label class="text-[11px] text-slate-400">Business / Venture Name</label>
+                <input id="st-name" type="text" placeholder="e.g. Royal Woodcrafts Studio" class="w-full mt-1 bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-xs text-white" />
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="text-[11px] text-slate-400">Entity Type</label>
+                  <select id="st-entity" class="w-full mt-1 bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-xs text-white">
+                    <option value="PROPRIETORSHIP">Sole Proprietorship</option>
+                    <option value="PARTNERSHIP">Partnership Deed</option>
+                    <option value="LLP">LLP / Private Ltd</option>
+                    <option value="MSME">MSME / Udyam Unit</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-[11px] text-slate-400">Loan Scheme</label>
+                  <select id="st-loan" class="w-full mt-1 bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-xs text-white">
+                    <option value="MUDRA KISHORE">Mudra Kishore (₹50k - ₹5L)</option>
+                    <option value="MUDRA TARUN">Mudra Tarun (₹5L - ₹10L)</option>
+                    <option value="PMEGP SUBSIDY">PMEGP Subsidy Loan (₹25L)</option>
+                    <option value="MACHINERY EMI">Machinery Equipment Loan</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label class="text-[11px] text-slate-400">Loan Amount Requested (₹)</label>
+                <input id="st-amt" type="number" placeholder="500000" class="w-full mt-1 bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-xs text-white" />
+              </div>
+              <button onclick="initiateLegalPackPayment()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3 rounded-xl text-xs shadow-lg shadow-amber-500/20 transition">
+                Pay ₹2,999 via UPI & Generate Legal Deed + CMA Report
+              </button>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
+              <h3 class="text-sm font-bold text-slate-200">Generated Startup Packs</h3>
+              <div class="space-y-2">
+                ${db.startupPacks.map(p => `
+                  <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl flex justify-between items-center">
+                    <div>
+                      <span class="text-[10px] bg-slate-800 text-amber-400 px-2 py-0.5 rounded font-mono">${p.entity}</span>
+                      <h4 class="font-bold text-xs text-white mt-1">${p.business}</h4>
+                      <p class="text-[11px] text-slate-400">${p.loanScheme} • <b class="text-emerald-400">${p.loanAmt}</b></p>
+                    </div>
+                    <button onclick="triggerDownloadDoc('${p.business}')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition">
+                      ${currentUser.role === 'OWNER' ? 'PDF (Free)' : 'Download PDF (₹499)'}
+                    </button>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // TAB 6: DIRECT DIRECTORY (FEE UNLOCK FOR CLIENTS)
+      if (activeTab === 'dir') {
+        return `
+        <div class="space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-lg font-black text-amber-400">DIRECT CALLING & WHATSAPP NETWORK</h2>
+              <p class="text-xs text-slate-400">Verified Manufacturers, Timber Depots & Guilds (India & Nepal)</p>
+            </div>
+            ${currentUser.role !== 'OWNER' ? '<span class="text-xs text-emerald-400 font-mono bg-emerald-950/30 px-2 py-1 rounded">Paid Verified Direct Lines</span>' : ''}
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            ${db.directory.map(item => `
+              <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-4">
+                <div>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-indigo-950 border border-indigo-500/30 text-indigo-300 font-mono font-bold">
+                    ${item.cat} (${item.country})
+                  </span>
+                  <h3 class="text-base font-bold text-white mt-2">${item.name}</h3>
+                  <p class="text-xs text-slate-400 mt-0.5">${item.city}</p>
+                  <p class="text-xs font-mono text-amber-400 font-bold mt-2">${currentUser.role === 'OWNER' ? item.phone : 'Direct Line Verified'}</p>
+                </div>
+                ${currentUser.role === 'OWNER' ? `
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                  <a href="tel:${item.phone}" class="bg-emerald-600 hover:bg-emerald-700 text-center py-2 rounded-xl text-xs font-bold transition">Call</a>
+                  <a href="https://wa.me/${item.phone.replace(/[^0-9]/g, '')}?text=Namaste, AASHA Master HQ se sampark kar rahe hain." target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-center py-2 rounded-xl text-xs font-black transition">WhatsApp</a>
+                </div>` : `
+                <button onclick="initiateDirectoryUnlock('${item.id}', '${item.name}', ${item.fee})" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-2 rounded-xl text-xs transition">
+                  Pay ₹${item.fee} to Unlock Direct Line
+                </button>`}
+              </div>
+            `).join('')}
+          </div>
+        </div>`;
+      }
+
+      // TAB 7: ADD PRO (OWNER ONLY)
+      if (activeTab === 'add') {
+        if (currentUser.role !== 'OWNER') return `<div class="p-8 bg-red-950/30 border border-red-500/30 rounded-2xl text-center text-red-400 font-bold">Access Restricted.</div>`;
+        return `
+        <div class="max-w-xl mx-auto bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+          <div>
+            <h2 class="text-lg font-black text-amber-400">1-CLICK PRO / VENDOR ONBOARDING</h2>
+            <p class="text-xs text-slate-400">Carpenter, Builder, Supplier ya Factory ko directly add karein.</p>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <label class="text-xs text-slate-400">Category Type</label>
+              <select id="a-cat" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                <option value="CARPENTER">Carpenter / Wood Craftsman</option>
+                <option value="BUILDER">Builder / Contractor</option>
+                <option value="SUPPLIER">Material & Hardware Supplier</option>
+                <option value="MANUFACTURER">Factory Unit</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs text-slate-400">Business / Entity Name</label>
+              <input id="a-name" type="text" placeholder="e.g. Om Woodcrafts" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white" />
+            </div>
+            <div>
+              <label class="text-xs text-slate-400">City / District</label>
+              <input id="a-city" type="text" placeholder="e.g. Patna, Bihar" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white" />
+            </div>
+            <div>
+              <label class="text-xs text-slate-400">Phone / WhatsApp Number</label>
+              <input id="a-phone" type="tel" placeholder="+91 98765 43210" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white" />
+            </div>
+            <button onclick="addPro()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3 rounded-xl text-xs transition shadow-lg shadow-amber-500/20">
+              ✓ Add & Pin to Global Directory
+            </button>
+          </div>
+        </div>`;
+      }
+    }
+
+    // PAYMENT MODAL DIALOG (DIRECT SBI INSTANT PAY)
+    function renderPaymentModal() {
+      const upiUrl = `upi://pay?pa=${MASTER_CONFIG.upiId}&pn=${encodeURIComponent(MASTER_CONFIG.payeeName)}&am=${activePaymentModal.amount}&cu=INR&tn=${encodeURIComponent(activePaymentModal.description)}`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiUrl)}`;
+
+      return `
+      <div class="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-emerald-500/40 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl animate-fade-in">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-mono text-emerald-400 font-bold">DIRECT SBI SETTLEMENT</span>
+            <button onclick="closePaymentModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
+          </div>
+
+          <h3 class="text-base font-black text-white">Scan & Pay to Suraj Kumar Mishra</h3>
+          <p class="text-[11px] text-slate-400 font-mono">SBI A/c: <b>${MASTER_CONFIG.accountNo}</b></p>
+          <p class="text-xs text-emerald-400 font-mono font-bold">${MASTER_CONFIG.upiId}</p>
+
+          <div class="bg-white p-3 rounded-2xl inline-block shadow-lg">
+            <img src="${qrUrl}" alt="UPI QR Code" class="w-44 h-44 mx-auto" />
+          </div>
+
+          <div class="text-2xl font-black text-emerald-400 font-mono">₹ ${activePaymentModal.amount.toLocaleString()}</div>
+          <p class="text-[11px] text-slate-400">${activePaymentModal.description}</p>
+
+          <div class="space-y-2">
+            <a href="${upiUrl}" class="block w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black py-3 rounded-xl text-xs transition">
+              Pay via GPay / PhonePe / Paytm
+            </a>
+            <button onclick="confirmUniversalPaymentSuccess()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl text-xs transition">
+              I Have Paid (Instant Unlock)
             </button>
           </div>
         </div>
-      `;
-      container.appendChild(card);
-    });
-
-    renderHistory();
-  }
-
-  function renderHistory() {
-    const tbody = document.getElementById('historyTableBody');
-    tbody.innerHTML = "";
-    usageHistory.forEach(h => {
-      const tr = document.createElement('tr');
-      const isCredit = h.type === "CREDIT";
-      tr.innerHTML = `
-        <td>${h.date}</td>
-        <td>${h.reason}</td>
-        <td><span style="color:var(--text-muted);">${h.category}</span></td>
-        <td style="font-weight:700; color:${isCredit ? 'var(--emerald)' : 'var(--purple)'};">
-          ${isCredit ? '+' : '-'}₹${h.amount.toLocaleString('en-IN')}
-        </td>
-        <td><span style="color:var(--emerald); font-weight:700;">● SETTLED</span></td>
-      `;
-      tbody.appendChild(tr);
-    });
-  }
-
-  function collectDealEarning(id, amount) {
-    const item = fixtures.find(f => f.id === id);
-    if (!item) return;
-    if (!item.isCollected) {
-      item.isCollected = true;
-      usableBalance += amount;
-      totalEarned += amount;
-      usageHistory.unshift({
-        date: new Date().toISOString().split('T')[0],
-        reason: `Deal Commission: ${item.title}`,
-        category: item.category,
-        amount: amount,
-        type: "CREDIT"
-      });
-      saveState();
-      render();
-      alert(`₹${amount.toLocaleString('en-IN')} successfully added to your Usable Base!`);
-    } else {
-      alert("This deal commission is already added in your base.");
+      </div>`;
     }
-  }
 
-  function openQrModal() { document.getElementById('qrModal').classList.add('active'); }
-  function closeQrModal() { document.getElementById('qrModal').classList.remove('active'); }
+    // ACTION CONTROLLERS & MONETIZED HANDLERS
+    function setLogin(e, p) {
+      document.getElementById('l-email').value = e;
+      document.getElementById('l-pass').value = p;
+    }
 
-  function openExpenseModal() {
-    document.getElementById('modalExpAvailableBal').innerText = "₹" + usableBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    document.getElementById('expenseAmount').value = "";
-    document.getElementById('expensePurpose').value = "";
-    document.getElementById('expenseModal').classList.add('active');
-  }
-  function closeExpenseModal() { document.getElementById('expenseModal').classList.remove('active'); }
+    function doLogin() {
+      const e = document.getElementById('l-email').value;
+      const p = document.getElementById('l-pass').value;
+      const db = getDB();
+      const user = db.users.find(u => u.email === e && u.pass === p);
+      if (user) {
+        currentUser = user;
+        activeTab = 'fixtures';
+        render();
+      } else {
+        alert('Invalid email or password');
+      }
+    }
 
-  function processPersonalExpense() {
-    const amount = parseFloat(document.getElementById('expenseAmount').value);
-    const purpose = document.getElementById('expensePurpose').value.trim() || "Personal Expense";
+    function logout() { currentUser = null; render(); }
+    function tab(t) { activeTab = t; render(); }
+    function setFilter(st) { filterStatus = st; render(); }
 
-    if (isNaN(amount) || amount <= 0) { alert("Enter valid amount"); return; }
-    if (amount > usableBalance) { alert("Insufficient usable balance!"); return; }
+    function setFixtureStatus(id, newStatus) {
+      if (currentUser.role !== 'OWNER') return alert('Access Denied. Only Master Owner can change deal status.');
+      const db = getDB();
+      const item = db.fixtures.find(f => f.id === id);
+      if (item) {
+        item.status = newStatus;
+        saveDB(db);
+        render();
+      }
+    }
 
-    usableBalance -= amount;
-    totalUsed += amount;
+    function initiateFixturePayment(id, title, fee) {
+      activePaymentModal = {
+        type: 'FIXTURE_LOCK',
+        id,
+        title,
+        amount: fee,
+        description: `1% Lock Fee for Fixture: ${title}`
+      };
+      render();
+    }
 
-    usageHistory.unshift({
-      date: new Date().toISOString().split('T')[0],
-      reason: purpose,
-      category: "Personal Expense",
-      amount: amount,
-      type: "DEBIT"
-    });
+    function initiateDirectoryUnlock(id, name, fee) {
+      activePaymentModal = {
+        type: 'DIRECTORY_UNLOCK',
+        id,
+        name,
+        amount: fee,
+        description: `Verified Line Access for: ${name}`
+      };
+      render();
+    }
 
-    saveState();
-    closeExpenseModal();
+    function initiateLegalPackPayment() {
+      const business = document.getElementById('st-name').value;
+      const entity = document.getElementById('st-entity').value;
+      const loanScheme = document.getElementById('st-loan').value;
+      const loanAmt = document.getElementById('st-amt').value;
+      if (!business || !loanAmt) return alert('Please enter Business Name and Loan Amount.');
+
+      activePaymentModal = {
+        type: 'LEGAL_PACK',
+        business,
+        entity,
+        loanScheme,
+        loanAmt: '₹ ' + Number(loanAmt).toLocaleString(),
+        amount: 2999,
+        description: `Legal & Mudra CMA Pack (${business})`
+      };
+      render();
+    }
+
+    function triggerMonetizedSearch() {
+      const q = document.getElementById('g-query').value;
+      if (!q) return alert('Kripya search query enter karein.');
+
+      if (currentUser.role === 'OWNER') {
+        window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+      } else {
+        activePaymentModal = {
+          type: 'SEARCH_GATEWAY',
+          query: q,
+          amount: 49,
+          description: `Google Global Search Access for: "${q}"`
+        };
+        render();
+      }
+    }
+
+    function triggerMonetizedApp(appName, url, fee) {
+      if (currentUser.role === 'OWNER') {
+        window.open(url, '_blank');
+      } else {
+        activePaymentModal = {
+          type: 'APP_GATEWAY',
+          appName,
+          targetUrl: url,
+          amount: fee,
+          description: `Direct Connect Gateway for: ${appName}`
+        };
+        render();
+      }
+    }
+
+    function triggerDownloadDoc(business) {
+      if (currentUser.role === 'OWNER') {
+        alert(`Downloading Certified Legal & CMA Project PDF for: ${business}`);
+      } else {
+        activePaymentModal = {
+          type: 'DOC_DOWNLOAD',
+          business,
+          amount: 499,
+          description: `Certified Bank CMA PDF Download for: ${business}`
+        };
+        render();
+      }
+    }
+
+    function closePaymentModal() {
+      activePaymentModal = null;
+      render();
+    }
+
+    function confirmUniversalPaymentSuccess() {
+      if (!activePaymentModal) return;
+      const db = getDB();
+      const fee = activePaymentModal.amount;
+      const tax = fee * 0.18;
+      const net = fee - tax;
+
+      if (activePaymentModal.type === 'FIXTURE_LOCK') {
+        const item = db.fixtures.find(f => f.id === activePaymentModal.id);
+        if (item) item.status = 'USED';
+      } else if (activePaymentModal.type === 'LEGAL_PACK') {
+        db.startupPacks.unshift({
+          id: 'STP-' + Date.now().toString().slice(-4),
+          business: activePaymentModal.business,
+          entity: activePaymentModal.entity,
+          loanScheme: activePaymentModal.loanScheme,
+          loanAmt: activePaymentModal.loanAmt,
+          status: 'SUBMITTED_TO_BANK'
+        });
+      }
+
+      db.ledger.unshift({
+        id: 'TXN-' + Date.now().toString().slice(-4),
+        source: activePaymentModal.description,
+        gross: fee,
+        tax: Number(tax.toFixed(2)),
+        net: Number(net.toFixed(2)),
+        status: 'DIRECT_SBI_CREDITED',
+        date: new Date().toISOString().slice(0, 10)
+      });
+
+      saveDB(db);
+      
+      const modal = activePaymentModal;
+      activePaymentModal = null;
+      alert(`Payment Verified! ₹ ${net.toFixed(2)} net fee direct aapke SBI A/c (${MASTER_CONFIG.accountNo} - ISM Dhanbad) me credit ho gayi hai.`);
+      
+      if (modal.type === 'SEARCH_GATEWAY') {
+        window.open(`https://www.google.com/search?q=${encodeURIComponent(modal.query)}`, '_blank');
+      } else if (modal.type === 'APP_GATEWAY') {
+        window.open(modal.targetUrl, '_blank');
+      } else if (modal.type === 'DOC_DOWNLOAD') {
+        alert(`Certified Legal Pack PDF download unlocked for: ${modal.business}`);
+      }
+      
+      render();
+    }
+
+    function openAddFixturePrompt() {
+      if (currentUser.role !== 'OWNER') return alert('Only Master Owner can add fixtures.');
+      const title = prompt("Fixture / Project Title:");
+      if (!title) return;
+      const cat = prompt("Category (Residential / Hotel / Commercial):", "Commercial Interior");
+      const client = prompt("Client Name:", "Eastern Developers");
+      const city = prompt("City / Location:", "Dhanbad");
+      const budget = prompt("Budget (e.g. ₹ 20,00,000):", "₹ 20,00,000");
+      const rawBudget = Number((budget || '').replace(/[^0-9]/g, '')) || 2000000;
+      const lockFee = Math.round(rawBudget * 0.01);
+
+      const db = getDB();
+      db.fixtures.unshift({
+        id: 'FIX-' + Date.now().toString().slice(-4),
+        title,
+        cat: cat || 'General Setup',
+        client: client || 'Enterprise',
+        city: city || 'India',
+        budget: budget || '₹ 0',
+        rawBudget,
+        lockFee,
+        status: 'OPEN',
+        date: new Date().toISOString().slice(0, 10)
+      });
+      saveDB(db);
+      alert('Naya Fixture OPEN status aur 1% Owner Lock Fee ke sath add ho gaya!');
+      render();
+    }
+
+    function sendOwnerMessage() {
+      if (currentUser.role !== 'OWNER') return alert('Only Master Owner can post broadcasts.');
+      const msgInput = document.getElementById('chat-msg');
+      const text = msgInput.value;
+      if (!text) return;
+
+      const db = getDB();
+      const now = new Date();
+      const timeStr = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+
+      db.worldChat.unshift({
+        id: 'MSG-' + Date.now(),
+        sender: 'Suraj Kumar Mishra (Master Owner)',
+        text: text,
+        time: timeStr,
+        tag: 'OWNER_COMMAND'
+      });
+
+      saveDB(db);
+      msgInput.value = '';
+      render();
+    }
+
+    function instantBankWithdraw(amount) {
+      alert(`Withdrawal Authorized!\n₹ ${amount.toLocaleString()} settled to Owner Bank Account:\nSBI A/c: ${MASTER_CONFIG.accountNo}\nBranch: ${MASTER_CONFIG.branch}\nUPI: ${MASTER_CONFIG.upiId}\nPayee: Suraj Kumar Mishra`);
+    }
+
+    function addPro() {
+      if (currentUser.role !== 'OWNER') return alert('Only Master Owner can add professionals.');
+      const cat = document.getElementById('a-cat').value;
+      const name = document.getElementById('a-name').value;
+      const city = document.getElementById('a-city').value;
+      const phone = document.getElementById('a-phone').value;
+      if (!name || !city || !phone) return alert('Please fill in all fields.');
+
+      const db = getDB();
+      db.directory.unshift({ id: 'DIR-' + Date.now(), cat, name, city, phone, country: 'IN', fee: 999 });
+      saveDB(db);
+      alert(name + ' added to directory successfully!');
+      tab('dir');
+    }
+
     render();
-    alert(`₹${amount.toLocaleString('en-IN')} used for '${purpose}'. Remaining usable balance updated!`);
-  }
-
-  function openWithdrawModal() {
-    document.getElementById('modalWithAvailableBal').innerText = "₹" + usableBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    document.getElementById('withdrawAmount').value = "";
-    document.getElementById('withdrawModal').classList.add('active');
-  }
-  function closeWithdrawModal() { document.getElementById('withdrawModal').classList.remove('active'); }
-  function setFullWithdrawal() { document.getElementById('withdrawAmount').value = usableBalance; }
-
-  function processBankWithdrawal() {
-    const amount = parseFloat(document.getElementById('withdrawAmount').value);
-    const dest = document.getElementById('payoutMode').value;
-
-    if (isNaN(amount) || amount <= 0) { alert("Enter valid amount"); return; }
-    if (amount > usableBalance) { alert("Insufficient usable balance!"); return; }
-
-    usableBalance -= amount;
-    totalUsed += amount;
-
-    usageHistory.unshift({
-      date: new Date().toISOString().split('T')[0],
-      reason: `Payout to ${dest}`,
-      category: "Bank Transfer",
-      amount: amount,
-      type: "DEBIT"
-    });
-
-    saveState();
-    closeWithdrawModal();
-    render();
-    alert(`₹${amount.toLocaleString('en-IN')} successfully processed to ${dest}!`);
-  }
-
-  function toggleStatus(id) {
-    const item = fixtures.find(f => f.id === id);
-    if (!item) return;
-    if (item.status === 'OPEN') item.status = 'USED';
-    else if (item.status === 'USED') item.status = 'CLOSED';
-    else item.status = 'OPEN';
-    saveState();
-    render();
-  }
-
-  function filterFixtures(filter) {
-    currentFilter = filter;
-    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-    render();
-  }
-
-  function openAddModal() { document.getElementById('addModal').classList.add('active'); }
-  function closeAddModal() { document.getElementById('addModal').classList.remove('active'); }
-
-  function saveNewFixture() {
-    const title = document.getElementById('newTitle').value.trim();
-    const cat = document.getElementById('newCategory').value.trim() || "Service";
-    const desc = document.getElementById('newDesc').value.trim() || "Active Business Fixture";
-    const amount = parseFloat(document.getElementById('newAmount').value) || 50000;
-    const cut = parseFloat(document.getElementById('newCut').value) || 5.0;
-
-    if (!title) { alert("Title is required!"); return; }
-
-    fixtures.unshift({
-      id: "FIX-" + Math.floor(100 + Math.random() * 900),
-      category: cat,
-      title: title,
-      desc: desc,
-      dealAmount: amount,
-      cutPercent: cut,
-      status: "OPEN",
-      isCollected: false
-    });
-
-    closeAddModal();
-    saveState();
-    render();
-  }
-
-  render();
-</script>
+  </script>
 </body>
 </html>
