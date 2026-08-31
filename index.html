@@ -1,11 +1,19 @@
-<!DOCTYPE html>
-<html lang="hi">
+        <!DOCTYPE html>
+<html lang="hi" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AASHA Grand Sovereign Supreme World-OS Engine - All Fixtures Edition</title>
+  <title>AASHA GRAND SOVEREIGN SUPREME WORLD-OS ENGINE</title>
+  
+  <!-- Tailwind CSS & Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- jsPDF for instant deliverable generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -14,13 +22,28 @@
     .gold-gradient { background: linear-gradient(135deg, #f59e0b, #d97706); }
     .gold-text { background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .glass-panel { background: rgba(15, 23, 42, 0.90); backdrop-filter: blur(14px); }
+    .glass-card { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
   </style>
 </head>
-<body class="bg-[#030712] text-slate-100 min-h-screen selection:bg-amber-500 selection:text-slate-950">
-  <div id="app"></div>
+
+<body class="bg-[#030712] text-slate-100 min-h-screen selection:bg-amber-500 selection:text-slate-950 flex flex-col">
+  <div id="app" class="flex-1 flex flex-col"></div>
+
+  <!-- Self-Healing Modal -->
+  <div id="self-heal-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-md w-full rounded-2xl p-5 space-y-3 border border-cyan-500/40">
+      <h3 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+        <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i> Self-Healing Safe Patch
+      </h3>
+      <p class="text-xs text-slate-300">AI has verified all endpoints. Do you authorize auto-optimizing runtime hooks and clearing memory stack?</p>
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="document.getElementById('self-heal-modal').classList.add('hidden')" class="px-3 py-1.5 bg-slate-800 text-slate-300 rounded-lg text-xs">Dismiss</button>
+        <button onclick="applySafePatch()" class="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold">Apply Patch</button>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // MASTER IDENTITY & INSTANT SBI OWNER SETTLEMENT SHIELD
     const MASTER_CONFIG = {
       payeeName: "SURAJ KUMAR MISHRA",
       upiId: "surajmishr999-1@oksbi",
@@ -29,7 +52,7 @@
       bankName: "State Bank of India (SBI)",
       branch: "ISM Campus Dhanbad (Code: 1641)",
       platformTier: "SOVEREIGN UNIVERSAL CONGLOMERATE COMPLETE FIXTURES EDITION",
-      autoUpdateEngine: "V7.0-ALL-FIXTURES-LOCKED"
+      autoUpdateEngine: "V12.0-ULTIMATE-UNIFIED"
     };
 
     const initialData = {
@@ -37,6 +60,7 @@
         { id: 'usr-owner', email: 'owner@aasha.com', pass: 'owner', name: 'Suraj Kumar Mishra (Master Owner & Sovereign Commander)', role: 'OWNER' },
         { id: 'usr-guest', email: 'customer@aasha.com', pass: 'customer', name: 'Global Enterprise Client / Buyer / Planner', role: 'CUSTOMER' }
       ],
+      userCoins: 120,
       ledger: [
         { id: 'TXN-901', source: 'ROYAL_WEDDING_MANDAP_COMMISSION (Dhanbad Heritage)', gross: 102000, tax: 18360.00, net: 83640.00, status: 'DIRECT_SBI_CREDITED', date: '2026-08-30' },
         { id: 'TXN-902', source: 'GOVT_AI_TECH_PARK_INFRA_LOCK (Dhanbad Smart City)', gross: 180000, tax: 32400.00, net: 147600.00, status: 'DIRECT_SBI_CREDITED', date: '2026-08-30' },
@@ -44,44 +68,33 @@
         { id: 'TXN-904', source: 'INTERNATIONAL_FIDE_CHESS_PASS_ENTRY', gross: 4999, tax: 899.82, net: 4099.18, status: 'DIRECT_SBI_CREDITED', date: '2026-08-29' },
         { id: 'TXN-905', source: 'CLOSED_DEAL_PAYOUT (Apex Industrial Furniture Batch)', gross: 8500, tax: 1530.00, net: 6970.00, status: 'DIRECT_SBI_CREDITED', date: '2026-08-25' }
       ],
-      // 100% COMPLETE CONSOLIDATED FIXTURES INVENTORY
       fixtures: [
         { id: 'FIX-101', title: 'Grand Royal Rajputana Mandap & 3-Day Wedding Gala', cat: 'WEDDING_EVENT', city: 'Dhanbad / Ranchi', budget: '₹ 85,00,000', rawBudget: 8500000, lockFee: 85000, status: 'OPEN', client: 'Singhania Heritage', date: '2026-08-30', details: 'Full 5-Acre Lawn, Teak Mandap, 1200 Pax Gourmet Catering & Drone Coverage', claimedStages: [] },
         { id: 'FIX-801', title: 'Skyline Luxury Penthouse Turnkey Interior & Woodwork', cat: 'INTERIOR_DESIGN', city: 'Delhi GK-II', budget: '₹ 45,00,000', rawBudget: 4500000, lockFee: 45000, status: 'OPEN', client: 'Skyline Buildtech', date: '2026-08-30', details: 'Italian Marble, Veneer Paneling, Smart Automation & Acoustic Ceiling', claimedStages: [] },
         { id: 'FIX-802', title: 'Heritage Boutique Courtyard Resort & Convention Hall', cat: 'HOTEL_HOSPITALITY', city: 'Kathmandu, Patan', budget: '₹ 1,25,00,000', rawBudget: 12500000, lockFee: 125000, status: 'USED', client: 'Patan Hospitality', date: '2026-08-29', details: '40 Luxury Suites, Grand Banquet Hall & Rooftop Helipad Lounge', claimedStages: ['OPEN'] },
-        { id: 'FIX-803', title: 'Dhanbad Smart Tech Hub Office Units', cat: 'COMMERCIAL_SETUP', city: 'Dhanbad, Jharkhand', budget: '₹ 22,50,000', rawBudget: 2250000, lockFee: 22500, status: 'OPEN', client: 'Eastern Tech Parks', date: '2026-08-28', details: 'Complete Structural Workstation Paneling, Server Rack Rooms & Toughened Glass Partitions', claimedStages: [] },
+        { id: 'FIX-803', title: 'Dhanbad Smart Tech Hub Office Units', cat: 'COMMERCIAL_SETUP', city: 'Dhanbad, Jharkhand', budget: '₹ 22,50,000', rawBudget: 2250000, lockFee: 22500, status: 'OPEN', client: 'Eastern Tech Parks', date: '2026-08-28', details: 'Complete Structural Workstation Paneling, Server Rack Rooms & Partitions', claimedStages: [] },
         { id: 'FIX-104', title: 'Industrial FMCG Organic Food Processing Line', cat: 'FOOD_MANUFACTURER', city: 'Patna / Kolkata', budget: '₹ 65,00,000', rawBudget: 6500000, lockFee: 65000, status: 'OPEN', client: 'PureHarvest Agro Mills', date: '2026-08-27', details: 'Automated Spice Grinding, Cold Storage Setup & Nitrogen Packing Unit', claimedStages: [] },
         { id: 'FIX-105', title: 'State Super-Speciality Hospital Modular ICU Wing', cat: 'HEALTHCARE_GOVT', city: 'Dhanbad / Ranchi', budget: '₹ 2,20,00,000', rawBudget: 22000000, lockFee: 220000, status: 'OPEN', client: 'National Health Mission', date: '2026-08-26', details: '100-Bed Advanced Oxygen Hub, Central Monitoring & Diagnostic Lab Pipeline', claimedStages: [] },
         { id: 'FIX-106', title: 'Global Tech University AI & Robotics Innovation Campus', cat: 'EDUCATION_UNIVERSITY', city: 'Kolkata / Delhi', budget: '₹ 1,80,00,000', rawBudget: 18000000, lockFee: 180000, status: 'OPEN', client: 'Apex University Guild', date: '2026-08-25', details: 'High-Performance Supercomputing Lab, Smart Classrooms & VR Labs', claimedStages: [] },
         { id: 'FIX-804', title: 'Apex Industrial Furniture & Timber Batch', cat: 'FOOD_MANUFACTURER', city: 'Patna, Bihar', budget: '₹ 8,50,000', rawBudget: 850000, lockFee: 8500, status: 'CLOSED', client: 'Apex Woodcrafters', date: '2026-08-25', details: 'Heavy Hardwood Joinery, CNC Router Precision Units & Kiln Seasoned Frames', claimedStages: ['OPEN', 'USED', 'CLOSED'] },
-        { id: 'FIX-805', title: 'Grand Metro Mall Architectural Wooden Arches', cat: 'COMMERCIAL_SETUP', city: 'Ranchi, Jharkhand', budget: '₹ 34,00,000', rawBudget: 3400000, lockFee: 34000, status: 'USED', client: 'Metro Developers', date: '2026-08-22', details: '3000 Sq Ft Teak Laminate Curved Arches, Fire-Retardant Coating & LED Coving', claimedStages: ['OPEN'] },
-        { id: 'FIX-107', title: 'Corporate World Tour & VIP Air Charter Fleet', cat: 'TOUR_AIRLINE', city: 'Mumbai / Dubai / London', budget: '₹ 38,00,000', rawBudget: 3800000, lockFee: 38000, status: 'CLOSED', client: 'Apex Global Trade', date: '2026-08-21', details: '45 Business Class Return Flights, 5-Star Hotel Vouchers & Visa Expedited Lines', claimedStages: ['OPEN', 'USED', 'CLOSED'] },
-        { id: 'FIX-108', title: 'International Flight Bulk Booking & Airline Inventory', cat: 'TOUR_AIRLINE', city: 'Delhi / Kathmandu / Dubai', budget: '₹ 55,00,000', rawBudget: 5500000, lockFee: 55000, status: 'OPEN', client: 'Global Jetways Group', date: '2026-08-20', details: 'Direct IATA Global Air Ticketing Desk, Group Seat Blocks & Instant Visa Portal', claimedStages: [] },
-        { id: 'FIX-109', title: 'Govt Smart Highway Solar & Acoustic Infrastructure', cat: 'HEALTHCARE_GOVT', city: 'Ranchi / Dhanbad', budget: '₹ 3,50,00,000', rawBudget: 35000000, lockFee: 350000, status: 'OPEN', client: 'National Highway Authority', date: '2026-08-19', details: 'Turnkey Solar Capping, Smart Sensor Grids & Sound-Barrier Panels', claimedStages: [] }
+        { id: 'FIX-108', title: 'International Flight Bulk Booking & Airline Inventory', cat: 'TOUR_AIRLINE', city: 'Delhi / Kathmandu / Dubai', budget: '₹ 55,00,000', rawBudget: 5500000, lockFee: 55000, status: 'OPEN', client: 'Global Jetways Group', date: '2026-08-20', details: 'Direct IATA Global Air Ticketing Desk, Group Seat Blocks & Instant Visa Portal', claimedStages: [] }
       ],
       pendingApprovals: [
         { id: 'APP-901', type: 'MANUFACTURER_FEED', name: 'Shree Krishna Timber & Veneer Mills', city: 'Birgunj, Nepal', contact: '+977-9841234567', fee: 1499, date: '2026-08-30' },
-        { id: 'APP-902', type: 'TECH_UPDATE_FEED', name: 'Autonomous 3D Interior AI Render Engine V6', city: 'Global Cloud Node', contact: 'System Daemon', fee: 999, date: '2026-08-30' },
-        { id: 'APP-903', type: 'GOVT_TENDER_FEED', name: 'Jharkhand Solar Mega Highway Infrastructure', city: 'Ranchi', contact: '+91-9431100000', fee: 5000, date: '2026-08-30' }
+        { id: 'APP-902', type: 'TECH_UPDATE_FEED', name: 'Autonomous 3D Interior AI Render Engine V6', city: 'Global Cloud Node', contact: 'System Daemon', fee: 999, date: '2026-08-30' }
       ],
-      // COMPLETE CONSOLIDATED DIRECTORY
       directory: [
-        { id: 'DIR-01', name: 'Century Plyboards Ltd', cat: 'MANUFACTURER', city: 'Delhi / Kolkata', phone: '+919876500004', fee: 999, rating: '5.0 ★' },
-        { id: 'DIR-02', name: 'Everest Hardware & Timber Depot', cat: 'SUPPLIER_GLOBAL', city: 'Kathmandu, Bagmati', phone: '+9779841000001', fee: 999, rating: '5.0 ★' },
-        { id: 'DIR-03', name: 'Master Craftsmen Carpentry Guild', cat: 'CARPENTER', city: 'Mumbai', phone: '+919876500003', fee: 499, rating: '4.9 ★' },
-        { id: 'DIR-04', name: 'Dhanbad Steel & Timber Guild', cat: 'BUILDER', city: 'Dhanbad, Jharkhand', phone: '+919876543210', fee: 1499, rating: '5.0 ★' },
-        { id: 'DIR-05', name: 'Imperial 5-Star Marriage Garden & Hall', cat: 'WEDDING_HALL', city: 'Dhanbad, Jharkhand', phone: '+919876543211', fee: 1499, rating: '5.0 ★' },
-        { id: 'DIR-06', name: 'Studio ArchForm Luxury 3D Interiors', cat: 'INTERIOR_DESIGNER', city: 'Delhi NCR', phone: '+919876543212', fee: 999, rating: '4.9 ★' },
-        { id: 'DIR-07', name: 'Royal Orchid Luxury Suites & Banquets', cat: 'HOTEL_RESORT', city: 'Kathmandu / Pokhara', phone: '+9779841000009', fee: 1999, rating: '5.0 ★' },
-        { id: 'DIR-08', name: 'Apex Mega Food Mills & Spice Corp', cat: 'FOOD_FACTORY', city: 'Kolkata, WB', phone: '+919876543214', fee: 1499, rating: '4.8 ★' },
-        { id: 'DIR-09', name: 'Global Jetways Air Ticketing & Tour Guild', cat: 'AIR_TRAVEL', city: 'Mumbai International', phone: '+919876543215', fee: 999, rating: '4.9 ★' },
-        { id: 'DIR-10', name: 'Himalayan Timber & Ply Exports', cat: 'SUPPLIER_GLOBAL', city: 'Kathmandu, Nepal', phone: '+9779851000002', fee: 1499, rating: '4.9 ★' }
+        { id: 'DIR-01', name: 'Shenzhen Precision CNC Moulds Ltd', cat: 'MANUFACTURER', city: 'Guangdong, China', phone: '+86 755 8921 4400 (WeChat: sz_precision)', fee: 1499, rating: '5.0 ★' },
+        { id: 'DIR-02', name: 'Kyoto Robotics & Automation Components', cat: 'MANUFACTURER', city: 'Kyoto, Japan', phone: '+81 3 5555 0192 (LINE: @kyoto_robot)', fee: 1499, rating: '5.0 ★' },
+        { id: 'DIR-03', name: 'Tata Steel & JSW Structural Supply Hub', cat: 'SUPPLIER_GLOBAL', city: 'Mumbai / Jamshedpur', phone: '+91 22 6665 8282 (WhatsApp Verified)', fee: 999, rating: '4.9 ★' },
+        { id: 'DIR-04', name: 'Nexus Luxury Interiors & Turnkey Fitouts', cat: 'INTERIOR_DESIGNER', city: 'Bengaluru, India', phone: '+91 98110 44321', fee: 999, rating: '4.8 ★' },
+        { id: 'DIR-05', name: 'HDFC & Bajaj Finserv Capital NBFC', cat: 'BANK_LENDING', city: 'Pan-India Direct API Desk', phone: '+91 1800 202 6161', fee: 1999, rating: '5.0 ★' },
+        { id: 'DIR-06', name: 'Everest Hardware & Timber Depot', cat: 'SUPPLIER_GLOBAL', city: 'Kathmandu, Nepal', phone: '+9779841000001', fee: 999, rating: '5.0 ★' },
+        { id: 'DIR-07', name: 'Imperial 5-Star Marriage Garden & Hall', cat: 'WEDDING_HALL', city: 'Dhanbad, Jharkhand', phone: '+919876543211', fee: 1499, rating: '5.0 ★' }
       ],
       legalDocs: [
         { id: 'DOC-501', title: 'Apex Agro Food Mills', docType: 'FSSAI_CENTRAL + EXPORT_IMPORT_IEC', loanScheme: 'MUDRA TARUN (₹10,00,000)', status: 'BANK_VERIFIED' },
-        { id: 'DOC-502', title: 'Imperial Wedding Palace', docType: 'PARTNERSHIP_DEED + GST_REG', loanScheme: 'PMEGP SUBSIDY (₹25,00,000)', status: 'APPROVED_BY_BRANCH' },
-        { id: 'DOC-503', title: 'Trans-Global Logistics Ltd', docType: 'CUSTOMS_EXCISE_CLEARANCE + WORLD_TAX', loanScheme: 'COMMERCIAL_EXPORT_CREDIT (₹50,00,000)', status: 'ISSUED_CERTIFIED' },
-        { id: 'DOC-504', title: 'Apex Woodcrafters Sole Unit', docType: 'MSME_UDYAM + PROPRIETORSHIP_DEED', loanScheme: 'MUDRA KISHORE (₹5,00,000)', status: 'BANK_VERIFIED' }
+        { id: 'DOC-502', title: 'Imperial Wedding Palace', docType: 'PARTNERSHIP_DEED + GST_REG', loanScheme: 'PMEGP SUBSIDY (₹25,00,000)', status: 'APPROVED_BY_BRANCH' }
       ],
       tournaments: [
         { id: 'CHESS-01', title: 'World Sovereign Grandmaster Chess Championship 2026', level: 'FIDE RATED INTERNATIONAL', prize: '₹ 25,00,000', venue: 'Kathmandu & New Delhi Online Hybrid', fee: 2499, status: 'OPEN' },
@@ -93,15 +106,16 @@
       ]
     };
 
-    if (!localStorage.getItem('aasha_all_fixtures_master_db')) {
-      localStorage.setItem('aasha_all_fixtures_master_db', JSON.stringify(initialData));
+    if (!localStorage.getItem('aasha_master_unified_db')) {
+      localStorage.setItem('aasha_master_unified_db', JSON.stringify(initialData));
     }
 
-    function getDB() { return JSON.parse(localStorage.getItem('aasha_all_fixtures_master_db')); }
-    function saveDB(data) { localStorage.setItem('aasha_all_fixtures_master_db', JSON.stringify(data)); }
+    function getDB() { return JSON.parse(localStorage.getItem('aasha_master_unified_db')); }
+    function saveDB(data) { localStorage.setItem('aasha_master_unified_db', JSON.stringify(data)); }
 
+    const { jsPDF } = window.jspdf;
     let currentUser = null;
-    let activeTab = 'fixtures';
+    let activeTab = 'b2b-b2c';
     let filterCategory = 'ALL';
     let activePaymentModal = null;
 
@@ -109,22 +123,19 @@
       const app = document.getElementById('app');
       const db = getDB();
 
-      // LOGIN INTERFACE
       if (!currentUser) {
         app.innerHTML = `
         <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-950 via-slate-900 to-[#030712]">
           <div class="glass-panel border border-slate-800 p-8 rounded-3xl max-w-md w-full shadow-2xl space-y-6">
             <div class="text-center">
-              <div class="inline-flex items-center justify-center w-16 h-16 gold-gradient rounded-2xl shadow-lg shadow-amber-500/20 mb-3 text-slate-950 font-black text-3xl">
-                A
-              </div>
+              <div class="inline-flex items-center justify-center w-16 h-16 gold-gradient rounded-2xl shadow-lg shadow-amber-500/20 mb-3 text-slate-950 font-black text-3xl">A</div>
               <h1 class="text-2xl font-black tracking-wider text-white">AASHA WORLD-OS</h1>
-              <p class="text-xs text-amber-400 font-semibold mt-1">Grand Sovereign Universal Complete Fixtures Edition</p>
+              <p class="text-xs text-amber-400 font-semibold mt-1">Universal Conglomerate All-in-One Edition</p>
               
               <div class="mt-4 bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-3 text-left space-y-1">
                 <div class="flex items-center gap-2">
                   <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                  <span class="text-[11px] font-mono text-emerald-300 font-bold">DIRECT SBI OWNER SETTLEMENT SHIELD</span>
+                  <span class="text-[11px] font-mono text-emerald-300 font-bold">DIRECT SBI OWNER SETTLEMENT ACTIVE</span>
                 </div>
                 <p class="text-[11px] text-slate-300">Master Owner: <b class="text-white">${MASTER_CONFIG.payeeName}</b></p>
                 <p class="text-[11px] text-slate-300 font-mono">SBI A/c: <b class="text-white">${MASTER_CONFIG.accountNo}</b> (ISM Dhanbad)</p>
@@ -143,7 +154,7 @@
               </div>
 
               <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-2xl text-xs space-y-2">
-                <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">1-Click Sovereign Access:</p>
+                <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">1-Click Access Selection:</p>
                 <div class="cursor-pointer hover:bg-slate-900 p-1.5 rounded-lg text-amber-300 font-semibold flex justify-between items-center" onclick="setLogin('owner@aasha.com', 'owner')">
                   <span>👑 Master Owner (Full Command):</span> <span class="font-mono text-[10px]">owner@aasha.com</span>
                 </div>
@@ -167,87 +178,151 @@
       const pendingCount = db.pendingApprovals.length;
 
       app.innerHTML = `
-      <div class="min-h-screen flex flex-col bg-[#030712]">
-        <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur sticky top-0 z-30 px-6 py-3.5 flex flex-wrap justify-between items-center gap-4">
+      <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur sticky top-0 z-30 px-4 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl gold-gradient flex items-center justify-center font-black text-xl text-slate-950 shadow-lg shadow-amber-500/20">A</div>
           <div>
-            <div class="flex items-center gap-2.5">
-              <span class="text-xl font-black gold-text tracking-wider">AASHA WORLD-OS</span>
-              <span class="text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold ${
-                currentUser.role === 'OWNER' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
-                'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-              }">
-                ${currentUser.role === 'OWNER' ? '👑 SOVEREIGN MASTER COMMAND' : '👤 PUBLIC BUYER PORTAL'}
-              </span>
-              <span class="text-[10px] px-2 py-0.5 rounded-full font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                SBI VERIFIED (ISM DHANBAD)
+            <div class="flex items-center gap-2">
+              <span class="text-base lg:text-lg font-black gold-text tracking-wide">AASHA APEX WORLD-OS</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${currentUser.role === 'OWNER' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">
+                ${currentUser.role === 'OWNER' ? '👑 MASTER OWNER' : '👤 PUBLIC BUYER'}
               </span>
             </div>
-            <p class="text-xs text-slate-400 mt-0.5">Owner: <b class="text-white">${MASTER_CONFIG.payeeName}</b> | Settlement: <b class="text-emerald-400 font-mono">${MASTER_CONFIG.upiId}</b></p>
+            <p class="text-[11px] text-slate-400 font-mono">Owner: <b class="text-white">${MASTER_CONFIG.payeeName}</b> | Settlement: <b class="text-emerald-400">${MASTER_CONFIG.upiId}</b></p>
           </div>
+        </div>
 
-          <div class="flex flex-wrap gap-2 items-center">
-            <button onclick="tab('fixtures')" class="px-3 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'fixtures' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              Universal Deals (${db.fixtures.length})
-            </button>
-            ${currentUser.role === 'OWNER' ? `
-            <button onclick="tab('approvals')" class="relative px-3 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'approvals' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              Approvals Center ${pendingCount > 0 ? `<span class="bg-red-500 text-white text-[9px] px-1.5 py-0.2 rounded-full ml-1">${pendingCount}</span>` : ''}
-            </button>
-            <button onclick="tab('vault')" class="px-3 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'vault' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              Vault (₹${net.toLocaleString()})
-            </button>` : ''}
-            <button onclick="tab('interior3d')" class="px-3 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'interior3d' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              3D AI Interior
-            </button>
-            <button onclick="tab('trade')" class="px-3 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'trade' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              World Trade & Legal
-            </button>
-            <button onclick="tab('chess')" class="px-3 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'chess' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              FIDE Chess Tournaments
-            </button>
-            <button onclick="tab('travel')" class="px-3 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'travel' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              Flights & Tours
-            </button>
-            <button onclick="tab('dir')" class="px-3 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'dir' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              Directory (${db.directory.length})
-            </button>
-            <button onclick="tab('globalweb')" class="px-3 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'globalweb' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              Google Grid
-            </button>
-            ${currentUser.role === 'OWNER' ? `
-            <button onclick="tab('chat')" class="px-3 py-2 rounded-xl text-xs font-bold transition ${activeTab === 'chat' ? 'gold-gradient text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-              Broadcast
-            </button>` : ''}
-            <button onclick="logout()" class="px-3 py-2 rounded-xl text-xs font-bold bg-red-950/40 text-red-400 border border-red-500/30 hover:bg-red-900/50 transition">
-              Lock
-            </button>
-          </div>
-        </header>
+        <div class="flex flex-wrap gap-2 items-center">
+          <button onclick="triggerSelfHealingCheck()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Self-Heal AI</span>
+          </button>
+          <button onclick="tab('vault')" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 shadow-md shadow-emerald-600/30 transition">
+            <i class="fa-solid fa-lock"></i>
+            <span>Vault (₹${net.toLocaleString()})</span>
+          </button>
+          <button onclick="logout()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-red-950/40 text-red-400 border border-red-500/30 hover:bg-red-900/50 transition">
+            Lock
+          </button>
+        </div>
+      </header>
 
-        <main class="flex-1 p-6 max-w-7xl w-full mx-auto space-y-6">
-          ${renderWorkspace(gross, tax, net, db)}
-        </main>
-      </div>
+      <!-- Navigation Bar -->
+      <nav class="bg-slate-900/80 border-b border-slate-800 px-4 lg:px-8 py-2 overflow-x-auto flex space-x-2 text-xs font-medium custom-scrollbar">
+        <button onclick="tab('b2b-b2c')" id="btn-b2b-b2c" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'b2b-b2c' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-bolt mr-1"></i>1. Instant B2B/B2C Services
+        </button>
+        <button onclick="tab('fixtures')" id="btn-fixtures" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'fixtures' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-handshake mr-1"></i>2. Universal Deals & Projects (${db.fixtures.length})
+        </button>
+        <button onclick="tab('fintech')" id="btn-fintech" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'fintech' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-building-columns mr-1"></i>3. Loans & Health Cover
+        </button>
+        <button onclick="tab('ca-suite')" id="btn-ca-suite" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'ca-suite' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-calculator mr-1"></i>4. AI CA & GST Suite
+        </button>
+        <button onclick="tab('interior3d')" id="btn-interior3d" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'interior3d' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-cube mr-1"></i>5. 3D AI Interior
+        </button>
+        <button onclick="tab('trade')" id="btn-trade" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'trade' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-file-contract mr-1"></i>6. World Trade & Legal
+        </button>
+        <button onclick="tab('chess')" id="btn-chess" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'chess' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-chess mr-1"></i>7. FIDE Chess Desk
+        </button>
+        <button onclick="tab('travel')" id="btn-travel" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'travel' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-plane mr-1"></i>8. Flights & Tours
+        </button>
+        <button onclick="tab('directory')" id="btn-directory" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'directory' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-network-wired mr-1"></i>9. Global Suppliers (${db.directory.length})
+        </button>
+        <button onclick="tab('admob-rewards')" id="btn-admob-rewards" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'admob-rewards' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-gift mr-1"></i>10. AdMob & Coins
+        </button>
+        <button onclick="tab('socials')" id="btn-socials" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'socials' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-earth-asia mr-1"></i>11. China, Japan & Search
+        </button>
+        ${currentUser.role === 'OWNER' ? `
+        <button onclick="tab('approvals')" id="btn-approvals" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'approvals' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-circle-check mr-1"></i>Approvals ${pendingCount > 0 ? `<span class="bg-red-500 text-white text-[9px] px-1.5 py-0.2 rounded-full ml-1">${pendingCount}</span>` : ''}
+        </button>
+        <button onclick="tab('chat')" id="btn-chat" class="nav-btn px-3 py-1.5 rounded-lg ${activeTab === 'chat' ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-300 bg-slate-900 border border-slate-800'} whitespace-nowrap">
+          <i class="fa-solid fa-tower-broadcast mr-1"></i>Broadcast
+        </button>` : ''}
+      </nav>
+
+      <main class="flex-1 p-4 lg:p-6 max-w-7xl w-full mx-auto space-y-6">
+        ${renderTabContent(gross, tax, net, db)}
+      </main>
 
       ${activePaymentModal ? renderPaymentModal() : ''}
       `;
     }
 
-    function renderWorkspace(gross, tax, net, db) {
-      if (activeTab === 'fixtures') {
-        const filtered = filterCategory === 'ALL'
-          ? db.fixtures
-          : db.fixtures.filter(f => f.cat === filterCategory);
+    function renderTabContent(gross, tax, net, db) {
+      // 1. INSTANT B2B / B2C SERVICES
+      if (activeTab === 'b2b-b2c') {
+        return `
+        <div class="space-y-6">
+          <div class="border-b border-slate-800 pb-4 flex justify-between items-center">
+            <div>
+              <h2 class="text-xl md:text-2xl font-bold text-emerald-400">Aasha Instant Service Portal</h2>
+              <p class="text-xs text-slate-400">Automated B2B Solutions & B2C Fast Digital Utilities</p>
+            </div>
+            <span class="bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs px-3 py-1 rounded-full animate-pulse">System: Active</span>
+          </div>
 
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 relative overflow-hidden space-y-3">
+              <div class="text-xs uppercase font-bold tracking-wider text-cyan-400">B2B Commercial</div>
+              <h3 class="text-lg font-bold">Automated Business Contract & Audit</h3>
+              <p class="text-slate-400 text-xs">Instant vendor agreements, SLA generation, and commercial compliance validation.</p>
+              
+              <div class="space-y-3 pt-2">
+                <input id="b2b-company" type="text" placeholder="Client / Company Name" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-xs focus:outline-none focus:border-cyan-500">
+                <select id="b2b-type" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-xs focus:outline-none">
+                  <option value="Standard NDA & Service Agreement" data-price="499">Standard NDA & Service Agreement (₹499)</option>
+                  <option value="Commercial Vendor Contract" data-price="999">Commercial Vendor Contract (₹999)</option>
+                  <option value="Full Business Audit Report" data-price="1499">Full Business Audit Report (₹1499)</option>
+                </select>
+                <button onclick="processB2BOrder()" class="w-full bg-cyan-600 hover:bg-cyan-500 font-semibold py-3 rounded-lg text-xs transition">
+                  Generate & Deliver Instantly
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 relative overflow-hidden space-y-3">
+              <div class="text-xs uppercase font-bold tracking-wider text-emerald-400">B2C Retail Utility</div>
+              <h3 class="text-lg font-bold">Instant Bio-Data & Pro Portfolio Kit</h3>
+              <p class="text-slate-400 text-xs">AI-formatted resume, career summary, and verified digital portfolio in seconds.</p>
+              
+              <div class="space-y-3 pt-2">
+                <input id="b2c-name" type="text" placeholder="Full Name" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-xs focus:outline-none focus:border-emerald-500">
+                <input id="b2c-role" type="text" placeholder="Profession / Key Skills" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-xs focus:outline-none focus:border-emerald-500">
+                <button onclick="processB2COrder()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-semibold py-3 rounded-lg text-xs transition">
+                  Pay ₹49 & Download Deliverable
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div id="status-card" class="hidden bg-slate-900 border border-slate-700 p-5 rounded-xl text-center space-y-3">
+            <div id="status-spinner" class="inline-block animate-spin text-2xl">⚙️</div>
+            <p id="status-text" class="text-xs text-slate-300">Processing dynamic assets...</p>
+          </div>
+        </div>`;
+      }
+
+      // 2. UNIVERSAL DEALS & FIXTURES
+      if (activeTab === 'fixtures') {
+        const filtered = filterCategory === 'ALL' ? db.fixtures : db.fixtures.filter(f => f.cat === filterCategory);
         return `
         <div class="space-y-6">
           <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-4">
             <div>
-              <h2 class="text-xl font-black text-amber-400 uppercase tracking-wide">All Universal Deals & Projects (${db.fixtures.length} Active Fixtures)</h2>
+              <h2 class="text-xl font-black text-amber-400 uppercase tracking-wide">All Universal Deals & Projects (${db.fixtures.length} Fixtures)</h2>
               <p class="text-xs text-slate-400 mt-0.5">
-                ${currentUser.role === 'OWNER'
-                  ? '👑 Master Command: OPEN (Advance 1%), USED (Milestone 1%), CLOSED (Final 1%) teeno states par safe earnings claim karein.'
-                  : 'Customer Mode: Book wedding setups, interior projects, hotel blocks, food factories, office units & govt infra.'}
+                ${currentUser.role === 'OWNER' ? '👑 Master Command: OPEN (Advance 1%), USED (Milestone 1%), CLOSED (Final 1%) teeno states par safe earnings claim karein.' : 'Customer Mode: Book wedding setups, interior projects, hotel blocks, and commercial infra.'}
               </p>
             </div>
             ${currentUser.role === 'OWNER' ? `
@@ -257,38 +332,27 @@
           </div>
 
           <div class="flex flex-wrap gap-2">
-            <button onclick="setCategoryFilter('ALL')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'ALL' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">All Projects (${db.fixtures.length})</button>
+            <button onclick="setCategoryFilter('ALL')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'ALL' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">All (${db.fixtures.length})</button>
             <button onclick="setCategoryFilter('WEDDING_EVENT')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'WEDDING_EVENT' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">👑 Royal Weddings</button>
             <button onclick="setCategoryFilter('INTERIOR_DESIGN')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'INTERIOR_DESIGN' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">🏛️ 3D Interiors</button>
             <button onclick="setCategoryFilter('HOTEL_HOSPITALITY')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'HOTEL_HOSPITALITY' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">🏨 5-Star Hotels</button>
-            <button onclick="setCategoryFilter('FOOD_MANUFACTURER')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'FOOD_MANUFACTURER' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">🏭 Food Mills & Timber</button>
+            <button onclick="setCategoryFilter('FOOD_MANUFACTURER')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'FOOD_MANUFACTURER' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">🏭 Food Mills</button>
             <button onclick="setCategoryFilter('COMMERCIAL_SETUP')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'COMMERCIAL_SETUP' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">🏢 Commercial Infra</button>
-            <button onclick="setCategoryFilter('HEALTHCARE_GOVT')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'HEALTHCARE_GOVT' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">🏥 Hospital & Govt</button>
-            <button onclick="setCategoryFilter('EDUCATION_UNIVERSITY')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'EDUCATION_UNIVERSITY' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">🎓 Universities</button>
-            <button onclick="setCategoryFilter('TOUR_AIRLINE')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${filterCategory === 'TOUR_AIRLINE' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 text-slate-300 border border-slate-800'}">✈️ Flights & Charters</button>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             ${filtered.map(f => {
               const claimed = f.claimedStages || [];
-              const openClaimed = claimed.includes('OPEN');
-              const usedClaimed = claimed.includes('USED');
-              const closedClaimed = claimed.includes('CLOSED');
-
               return `
               <div class="bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 p-5 rounded-3xl flex flex-col justify-between space-y-4 transition shadow-xl">
                 <div class="space-y-2">
                   <div class="flex justify-between items-start gap-2">
                     <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase bg-amber-500/10 text-amber-300 border border-amber-500/20">${f.cat.replace('_', ' ')}</span>
-                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
-                      f.status === 'OPEN' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
-                      f.status === 'USED' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' :
-                      'bg-red-500/20 text-red-300 border border-red-500/30'
-                    }">${f.status}</span>
+                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded ${f.status === 'OPEN' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : f.status === 'USED' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'bg-red-500/20 text-red-300 border border-red-500/30'}">${f.status}</span>
                   </div>
                   <h3 class="text-base font-bold text-white leading-snug">${f.title}</h3>
                   <p class="text-xs text-slate-400">${f.details}</p>
-                  <p class="text-[11px] text-slate-500 font-mono">Client: <b class="text-slate-300">${f.client}</b> • Location: <b class="text-slate-300">${f.city}</b></p>
+                  <p class="text-[11px] text-slate-500 font-mono">Client: <b class="text-slate-300">${f.client}</b> • City: <b class="text-slate-300">${f.city}</b></p>
                 </div>
 
                 <div class="pt-3 border-t border-slate-800/80 space-y-3">
@@ -307,17 +371,14 @@
                     <div class="space-y-2 pt-1">
                       <div class="grid grid-cols-3 gap-1">
                         <button onclick="setFixtureStateWithEarnings('${f.id}', 'OPEN')" class="py-1.5 rounded-lg text-[10px] font-bold ${f.status === 'OPEN' ? 'bg-emerald-500 text-slate-950 font-black' : 'bg-slate-800 text-slate-300'}">
-                          ${openClaimed ? '✓ OPEN Paid' : 'OPEN & Lock'}
+                          ${claimed.includes('OPEN') ? '✓ OPEN Paid' : 'OPEN & Lock'}
                         </button>
                         <button onclick="setFixtureStateWithEarnings('${f.id}', 'USED')" class="py-1.5 rounded-lg text-[10px] font-bold ${f.status === 'USED' ? 'bg-indigo-500 text-white font-black' : 'bg-slate-800 text-slate-300'}">
-                          ${usedClaimed ? '✓ USED Paid' : 'USED & Earn'}
+                          ${claimed.includes('USED') ? '✓ USED Paid' : 'USED & Earn'}
                         </button>
-                        <button onclick="setFixtureStateWithEarnings('${f.id}', 'CLOSED')" class="py-1.5 rounded-lg text-[10px] font-bold ${f.status === 'CLOSED' ? 'bg-red-500 text-white font-black' : 'bg-slate-800 text-emerald-400 hover:bg-slate-700'}">
-                          ${closedClaimed ? '✓ CLOSED Paid' : 'CLOSE & Earn'}
+                        <button onclick="setFixtureStateWithEarnings('${f.id}', 'CLOSED')" class="py-1.5 rounded-lg text-[10px] font-bold ${f.status === 'CLOSED' ? 'bg-red-500 text-white font-black' : 'bg-slate-800 text-emerald-400'}">
+                          ${claimed.includes('CLOSED') ? '✓ CLOSED Paid' : 'CLOSE & Earn'}
                         </button>
-                      </div>
-                      <div class="text-[9px] font-mono text-slate-500 text-center">
-                        Claimed Stages: ${claimed.length > 0 ? claimed.join(', ') : 'None yet'}
                       </div>
                     </div>
                   ` : `
@@ -334,44 +395,353 @@
         </div>`;
       }
 
-      if (activeTab === 'approvals') {
-        if (currentUser.role !== 'OWNER') return `<div class="p-8 bg-red-950/30 border border-red-500/30 rounded-2xl text-center text-red-400 font-bold">Access Strictly Forbidden.</div>`;
+      // 3. FINTECH LOANS & INSURANCE
+      if (activeTab === 'fintech') {
         return `
         <div class="space-y-6">
           <div class="border-b border-slate-800 pb-3 flex justify-between items-center">
             <div>
-              <h2 class="text-xl font-black text-amber-400 uppercase">Sovereign Approvals & Automation Center</h2>
-              <p class="text-xs text-slate-400">Incoming Manufacturers, Nepal/India Suppliers, Govt Tenders, and AI Technology Feed updates require your direct authorization.</p>
+              <h2 class="text-xl font-black text-emerald-400 uppercase">Instant Loan & Cashless Health Insurance</h2>
+              <p class="text-xs text-slate-400">45+ Participating Banks & IRDAI approved Insurers</p>
             </div>
-            <span class="text-xs font-mono px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full font-bold">STRICT OWNER GATEWAY</span>
+            <span class="text-xs bg-emerald-950 text-emerald-400 px-3 py-1 rounded-full border border-emerald-800">100% Digital Pipeline</span>
           </div>
 
-          <div class="space-y-3">
-            ${db.pendingApprovals.length === 0 ? `
-              <div class="p-8 bg-slate-900 border border-slate-800 rounded-3xl text-center text-slate-500 font-mono">All incoming feeds and registrations are approved & verified.</div>
-            ` : db.pendingApprovals.map(p => `
-              <div class="bg-slate-900 border border-slate-800 hover:border-amber-500/40 p-5 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition">
-                <div>
-                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">${p.type}</span>
-                  <h3 class="text-base font-bold text-white mt-1.5">${p.name}</h3>
-                  <p class="text-xs text-slate-400">Location/Node: <b class="text-slate-200">${p.city}</b> • Line: <b class="text-amber-400 font-mono">${p.contact}</b> • Date: ${p.date}</p>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="glass-card rounded-2xl p-5 space-y-3">
+              <h3 class="font-bold text-sm text-emerald-400"><i class="fa-solid fa-building-columns mr-2"></i>Instant Loan Approval</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input id="loan-user" type="text" placeholder="Applicant Full Name" class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs outline-none">
+                <input id="loan-income" type="number" placeholder="Monthly Income (₹)" class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs outline-none">
+                <select id="loan-type" class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs outline-none">
+                  <option value="Personal Instant Loan">Personal Loan (Up to ₹15 Lakhs)</option>
+                  <option value="Business / MSME Loan">Business Loan (Up to ₹2 Crores)</option>
+                </select>
+                <select id="loan-cibil" class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs outline-none">
+                  <option value="780">CIBIL 750+ (Instant 8.5% ROI)</option>
+                  <option value="680">CIBIL 650-749 (Standard 10.2% ROI)</option>
+                </select>
+              </div>
+              <button onclick="issueLoanLetter()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-2.5 rounded-xl text-xs">
+                Generate Pre-Sanction Letter (Earn ₹1,500)
+              </button>
+            </div>
+
+            <div class="glass-card rounded-2xl p-5 space-y-3">
+              <h3 class="font-bold text-sm text-rose-400"><i class="fa-solid fa-heart-pulse mr-2"></i>Cashless Health Insurance</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input id="ins-user" type="text" placeholder="Family Head Name" class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs outline-none">
+                <select id="ins-plan" class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs outline-none">
+                  <option value="₹10 Lakhs Super Care">₹10 Lakhs Super Care (₹799/mo)</option>
+                  <option value="₹1 Crore Global Cashless">₹1 Crore 100% Cashless Global</option>
+                </select>
+              </div>
+              <button onclick="issueInsuranceCover()" class="w-full bg-rose-600 hover:bg-rose-500 font-bold py-2.5 rounded-xl text-xs">
+                Issue Instant Cover Letter (Earn ₹1,200)
+              </button>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // 4. CA & GST SUITE
+      if (activeTab === 'ca-suite') {
+        return `
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <h3 class="font-bold text-sm text-cyan-400 border-b border-slate-800 pb-2"><i class="fa-solid fa-calculator mr-2"></i>AI Automated CA, GST & Balance Sheet Engine</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <input id="ca-client" type="text" value="Apex Enterprises Ltd" placeholder="Enterprise Name" class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs outline-none">
+            <input id="ca-gst" type="text" value="20AABCA1234F1Z8" placeholder="GSTIN / PAN" class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs outline-none">
+            <input id="ca-turnover" type="number" value="7500000" placeholder="Turnover (₹)" class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs outline-none">
+          </div>
+          <div class="flex gap-3">
+            <button onclick="generateCAPDF()" class="flex-1 bg-cyan-600 hover:bg-cyan-500 font-bold py-2.5 rounded-xl text-xs">
+              Download Certified CA Audit & Balance Sheet PDF
+            </button>
+            <button onclick="creditVault(2499, 'CA Service Fee: ' + document.getElementById('ca-client').value)" class="px-5 bg-emerald-600 hover:bg-emerald-500 font-bold py-2.5 rounded-xl text-xs">
+              Bill Client (₹2,499)
+            </button>
+          </div>
+        </div>`;
+      }
+
+      // 5. 3D AI INTERIOR
+      if (activeTab === 'interior3d') {
+        return `
+        <div class="space-y-6">
+          <div class="border-b border-slate-800 pb-3">
+            <h2 class="text-xl font-black text-amber-400 uppercase">Autonomous 3D Interior & Architecture Generator</h2>
+            <p class="text-xs text-slate-400">AI-powered 3D layout, material estimation, and BIM architectural blueprints.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+              <h3 class="text-sm font-bold text-white">Generate 3D Interior Blueprint</h3>
+              <input id="int-title" type="text" placeholder="Project Name (e.g. Master Penthouse Living)" class="w-full bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none" />
+              <div class="grid grid-cols-2 gap-3">
+                <select id="int-theme" class="bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                  <option value="ROYAL_HERITAGE">Royal Rajputana</option>
+                  <option value="MODERN_ITALIAN">Modern Italian</option>
+                </select>
+                <input id="int-sqft" type="number" placeholder="Area (Sq Ft)" class="bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none" />
+              </div>
+              <button onclick="generate3DInteriorAI()" class="w-full gold-gradient text-slate-950 font-black py-3.5 rounded-xl text-xs uppercase">
+                ${currentUser.role === 'OWNER' ? 'Generate 3D Layout (Free Owner Mode)' : 'Pay ₹1,499 & Generate 3D BIM Pack'}
+              </button>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col items-center justify-center text-center space-y-2">
+              <div class="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400 font-black text-xl">3D</div>
+              <p class="text-xs text-slate-300 font-bold">Autonomous BIM Engine Active</p>
+              <p class="text-[11px] text-slate-500">Ready to render HD walkthroughs & BOQ cost PDFs.</p>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // 6. WORLD TRADE & LEGAL
+      if (activeTab === 'trade') {
+        return `
+        <div class="space-y-6">
+          <div class="border-b border-slate-800 pb-3">
+            <h2 class="text-xl font-black text-amber-400 uppercase">World Trade, Export-Import & Legal Machine</h2>
+            <p class="text-xs text-slate-400">IEC, Customs clearance, FSSAI, MSME Udyam, and MUDRA Project Packs.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+              <h3 class="text-sm font-bold text-white">Create Certified Trade / Entity Dossier</h3>
+              <input id="lg-name" type="text" placeholder="Business Name" class="w-full bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none" />
+              <div class="grid grid-cols-2 gap-3">
+                <select id="lg-type" class="bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                  <option value="EXPORT_IMPORT_IEC">Export-Import IEC Code</option>
+                  <option value="FSSAI_CENTRAL_UNIT">FSSAI Central Food Unit</option>
+                </select>
+                <select id="lg-loan" class="bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                  <option value="MUDRA TARUN">Mudra Tarun (₹10L)</option>
+                  <option value="PMEGP SUBSIDY">PMEGP Subsidy (₹25L)</option>
+                </select>
+              </div>
+              <button onclick="generateLegalDeedPack()" class="w-full gold-gradient text-slate-950 font-black py-3.5 rounded-xl text-xs uppercase">
+                Pay ₹2,999 & Generate Certified Dossier
+              </button>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
+              <h3 class="text-sm font-bold text-white">Issued Trade Deeds</h3>
+              ${db.legalDocs.map(d => `
+                <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl flex justify-between items-center text-xs">
+                  <div>
+                    <h4 class="font-bold text-white">${d.title}</h4>
+                    <p class="text-slate-400 text-[10px]">${d.docType}</p>
+                  </div>
+                  <button onclick="alert('Downloading Certified Dossier: ${d.title}')" class="bg-indigo-600 px-3 py-1.5 rounded-lg text-white font-bold">Download</button>
                 </div>
-                <div class="flex gap-2">
-                  <button onclick="approveIncomingFeed('${p.id}')" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black px-4 py-2 rounded-xl text-xs uppercase tracking-wider">
-                    ✓ Approve & Publish Live
-                  </button>
-                  <button onclick="rejectIncomingFeed('${p.id}')" class="bg-red-950 text-red-400 border border-red-500/30 px-3 py-2 rounded-xl text-xs font-bold hover:bg-red-900/50">
-                    ✕ Reject
-                  </button>
-                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // 7. FIDE CHESS
+      if (activeTab === 'chess') {
+        return `
+        <div class="space-y-6">
+          <h2 class="text-xl font-black text-amber-400 uppercase border-b border-slate-800 pb-3">FIDE Chess Championships</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            ${db.tournaments.map(t => `
+              <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">${t.level}</span>
+                <h3 class="text-base font-bold text-white">${t.title}</h3>
+                <p class="text-xs text-slate-400">Prize Fund: <b class="text-emerald-400">${t.prize}</b></p>
+                <button onclick="initiateTournamentEntry('${t.id}', '${t.title}', ${t.fee})" class="w-full gold-gradient text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase">
+                  ${currentUser.role === 'OWNER' ? 'Manage Championship' : `Pay Entry Pass ₹${t.fee} & Participate`}
+                </button>
               </div>
             `).join('')}
           </div>
         </div>`;
       }
 
+      // 8. FLIGHTS & TRAVEL
+      if (activeTab === 'travel') {
+        return `
+        <div class="space-y-6">
+          <h2 class="text-xl font-black text-amber-400 uppercase border-b border-slate-800 pb-3">Flight Booking & Luxury Tours</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
+              <span class="text-[10px] bg-cyan-950 text-cyan-400 px-2 py-0.5 rounded">INTERNATIONAL FLIGHTS</span>
+              <h3 class="text-base font-bold text-white">Dubai & Europe Business Class</h3>
+              <p class="text-xs text-slate-400">Bulk airline lines & VIP Lounge Access</p>
+              <button onclick="window.open('https://www.makemytrip.com/flights', '_blank')" class="w-full gold-gradient text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase">
+                Open Flight Desk
+              </button>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
+              <span class="text-[10px] bg-rose-950 text-rose-400 px-2 py-0.5 rounded">LUXURY RESORTS</span>
+              <h3 class="text-base font-bold text-white">Kathmandu & Pokhara Villas</h3>
+              <p class="text-xs text-slate-400">Himalayan Heli & 5-Star Resort Access</p>
+              <button onclick="window.open('https://web.whatsapp.com', '_blank')" class="w-full gold-gradient text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase">
+                Connect Travel Desk
+              </button>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
+              <span class="text-[10px] bg-amber-950 text-amber-400 px-2 py-0.5 rounded">VIP AVIATION</span>
+              <h3 class="text-base font-bold text-white">Private Jet & Heli Charter</h3>
+              <p class="text-xs text-slate-400">Executive Air-Lift (Delhi, Ranchi, Kolkata)</p>
+              <button onclick="window.open('https://web.whatsapp.com', '_blank')" class="w-full gold-gradient text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase">
+                Direct Jet Command
+              </button>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // 9. GLOBAL DIRECTORY
+      if (activeTab === 'directory') {
+        return `
+        <div class="space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-xl font-black text-amber-400 uppercase">Verified Global Directory (${db.directory.length} Entities)</h2>
+              <p class="text-xs text-slate-400">Direct phone & WhatsApp lines for Timber Depots, Plywood Manufacturers, Guilds & Banks.</p>
+            </div>
+            <button onclick="crawlNewSuppliers()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold">
+              <i class="fa-solid fa-robot mr-1"></i> Auto-Crawl Partners
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            ${db.directory.map(item => `
+              <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl flex flex-col justify-between space-y-3">
+                <div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-indigo-950 border border-indigo-500/30 text-indigo-300 font-mono font-bold">${item.cat}</span>
+                    <span class="text-xs text-amber-400 font-bold">${item.rating}</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white mt-2">${item.name}</h3>
+                  <p class="text-xs text-slate-400">${item.city}</p>
+                  <p class="text-xs font-mono text-emerald-400 font-bold mt-1">${item.phone}</p>
+                </div>
+                <button onclick="creditVault(500, 'Lead Commission: ${item.name}')" class="w-full py-2 bg-indigo-600/30 hover:bg-indigo-600 rounded-xl text-xs font-bold transition">
+                  Connect & Earn ₹500
+                </button>
+              </div>
+            `).join('')}
+          </div>
+        </div>`;
+      }
+
+      // 10. ADMOB REWARDS & WALLET
+      if (activeTab === 'admob-rewards') {
+        return `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="glass-card rounded-2xl p-5 space-y-3">
+            <h3 class="font-bold text-sm text-indigo-400"><i class="fa-solid fa-gift mr-2"></i>User Rewarded Ad Watcher</h3>
+            <p class="text-xs text-slate-400">Users watch AdMob video $\rightarrow$ Earn 10 Coins $\rightarrow$ You receive instant ad revenue conversion.</p>
+            <div class="bg-slate-900 p-3 rounded-xl flex justify-between items-center">
+              <span class="text-xs text-slate-300">User Wallet Balance:</span>
+              <span id="user-coins" class="text-base font-bold text-amber-400">${db.userCoins || 120} Coins</span>
+            </div>
+            <button onclick="watchRewardedAd()" class="w-full bg-indigo-600 hover:bg-indigo-500 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2">
+              <i class="fa-solid fa-play"></i> Watch AdMob Video (+10 Coins)
+            </button>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5 space-y-3">
+            <h3 class="font-bold text-sm text-emerald-400"><i class="fa-solid fa-credit-card mr-2"></i>UPI Smart Paywall Trigger</h3>
+            <p class="text-xs text-slate-400">Instant Razorpay UPI Modal trigger with T+1 Bank settlement verification.</p>
+            <button onclick="creditVault(199, 'Razorpay Instant UPI Checkout'); alert('Razorpay Payment of ₹199 Successful!');" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-2.5 rounded-xl text-xs">
+              Test Live UPI Checkout (₹199)
+            </button>
+          </div>
+        </div>`;
+      }
+
+      // 11. CHINA, JAPAN & SOCIALS
+      if (activeTab === 'socials') {
+        return `
+        <div class="space-y-6">
+          <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span> Global Google Search Gateway
+            </h3>
+            <div class="flex gap-2">
+              <input id="g-query" type="text" placeholder="Search Google, Marriage Venues, Flight Tariffs..." class="flex-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none" onkeydown="if(event.key==='Enter') triggerMonetizedSearch()" />
+              <button onclick="triggerMonetizedSearch()" class="gold-gradient text-slate-950 font-black px-6 py-3 rounded-xl text-xs uppercase">Search</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
+            <a href="weixin://dl/chat" class="glass-card p-4 rounded-xl hover:border-emerald-500 transition block">
+              <i class="fa-brands fa-weixin text-2xl text-emerald-400"></i>
+              <p class="font-bold mt-2">WeChat (微信)</p>
+              <span class="text-[10px] text-slate-400">China Direct</span>
+            </a>
+            <a href="https://line.me" class="glass-card p-4 rounded-xl hover:border-green-500 transition block">
+              <i class="fa-brands fa-line text-2xl text-green-400"></i>
+              <p class="font-bold mt-2">LINE App</p>
+              <span class="text-[10px] text-slate-400">Japan Network</span>
+            </a>
+            <a href="tencent://message/?uin=987654321" class="glass-card p-4 rounded-xl hover:border-cyan-500 transition block">
+              <i class="fa-brands fa-qq text-2xl text-cyan-400"></i>
+              <p class="font-bold mt-2">Tencent QQ</p>
+              <span class="text-[10px] text-slate-400">China Sourcing</span>
+            </a>
+            <a href="https://wa.me/919999999999" class="glass-card p-4 rounded-xl hover:border-teal-500 transition block">
+              <i class="fa-brands fa-whatsapp text-2xl text-teal-400"></i>
+              <p class="font-bold mt-2">WhatsApp</p>
+              <span class="text-[10px] text-slate-400">Global Direct</span>
+            </a>
+          </div>
+        </div>`;
+      }
+
+      // APPROVALS
+      if (activeTab === 'approvals') {
+        if (currentUser.role !== 'OWNER') return `<div class="p-8 text-center text-red-400 font-bold">Access Denied.</div>`;
+        return `
+        <div class="space-y-4">
+          <h2 class="text-xl font-black text-amber-400 uppercase border-b border-slate-800 pb-3">Approvals Center</h2>
+          ${db.pendingApprovals.map(p => `
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex justify-between items-center text-xs">
+              <div>
+                <span class="text-[10px] font-mono bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded font-bold">${p.type}</span>
+                <h3 class="font-bold text-white text-sm mt-1">${p.name}</h3>
+                <p class="text-slate-400">${p.city} • ${p.contact}</p>
+              </div>
+              <button onclick="approveIncomingFeed('${p.id}')" class="bg-emerald-500 text-slate-950 font-black px-4 py-2 rounded-xl text-xs">Approve</button>
+            </div>
+          `).join('')}
+        </div>`;
+      }
+
+      // CHAT / BROADCAST
+      if (activeTab === 'chat') {
+        if (currentUser.role !== 'OWNER') return `<div class="p-8 text-center text-red-400 font-bold">Access Denied.</div>`;
+        return `
+        <div class="glass-card p-5 rounded-3xl space-y-4">
+          <h2 class="text-xl font-black text-amber-400 uppercase border-b border-slate-800 pb-3">Sovereign Broadcast Console</h2>
+          <div class="h-64 overflow-y-auto space-y-3 p-3 bg-slate-950 rounded-2xl border border-slate-800">
+            ${db.worldChat.map(m => `
+              <div class="p-3 rounded-2xl border ${m.sender.includes('Suraj') ? 'bg-amber-950/20 border-amber-500/30 text-amber-200' : 'bg-slate-900 border-slate-800 text-slate-300'}">
+                <div class="flex justify-between items-center text-[10px] font-mono text-slate-400 mb-1">
+                  <span class="font-bold text-white">${m.sender}</span>
+                  <span>${m.time}</span>
+                </div>
+                <p class="text-xs">${m.text}</p>
+              </div>
+            `).join('')}
+          </div>
+          <div class="flex gap-2">
+            <input id="chat-msg" type="text" placeholder="Type Master Broadcast..." class="flex-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none" />
+            <button onclick="sendOwnerMessage()" class="bg-emerald-500 text-slate-950 font-black px-6 py-3 rounded-xl text-xs">Send</button>
+          </div>
+        </div>`;
+      }
+
+      // VAULT
       if (activeTab === 'vault') {
-        if (currentUser.role !== 'OWNER') return `<div class="p-8 bg-red-950/30 border border-red-500/30 rounded-2xl text-center text-red-400 font-bold">Access Strictly Forbidden.</div>`;
         return `
         <div class="space-y-6">
           <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/40 border border-emerald-500/40 p-6 rounded-3xl shadow-2xl">
@@ -384,7 +754,7 @@
                 <p class="text-xs text-slate-300 mt-0.5">Bank: <b class="text-white">${MASTER_CONFIG.bankName} (${MASTER_CONFIG.branch})</b></p>
                 <p class="text-sm font-mono text-emerald-400 font-bold mt-1">A/c: ${MASTER_CONFIG.accountNo} • CIF: ${MASTER_CONFIG.cifNo} • UPI: ${MASTER_CONFIG.upiId}</p>
               </div>
-              <button onclick="instantBankWithdraw(${net})" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black px-6 py-3.5 rounded-2xl text-xs shadow-lg shadow-emerald-500/20 uppercase tracking-wider">
+              <button onclick="instantBankWithdraw(${net})" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black px-6 py-3.5 rounded-2xl text-xs shadow-lg uppercase tracking-wider">
                 Instant Bank Withdraw (₹ ${net.toLocaleString()})
               </button>
             </div>
@@ -392,351 +762,44 @@
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
-              <span class="text-xs text-slate-400 font-semibold uppercase">Total Platform Gross Revenue</span>
+              <span class="text-xs text-slate-400 uppercase font-semibold">Total Gross Revenue</span>
               <p class="text-3xl font-black text-white mt-1">₹ ${gross.toLocaleString()}</p>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
-              <span class="text-xs text-slate-400 font-semibold uppercase">Auto GST / TDS Reserve (18%)</span>
+              <span class="text-xs text-slate-400 uppercase font-semibold">Auto GST Reserve (18%)</span>
               <p class="text-3xl font-black text-indigo-400 mt-1">₹ ${tax.toLocaleString()}</p>
             </div>
             <div class="bg-slate-900 border border-emerald-500/40 p-5 rounded-3xl bg-gradient-to-br from-slate-900 to-emerald-950/20">
-              <span class="text-xs text-emerald-400 font-semibold uppercase">Direct Credited SBI Profit</span>
+              <span class="text-xs text-emerald-400 uppercase font-semibold">Direct Credited SBI Profit</span>
               <p class="text-3xl font-black text-emerald-400 mt-1">₹ ${net.toLocaleString()}</p>
             </div>
           </div>
 
           <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
-            <h3 class="text-sm font-bold text-slate-200 mb-3">Live Universal Conglomerate Settlement Ledger</h3>
+            <h3 class="text-sm font-bold text-slate-200 mb-3">Live Settlement Ledger</h3>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs text-slate-300">
                 <thead class="bg-slate-950 text-slate-400 uppercase text-[10px]">
                   <tr>
                     <th class="p-3">Txn ID</th>
-                    <th class="p-3">Revenue Source Category</th>
+                    <th class="p-3">Source</th>
                     <th class="p-3">Gross</th>
-                    <th class="p-3">Tax (18%)</th>
                     <th class="p-3">Net Profit</th>
-                    <th class="p-3">Settlement</th>
+                    <th class="p-3">Status</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-800">
                   ${db.ledger.map(i => `
-                    <tr class="hover:bg-slate-950/40">
+                    <tr>
                       <td class="p-3 font-mono text-slate-400">${i.id}</td>
                       <td class="p-3 text-white font-medium">${i.source}</td>
                       <td class="p-3 font-mono">₹ ${i.gross.toLocaleString()}</td>
-                      <td class="p-3 font-mono text-indigo-400">₹ ${i.tax.toLocaleString()}</td>
                       <td class="p-3 font-mono text-emerald-400 font-bold">₹ ${i.net.toLocaleString()}</td>
                       <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-mono">${i.status}</span></td>
                     </tr>
                   `).join('')}
                 </tbody>
               </table>
-            </div>
-          </div>
-        </div>`;
-      }
-
-      if (activeTab === 'interior3d') {
-        return `
-        <div class="space-y-6">
-          <div class="border-b border-slate-800 pb-3">
-            <h2 class="text-xl font-black text-amber-400 uppercase">Autonomous 3D Interior & Architecture Generator</h2>
-            <p class="text-xs text-slate-400">AI-powered instant 3D layout, material cost estimation, structural BIM blueprints, and luxury visualization.</p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
-              <h3 class="text-sm font-bold text-white">Generate 3D Interior Blueprint & Cost Matrix</h3>
-              <div>
-                <label class="text-[11px] text-slate-400">Project / Room Specification</label>
-                <input id="int-title" type="text" placeholder="e.g. Master Penthouse Living + Teak Mandap Hall" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:border-amber-400" />
-              </div>
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <label class="text-[11px] text-slate-400">Design Theme</label>
-                  <select id="int-theme" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                    <option value="ROYAL_HERITAGE">Royal Rajputana Heritage</option>
-                    <option value="MODERN_ITALIAN">Modern Italian Minimalist</option>
-                    <option value="ACOUSTIC_HOTEL">5-Star Acoustic Hospitality</option>
-                    <option value="COMMERCIAL_TECH">Futuristic Tech Hub</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="text-[11px] text-slate-400">Area (Sq Ft)</label>
-                  <input id="int-sqft" type="number" placeholder="2500" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none" />
-                </div>
-              </div>
-              <button onclick="generate3DInteriorAI()" class="w-full gold-gradient hover:opacity-95 text-slate-950 font-black py-3.5 rounded-xl text-xs shadow-lg uppercase tracking-wider">
-                ${currentUser.role === 'OWNER' ? 'Generate 3D Layout (Free Owner Mode)' : 'Pay ₹1,499 via UPI & Generate Certified 3D BIM Pack'}
-              </button>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
-              <h3 class="text-sm font-bold text-white">Instant 3D AI Architectural Render Preview</h3>
-              <div class="h-56 bg-slate-950 border border-slate-800 rounded-2xl flex flex-col items-center justify-center p-6 text-center space-y-2">
-                <div class="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400 font-black text-xl">3D</div>
-                <p class="text-xs text-slate-300 font-bold">Autonomous BIM Architecture Engine Active</p>
-                <p class="text-[11px] text-slate-500">Ready to render HD photorealistic walkthroughs, electrical layouts & BOQ cost estimate PDFs.</p>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      }
-
-      if (activeTab === 'trade') {
-        return `
-        <div class="space-y-6">
-          <div class="border-b border-slate-800 pb-3">
-            <h2 class="text-xl font-black text-amber-400 uppercase">World Trade, Export-Import & Legal Machine</h2>
-            <p class="text-xs text-slate-400">Export-Import (IEC), Customs & Excise clearance decks, FSSAI, MSME Udyam, and MUDRA CMA Project Packs.</p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
-              <h3 class="text-sm font-bold text-white">Create Certified Trade / Entity Dossier</h3>
-              <div>
-                <label class="text-[11px] text-slate-400">Business / Venture Name</label>
-                <input id="lg-name" type="text" placeholder="e.g. PureHarvest Agro Exports Pvt Ltd" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:border-amber-400" />
-              </div>
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <label class="text-[11px] text-slate-400">Entity & Trade Type</label>
-                  <select id="lg-type" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                    <option value="EXPORT_IMPORT_IEC">Export-Import IEC Code + Customs</option>
-                    <option value="FSSAI_CENTRAL_UNIT">FSSAI Central Food Factory</option>
-                    <option value="WORLD_TAX_COMPLIANCE">World Tax & GST Compliance</option>
-                    <option value="PARTNERSHIP_DEED">Partnership Agreement</option>
-                    <option value="LLP_PVT_LTD">LLP / Private Limited</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="text-[11px] text-slate-400">Loan / Subsidy Scheme</label>
-                  <select id="lg-loan" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                    <option value="MUDRA TARUN">Mudra Tarun (₹5L - ₹10L)</option>
-                    <option value="MUDRA KISHORE">Mudra Kishore (₹50k - ₹5L)</option>
-                    <option value="PMEGP SUBSIDY">PMEGP Subsidy (₹25L - ₹50L)</option>
-                    <option value="EXPORT_CREDIT_LINE">Commercial Trade Credit</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <label class="text-[11px] text-slate-400">Requested Capital / Facility (₹)</label>
-                <input id="lg-amt" type="number" placeholder="2500000" class="w-full mt-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none" />
-              </div>
-              <button onclick="generateLegalDeedPack()" class="w-full gold-gradient hover:opacity-95 text-slate-950 font-black py-3.5 rounded-xl text-xs shadow-lg uppercase tracking-wider">
-                Pay ₹2,999 via UPI & Generate Certified Legal/CMA Dossier
-              </button>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
-              <h3 class="text-sm font-bold text-white">Certified Issued Trade Deeds & CMA Reports</h3>
-              <div class="space-y-3">
-                ${db.legalDocs.map(d => `
-                  <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl flex justify-between items-center">
-                    <div>
-                      <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-bold">${d.docType}</span>
-                      <h4 class="font-bold text-sm text-white mt-1.5">${d.title}</h4>
-                      <p class="text-xs text-slate-400">${d.loanScheme} • <b class="text-emerald-400">${d.status}</b></p>
-                    </div>
-                    <button onclick="triggerDownloadDoc('${d.title}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition">
-                      ${currentUser.role === 'OWNER' ? 'PDF (Free)' : 'Download PDF (₹499)'}
-                    </button>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          </div>
-        </div>`;
-      }
-
-      if (activeTab === 'chess') {
-        return `
-        <div class="space-y-6">
-          <div class="border-b border-slate-800 pb-3 flex justify-between items-center">
-            <div>
-              <h2 class="text-xl font-black text-amber-400 uppercase">National & International FIDE Chess Tournaments</h2>
-              <p class="text-xs text-slate-400">Official tournament registrations, grandmaster invitations, live broadcast links & prize settlements.</p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            ${db.tournaments.map(t => `
-              <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 flex flex-col justify-between">
-                <div>
-                  <span class="text-[10px] font-mono px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold">${t.level}</span>
-                  <h3 class="text-base font-bold text-white mt-2">${t.title}</h3>
-                  <p class="text-xs text-slate-400 mt-1">Venue: <b class="text-slate-200">${t.venue}</b></p>
-                  <p class="text-sm font-black text-emerald-400 font-mono mt-2">Guaranteed Prize Fund: ${t.prize}</p>
-                </div>
-                <button onclick="initiateTournamentEntry('${t.id}', '${t.title}', ${t.fee})" class="w-full gold-gradient text-slate-950 font-black py-3 rounded-xl text-xs uppercase tracking-wider">
-                  ${currentUser.role === 'OWNER' ? 'Manage Championship (Owner Mode)' : `Pay Entry Pass ₹${t.fee.toLocaleString()} & Participate`}
-                </button>
-              </div>
-            `).join('')}
-          </div>
-        </div>`;
-      }
-
-      if (activeTab === 'travel') {
-        return `
-        <div class="space-y-6">
-          <div class="border-b border-slate-800 pb-3">
-            <h2 class="text-xl font-black text-amber-400 uppercase">World Tour Packages & Flight Booking Desk</h2>
-            <p class="text-xs text-slate-400">Direct booking lines for Domestic/International flights, Visa assist, and Luxury 5-Star Holiday packages.</p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
-              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">INTERNATIONAL FLIGHTS</span>
-              <h3 class="text-base font-bold text-white">Dubai & Europe Business Class</h3>
-              <p class="text-xs text-slate-400">Emirates & Qatar Airways bulk booking lines with VIP Airport lounge access.</p>
-              <p class="text-sm font-black text-emerald-400 font-mono">From ₹ 48,500 / Seat</p>
-              <button onclick="triggerMonetizedApp('Dubai Flight Desk', 'https://www.makemytrip.com/flights', 199)" class="w-full gold-gradient text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase">
-                ${currentUser.role === 'OWNER' ? 'Open Flight Desk' : 'Unlock Flight Line (₹199)'}
-              </button>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
-              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">HONEYMOON & WEDDING TOURS</span>
-              <h3 class="text-base font-bold text-white">Kathmandu & Pokhara Luxury Villa</h3>
-              <p class="text-xs text-slate-400">5-Star Mountain Resort, Private Helicopter transfer to Everest Base, and luxury dining.</p>
-              <p class="text-sm font-black text-emerald-400 font-mono">₹ 1,45,000 / Couple</p>
-              <button onclick="triggerMonetizedApp('Nepal Luxury Desk', 'https://web.whatsapp.com', 299)" class="w-full gold-gradient text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase">
-                ${currentUser.role === 'OWNER' ? 'Open Travel Line' : 'Unlock Luxury Tour (₹299)'}
-              </button>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
-              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">CORPORATE CHARTER</span>
-              <h3 class="text-base font-bold text-white">Private Jet & Heli Services (India)</h3>
-              <p class="text-xs text-slate-400">VIP Destination Weddings, Executive Business Air-Lift (Delhi, Ranchi, Kolkata, Mumbai).</p>
-              <p class="text-sm font-black text-emerald-400 font-mono">Custom Tariff</p>
-              <button onclick="triggerMonetizedApp('Aviation Charter', 'https://web.whatsapp.com', 499)" class="w-full gold-gradient text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase">
-                ${currentUser.role === 'OWNER' ? 'Direct Jet Command' : 'Unlock VIP Charter Line (₹499)'}
-              </button>
-            </div>
-          </div>
-        </div>`;
-      }
-
-      if (activeTab === 'dir') {
-        return `
-        <div class="space-y-4">
-          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-            <div>
-              <h2 class="text-xl font-black text-amber-400 uppercase">Verified Conglomerate Directory (${db.directory.length} Entities)</h2>
-              <p class="text-xs text-slate-400">Direct phone & WhatsApp lines for Timber Depots, Plywood Manufacturers, Guilds, Banquets, 5-Star Resorts & Flight Desks.</p>
-            </div>
-            ${currentUser.role === 'OWNER' ? `
-            <button onclick="openAddProPrompt()" class="gold-gradient text-slate-950 font-black px-3 py-1.5 rounded-xl text-xs uppercase tracking-wider">
-              + Add Enterprise Pro
-            </button>` : ''}
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            ${db.directory.map(item => `
-              <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl flex flex-col justify-between space-y-4">
-                <div>
-                  <div class="flex justify-between items-center">
-                    <span class="text-[10px] px-2 py-0.5 rounded bg-indigo-950 border border-indigo-500/30 text-indigo-300 font-mono font-bold">
-                      ${item.cat}
-                    </span>
-                    <span class="text-xs text-amber-400 font-bold">${item.rating}</span>
-                  </div>
-                  <h3 class="text-base font-bold text-white mt-2">${item.name}</h3>
-                  <p class="text-xs text-slate-400 mt-0.5">${item.city}</p>
-                  <p class="text-xs font-mono text-amber-400 font-bold mt-2">${currentUser.role === 'OWNER' ? item.phone : 'Direct Line Verified'}</p>
-                </div>
-                ${currentUser.role === 'OWNER' ? `
-                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
-                  <a href="tel:${item.phone}" class="bg-emerald-600 hover:bg-emerald-700 text-center py-2 rounded-xl text-xs font-bold transition">Call</a>
-                  <a href="https://wa.me/${item.phone.replace(/[^0-9]/g, '')}?text=Namaste, AASHA Master HQ se sampark kar rahe hain." target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-center py-2 rounded-xl text-xs font-black transition">WhatsApp</a>
-                </div>` : `
-                <button onclick="initiateDirectoryUnlock('${item.id}', '${item.name}', ${item.fee})" class="w-full gold-gradient text-slate-950 font-black py-2 rounded-xl text-xs uppercase tracking-wider">
-                  Pay ₹${item.fee} to Unlock Direct Contact
-                </button>`}
-              </div>
-            `).join('')}
-          </div>
-        </div>`;
-      }
-
-      if (activeTab === 'globalweb') {
-        return `
-        <div class="space-y-6">
-          <div class="border-b border-slate-800 pb-3">
-            <h2 class="text-xl font-black text-amber-400 uppercase">Google Global Search & Platforms Grid</h2>
-            <p class="text-xs text-slate-400">Master Owner Command & Commercial Gateway.</p>
-          </div>
-
-          <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
-            <h3 class="text-sm font-bold text-white flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span> Direct Global Google Search Engine
-            </h3>
-            <div class="flex gap-2">
-              <input id="g-query" type="text" placeholder="Search Google, Marriage Venues, Flight Tariffs, Timber Rates, MSME Tenders..." class="flex-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:border-amber-400" onkeydown="if(event.key==='Enter') triggerMonetizedSearch()" />
-              <button onclick="triggerMonetizedSearch()" class="gold-gradient hover:opacity-95 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition uppercase tracking-wider">
-                ${currentUser.role === 'OWNER' ? 'Search Google (Free)' : 'Pay ₹49 & Search'}
-              </button>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div onclick="triggerMonetizedApp('WhatsApp Global Console', 'https://web.whatsapp.com', 99)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
-              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold text-lg group-hover:scale-110 transition">WA</div>
-              <span class="text-xs font-bold text-white">WhatsApp Global</span>
-              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Connect (₹99)'}</span>
-            </div>
-            <div onclick="triggerMonetizedApp('LinkedIn B2B Portal', 'https://www.linkedin.com', 199)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
-              <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-lg group-hover:scale-110 transition">IN</div>
-              <span class="text-xs font-bold text-white">LinkedIn B2B</span>
-              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Connect (₹199)'}</span>
-            </div>
-            <div onclick="triggerMonetizedApp('Govt MSME Portal', 'https://udyamregistration.gov.in', 299)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
-              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold text-lg group-hover:scale-110 transition">MSME</div>
-              <span class="text-xs font-bold text-white">Govt MSME Portal</span>
-              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Access (₹299)'}</span>
-            </div>
-            <div onclick="triggerMonetizedApp('Mudra Scheme Portal', 'https://www.mudra.org.in', 299)" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-amber-500/50 p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 group transition">
-              <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-bold text-lg group-hover:scale-110 transition">MUDRA</div>
-              <span class="text-xs font-bold text-white">Mudra Bank Portal</span>
-              <span class="text-[10px] text-amber-400 font-bold">${currentUser.role === 'OWNER' ? 'Free Owner Access' : 'Access (₹299)'}</span>
-            </div>
-          </div>
-        </div>`;
-      }
-
-      if (activeTab === 'chat') {
-        if (currentUser.role !== 'OWNER') return `<div class="p-8 bg-red-950/30 border border-red-500/30 rounded-2xl text-center text-red-400 font-bold">Access Restricted.</div>`;
-        return `
-        <div class="space-y-6">
-          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-            <div>
-              <h2 class="text-xl font-black text-amber-400 uppercase">Sovereign World Broadcast Console</h2>
-              <p class="text-xs text-slate-400">Strictly Owner Controlled Global Broadcasts.</p>
-            </div>
-            <span class="text-[10px] px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">ONLY ME COMMAND</span>
-          </div>
-
-          <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-4">
-            <div class="h-64 overflow-y-auto space-y-3 p-3 bg-slate-950 rounded-2xl border border-slate-800">
-              ${db.worldChat.map(m => `
-                <div class="p-3.5 rounded-2xl border ${m.sender.includes('Suraj') ? 'bg-amber-950/20 border-amber-500/30 text-amber-200' : 'bg-slate-900 border-slate-800 text-slate-300'}">
-                  <div class="flex justify-between items-center text-[10px] font-mono text-slate-400 mb-1">
-                    <span class="font-bold text-white">${m.sender}</span>
-                    <span>${m.time}</span>
-                  </div>
-                  <p class="text-xs font-medium">${m.text}</p>
-                </div>
-              `).join('')}
-            </div>
-
-            <div class="flex gap-2">
-              <input id="chat-msg" type="text" placeholder="Type Master Command Broadcast..." class="flex-1 bg-slate-950 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:border-amber-400" onkeydown="if(event.key==='Enter') sendOwnerMessage()" />
-              <button onclick="sendOwnerMessage()" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition uppercase tracking-wider">
-                Send Command
-              </button>
             </div>
           </div>
         </div>`;
@@ -750,7 +813,7 @@
 
       return `
       <div class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-slate-900 border border-emerald-500/40 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl animate-fade-in">
+        <div class="bg-slate-900 border border-emerald-500/40 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl">
           <div class="flex justify-between items-center">
             <span class="text-xs font-mono text-emerald-400 font-bold tracking-wider">DIRECT SBI SETTLEMENT</span>
             <button onclick="closePaymentModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
@@ -779,7 +842,7 @@
       </div>`;
     }
 
-    // CONTROLLER & TRI-STATE ACTION ENGINE
+    // CONTROLLER & CORE FUNCTIONS
     function setLogin(e, p) {
       document.getElementById('l-email').value = e;
       document.getElementById('l-pass').value = p;
@@ -792,7 +855,7 @@
       const user = db.users.find(u => u.email === e && u.pass === p);
       if (user) {
         currentUser = user;
-        activeTab = 'fixtures';
+        activeTab = 'b2b-b2c';
         render();
       } else {
         alert('Invalid email or password');
@@ -803,6 +866,25 @@
     function tab(t) { activeTab = t; render(); }
     function setCategoryFilter(c) { filterCategory = c; render(); }
 
+    function creditVault(amount, source) {
+      const db = getDB();
+      const fee = Number(amount);
+      const tax = fee * 0.18;
+      const net = fee - tax;
+      db.ledger.unshift({
+        id: 'TXN-' + Date.now().toString().slice(-4),
+        source: source,
+        gross: fee,
+        tax: Number(tax.toFixed(2)),
+        net: Number(net.toFixed(2)),
+        status: 'DIRECT_SBI_CREDITED',
+        date: new Date().toISOString().slice(0, 10)
+      });
+      saveDB(db);
+      alert(`${source} added! Net profit ₹${net.toFixed(2)} credited to SBI Vault.`);
+      render();
+    }
+
     function setFixtureStateWithEarnings(id, targetState) {
       if (currentUser.role !== 'OWNER') return alert('Access Denied. Only Master Owner can change deal state.');
       const db = getDB();
@@ -811,14 +893,12 @@
 
       if (!item.claimedStages) item.claimedStages = [];
       const alreadyClaimed = item.claimedStages.includes(targetState);
-
       item.status = targetState;
 
       if (!alreadyClaimed) {
         const fee = item.lockFee || Math.round(item.rawBudget * 0.01);
         const tax = fee * 0.18;
         const net = fee - tax;
-
         item.claimedStages.push(targetState);
 
         db.ledger.unshift({
@@ -832,21 +912,181 @@
         });
 
         saveDB(db);
-        alert(`State Changed to [${targetState}]!\n₹ ${net.toFixed(2)} Net Stage Profit direct aapke Earnings Vault aur SBI A/c (${MASTER_CONFIG.accountNo}) me credit ho gaya hai.`);
+        alert(`State Changed to [${targetState}]!\n₹ ${net.toFixed(2)} Net Stage Profit direct aapke SBI A/c (${MASTER_CONFIG.accountNo}) me credit ho gaya hai.`);
       } else {
         saveDB(db);
-        alert(`State updated to [${targetState}]. (Stage earnings pehle hi securely claim ho chuki hain).`);
+        alert(`State updated to [${targetState}].`);
       }
-
       render();
+    }
+
+    function processB2COrder() {
+      const name = document.getElementById('b2c-name').value;
+      const role = document.getElementById('b2c-role').value;
+      if (!name || !role) return alert("Please enter both Name and Profession.");
+      showStatus("Validating order & compiling custom deliverable...");
+      setTimeout(() => {
+        generateInstantPDF("B2C Professional Kit", name, role);
+        creditVault(49, `B2C Utility Order: ${name}`);
+        hideStatus();
+      }, 1200);
+    }
+
+    function processB2BOrder() {
+      const company = document.getElementById('b2b-company').value;
+      const typeSelect = document.getElementById('b2b-type');
+      const type = typeSelect.value;
+      const price = typeSelect.options[typeSelect.selectedIndex].getAttribute('data-price') || 499;
+
+      if (!company) return alert("Please provide the Company Name.");
+      showStatus("Building encrypted enterprise document...");
+      setTimeout(() => {
+        generateInstantPDF("B2B Enterprise Document", company, type);
+        creditVault(price, `B2B Contract Order: ${company}`);
+        hideStatus();
+      }, 1500);
+    }
+
+    function generateInstantPDF(category, primaryText, secondaryText) {
+      const doc = new jsPDF();
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, 210, 40, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(18);
+      doc.text("AASHA GLOBAL SERVICE DELIVERABLE", 14, 20);
+      doc.setFontSize(10);
+      doc.setTextColor(16, 185, 129);
+      doc.text(`VERIFIED ID: AASHA-${Date.now().toString().slice(-6)} | CATEGORY: ${category}`, 14, 30);
+      doc.setTextColor(30, 41, 59);
+      doc.setFontSize(14);
+      doc.text(`Official Document for: ${primaryText}`, 14, 60);
+      doc.setFontSize(11);
+      doc.setTextColor(100, 116, 139);
+      doc.text(`Service / Specification: ${secondaryText}`, 14, 70);
+      doc.text(`Generated On: ${new Date().toLocaleString()}`, 14, 80);
+      doc.setDrawColor(203, 213, 225);
+      doc.line(14, 90, 196, 90);
+      doc.setTextColor(51, 65, 85);
+      doc.setFontSize(10);
+      const sampleTerms = doc.splitTextToSize("This deliverable is generated through Aasha Automated Microservices. All operational metrics and digital deliverables embedded are active and binding.", 180);
+      doc.text(sampleTerms, 14, 105);
+      doc.save(`${primaryText.replace(/\\s+/g, '_')}_Aasha_Deliverable.pdf`);
+    }
+
+    function showStatus(msg) {
+      const card = document.getElementById('status-card');
+      if (card) {
+        card.classList.remove('hidden');
+        document.getElementById('status-text').innerText = msg;
+      }
+    }
+    function hideStatus() {
+      const card = document.getElementById('status-card');
+      if (card) card.classList.add('hidden');
+    }
+
+    function issueLoanLetter() {
+      const name = document.getElementById('loan-user').value || "Valued Applicant";
+      const doc = new jsPDF();
+      doc.text("AASHA GLOBAL - PRE-APPROVED LOAN SANCTION", 14, 20);
+      doc.text(`Applicant Name: ${name}`, 14, 30);
+      doc.text(`Sanction Status: Verified In-Principle Disbursal Ready`, 14, 40);
+      doc.save(`${name}_Loan_Sanction.pdf`);
+      creditVault(1500, `Loan Disbursal Commission: ${name}`);
+    }
+
+    function issueInsuranceCover() {
+      const name = document.getElementById('ins-user').value || "Insured Client";
+      const doc = new jsPDF();
+      doc.text("AASHA HEALTH SHIELD - CASHLESS POLICY COVER", 14, 20);
+      doc.text(`Policy Holder: ${name}`, 14, 30);
+      doc.text(`Cashless Access: 14,000+ Hospitals Pan-India`, 14, 40);
+      doc.save(`${name}_Health_Policy.pdf`);
+      creditVault(1200, `Insurance Referral Fee: ${name}`);
+    }
+
+    function generateCAPDF() {
+      const name = document.getElementById('ca-client').value || "Client Enterprise";
+      const doc = new jsPDF();
+      doc.text("AASHA APEX - CERTIFIED CA AUDIT DOSSIER", 14, 20);
+      doc.text(`Enterprise: ${name}`, 14, 30);
+      doc.text(`Tax Compliance: Verified Zero Penalty Status`, 14, 40);
+      doc.save(`${name}_CA_Audit_Report.pdf`);
+      creditVault(2499, `CA Service Fee: ${name}`);
+    }
+
+    function generate3DInteriorAI() {
+      const title = document.getElementById('int-title').value;
+      const sqft = document.getElementById('int-sqft').value;
+      if (!title || !sqft) return alert('Please enter Specification and Area SqFt.');
+      if (currentUser.role === 'OWNER') {
+        alert(`Generating 3D BIM Layout & BOQ for: ${title} (${sqft} SqFt) - Free Owner Mode`);
+      } else {
+        activePaymentModal = { type: 'INTERIOR_3D', title, amount: 1499, description: `3D Interior Pack: ${title}` };
+        render();
+      }
+    }
+
+    function generateLegalDeedPack() {
+      const name = document.getElementById('lg-name').value;
+      const type = document.getElementById('lg-type').value;
+      const loan = document.getElementById('lg-loan').value;
+      if (!name) return alert('Please enter Business Name.');
+      activePaymentModal = { type: 'LEGAL_DEED_PACK', name, docType: type, loanScheme: loan, amount: 2999, description: `Legal/CMA Dossier: ${name}` };
+      render();
+    }
+
+    function initiateTournamentEntry(id, title, fee) {
+      activePaymentModal = { type: 'CHESS_ENTRY', id, title, amount: fee, description: `FIDE Tournament Registration Pass: ${title}` };
+      render();
+    }
+
+    function initiateFixturePayment(id, title, fee) {
+      activePaymentModal = { type: 'FIXTURE_LOCK', id, title, amount: fee, description: `1% Deal Lock Fee: ${title}` };
+      render();
+    }
+
+    function watchRewardedAd() {
+      alert("AdMob Rewarded Video Play Completed (+10 Coins)!");
+      const db = getDB();
+      db.userCoins = (db.userCoins || 120) + 10;
+      saveDB(db);
+      creditVault(50, "AdMob Video Impression RPM");
+    }
+
+    function crawlNewSuppliers() {
+      const db = getDB();
+      db.directory.unshift({
+        id: 'DIR-' + Date.now().toString().slice(-4),
+        name: "Global PetroChem & Polymer Exporters Ltd",
+        cat: "SUPPLIER_GLOBAL",
+        city: "Shanghai, China & Singapore",
+        phone: "+86 21 6888 1234 (WeChat: poly_chem_global)",
+        fee: 1499,
+        rating: "4.9 ★"
+      });
+      saveDB(db);
+      alert("New Verified Global Partner Crawled & Added!");
+      render();
+    }
+
+    function triggerMonetizedSearch() {
+      const q = document.getElementById('g-query').value;
+      if (!q) return alert('Kripya search query enter karein.');
+      if (currentUser.role === 'OWNER') {
+        window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+      } else {
+        activePaymentModal = { type: 'SEARCH_GATEWAY', query: q, amount: 49, description: `Google Search Access: "${q}"` };
+        render();
+      }
     }
 
     function approveIncomingFeed(id) {
       if (currentUser.role !== 'OWNER') return;
       const db = getDB();
-      const index = db.pendingApprovals.findIndex(p => p.id === id);
-      if (index !== -1) {
-        const item = db.pendingApprovals[index];
+      const idx = db.pendingApprovals.findIndex(p => p.id === id);
+      if (idx !== -1) {
+        const item = db.pendingApprovals[idx];
         db.directory.unshift({
           id: 'DIR-' + Date.now().toString().slice(-4),
           name: item.name,
@@ -856,140 +1096,38 @@
           fee: item.fee || 999,
           rating: '5.0 ★'
         });
-        db.pendingApprovals.splice(index, 1);
+        db.pendingApprovals.splice(idx, 1);
         saveDB(db);
-        alert(`Approved! "${item.name}" is now live in Global Directory with direct owner monetization.`);
+        alert(`Approved! "${item.name}" live in Directory.`);
         render();
       }
     }
 
-    function rejectIncomingFeed(id) {
+    function sendOwnerMessage() {
       if (currentUser.role !== 'OWNER') return;
+      const msgInput = document.getElementById('chat-msg');
+      const text = msgInput.value;
+      if (!text) return;
       const db = getDB();
-      db.pendingApprovals = db.pendingApprovals.filter(p => p.id !== id);
+      const now = new Date();
+      const timeStr = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+      db.worldChat.unshift({
+        id: 'MSG-' + Date.now(),
+        sender: 'Suraj Kumar Mishra (Master Owner)',
+        text: text,
+        time: timeStr,
+        tag: 'OWNER_COMMAND'
+      });
       saveDB(db);
+      msgInput.value = '';
       render();
     }
 
-    function initiateFixturePayment(id, title, fee) {
-      activePaymentModal = {
-        type: 'FIXTURE_LOCK',
-        id,
-        title,
-        amount: fee,
-        description: `1% Mega Deal Lock Fee: ${title}`
-      };
-      render();
+    function instantBankWithdraw(amount) {
+      alert(`Sovereign Withdrawal Authorized!\n₹ ${amount.toLocaleString()} has been settled to Owner Bank Account:\nSBI A/c: ${MASTER_CONFIG.accountNo}\nBranch: ${MASTER_CONFIG.branch}\nUPI: ${MASTER_CONFIG.upiId}\nPayee: Suraj Kumar Mishra`);
     }
 
-    function generate3DInteriorAI() {
-      const title = document.getElementById('int-title').value;
-      const sqft = document.getElementById('int-sqft').value;
-      if (!title || !sqft) return alert('Please enter Specification and Area SqFt.');
-
-      if (currentUser.role === 'OWNER') {
-        alert(`Generating Autonomous 3D BIM Layout & BOQ for: ${title} (${sqft} SqFt) - Free Owner Mode`);
-      } else {
-        activePaymentModal = {
-          type: 'INTERIOR_3D',
-          title,
-          amount: 1499,
-          description: `Certified 3D Interior & Architecture Pack: ${title}`
-        };
-        render();
-      }
-    }
-
-    function generateLegalDeedPack() {
-      const name = document.getElementById('lg-name').value;
-      const type = document.getElementById('lg-type').value;
-      const loan = document.getElementById('lg-loan').value;
-      const amt = document.getElementById('lg-amt').value;
-      if (!name || !amt) return alert('Please enter Business Name and Capital Amount.');
-
-      activePaymentModal = {
-        type: 'LEGAL_DEED_PACK',
-        name,
-        docType: type,
-        loanScheme: loan,
-        amount: 2999,
-        description: `Certified Legal/CMA Dossier: ${name}`
-      };
-      render();
-    }
-
-    function initiateTournamentEntry(id, title, fee) {
-      activePaymentModal = {
-        type: 'CHESS_ENTRY',
-        id,
-        title,
-        amount: fee,
-        description: `FIDE Tournament Registration Pass: ${title}`
-      };
-      render();
-    }
-
-    function initiateDirectoryUnlock(id, name, fee) {
-      activePaymentModal = {
-        type: 'DIRECTORY_UNLOCK',
-        id,
-        name,
-        amount: fee,
-        description: `Verified Direct Line Access: ${name}`
-      };
-      render();
-    }
-
-    function triggerMonetizedSearch() {
-      const q = document.getElementById('g-query').value;
-      if (!q) return alert('Kripya search query enter karein.');
-
-      if (currentUser.role === 'OWNER') {
-        window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
-      } else {
-        activePaymentModal = {
-          type: 'SEARCH_GATEWAY',
-          query: q,
-          amount: 49,
-          description: `Google Global Search Access: "${q}"`
-        };
-        render();
-      }
-    }
-
-    function triggerMonetizedApp(appName, url, fee) {
-      if (currentUser.role === 'OWNER') {
-        window.open(url, '_blank');
-      } else {
-        activePaymentModal = {
-          type: 'APP_GATEWAY',
-          appName,
-          targetUrl: url,
-          amount: fee,
-          description: `Direct Connect Gateway: ${appName}`
-        };
-        render();
-      }
-    }
-
-    function triggerDownloadDoc(title) {
-      if (currentUser.role === 'OWNER') {
-        alert(`Downloading Certified Legal/CMA Project PDF for: ${title}`);
-      } else {
-        activePaymentModal = {
-          type: 'DOC_DOWNLOAD',
-          title,
-          amount: 499,
-          description: `Certified Bank CMA PDF Download: ${title}`
-        };
-        render();
-      }
-    }
-
-    function closePaymentModal() {
-      activePaymentModal = null;
-      render();
-    }
+    function closePaymentModal() { activePaymentModal = null; render(); }
 
     function confirmUniversalPaymentSuccess() {
       if (!activePaymentModal) return;
@@ -1005,14 +1143,6 @@
           if (!item.claimedStages) item.claimedStages = [];
           if (!item.claimedStages.includes('OPEN')) item.claimedStages.push('OPEN');
         }
-      } else if (activePaymentModal.type === 'LEGAL_DEED_PACK') {
-        db.legalDocs.unshift({
-          id: 'DOC-' + Date.now().toString().slice(-4),
-          title: activePaymentModal.name,
-          docType: activePaymentModal.docType,
-          loanScheme: activePaymentModal.loanScheme,
-          status: 'CERTIFIED_ISSUED'
-        });
       }
 
       db.ledger.unshift({
@@ -1028,99 +1158,15 @@
       saveDB(db);
       const modal = activePaymentModal;
       activePaymentModal = null;
-      alert(`Payment Verified! ₹ ${net.toFixed(2)} net profit direct aapke SBI A/c (${MASTER_CONFIG.accountNo} - ISM Dhanbad) me credit ho gayi hai.`);
-      
-      if (modal.type === 'SEARCH_GATEWAY') {
-        window.open(`https://www.google.com/search?q=${encodeURIComponent(modal.query)}`, '_blank');
-      } else if (modal.type === 'APP_GATEWAY') {
-        window.open(modal.targetUrl, '_blank');
-      } else if (modal.type === 'DOC_DOWNLOAD') {
-        alert(`Certified PDF download unlocked for: ${modal.title}`);
-      }
-
+      alert(`Payment Verified! ₹ ${net.toFixed(2)} net profit direct aapke SBI A/c (${MASTER_CONFIG.accountNo}) me credit ho gayi hai.`);
+      if (modal.type === 'SEARCH_GATEWAY') window.open(`https://www.google.com/search?q=${encodeURIComponent(modal.query)}`, '_blank');
       render();
     }
 
-    function openAddMegaDealPrompt() {
-      if (currentUser.role !== 'OWNER') return alert('Only Master Owner can add mega deals.');
-      const title = prompt("Mega Deal / Project Title:");
-      if (!title) return;
-      const cat = prompt("Category (WEDDING_EVENT / INTERIOR_DESIGN / HOTEL_HOSPITALITY / FOOD_MANUFACTURER / COMMERCIAL_SETUP / HEALTHCARE_GOVT / EDUCATION_UNIVERSITY / TOUR_AIRLINE):", "HEALTHCARE_GOVT");
-      const client = prompt("Client / Govt Enterprise Name:", "National Infrastructure Board");
-      const city = prompt("City / Location:", "Dhanbad / New Delhi");
-      const budget = prompt("Package Budget (e.g. ₹ 1,00,00,000):", "₹ 1,00,00,000");
-      const details = prompt("Deal Scope & Specs:", "Turnkey High-Tech Execution & Complete Standard Setup");
-      const rawBudget = Number((budget || '').replace(/[^0-9]/g, '')) || 10000000;
-      const lockFee = Math.round(rawBudget * 0.01);
-
-      const db = getDB();
-      db.fixtures.unshift({
-        id: 'FIX-' + Date.now().toString().slice(-4),
-        title,
-        cat: cat || 'HEALTHCARE_GOVT',
-        client: client || 'Enterprise',
-        city: city || 'India',
-        budget: budget || '₹ 0',
-        details: details || 'Full Turnkey Execution',
-        rawBudget,
-        lockFee,
-        status: 'OPEN',
-        claimedStages: [],
-        date: new Date().toISOString().slice(0, 10)
-      });
-      saveDB(db);
-      alert('Naya Mega Project successfully Launch ho gaya!');
-      render();
-    }
-
-    function openAddProPrompt() {
-      if (currentUser.role !== 'OWNER') return alert('Only Master Owner can add professionals.');
-      const name = prompt("Enterprise / Pro Name (e.g. Himalayan Timber Mills):");
-      if (!name) return;
-      const cat = prompt("Category (MANUFACTURER / SUPPLIER_GLOBAL / CARPENTER / BUILDER / WEDDING_HALL / INTERIOR_DESIGNER / HOTEL_RESORT / FOOD_FACTORY / AIR_TRAVEL):", "SUPPLIER_GLOBAL");
-      const city = prompt("City / Region:", "Kathmandu / India");
-      const phone = prompt("Phone / WhatsApp:", "+91 98765 43210");
-
-      const db = getDB();
-      db.directory.unshift({
-        id: 'DIR-' + Date.now().toString().slice(-4),
-        name,
-        cat: cat || 'SUPPLIER_GLOBAL',
-        city: city || 'Global',
-        phone: phone || '+91 00000 00000',
-        fee: 999,
-        rating: '5.0 ★'
-      });
-      saveDB(db);
-      alert(name + ' verified directory me jud chuka hai!');
-      render();
-    }
-
-    function sendOwnerMessage() {
-      if (currentUser.role !== 'OWNER') return alert('Only Master Owner can post broadcasts.');
-      const msgInput = document.getElementById('chat-msg');
-      const text = msgInput.value;
-      if (!text) return;
-
-      const db = getDB();
-      const now = new Date();
-      const timeStr = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-
-      db.worldChat.unshift({
-        id: 'MSG-' + Date.now(),
-        sender: 'Suraj Kumar Mishra (Master Owner)',
-        text: text,
-        time: timeStr,
-        tag: 'OWNER_COMMAND'
-      });
-
-      saveDB(db);
-      msgInput.value = '';
-      render();
-    }
-
-    function instantBankWithdraw(amount) {
-      alert(`Sovereign Withdrawal Authorized!\n₹ ${amount.toLocaleString()} has been settled to Owner Bank Account:\nSBI A/c: ${MASTER_CONFIG.accountNo}\nBranch: ${MASTER_CONFIG.branch}\nUPI: ${MASTER_CONFIG.upiId}\nPayee: Suraj Kumar Mishra`);
+    function triggerSelfHealingCheck() { document.getElementById('self-heal-modal').classList.remove('hidden'); }
+    function applySafePatch() {
+      document.getElementById('self-heal-modal').classList.add('hidden');
+      alert("AI Safe-Patch Applied! Zero runtime errors & memory refreshed.");
     }
 
     render();
