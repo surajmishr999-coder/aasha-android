@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AASHA Sovereign World-OS | Master Commander Universe</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .gold-gradient { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .gold-text { background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  </style>
+</head>
+<body class="bg-[#020617] text-slate-100 min-h-screen">
+  <div id="app"></div>
+
+  <script>
+    const MASTER_CONFIG = {
+      payeeName: "SURAJ KUMAR MISHRA",
+      upiId: "surajmishr999-1@oksbi",
+      accountNo: "44220560317",
+      cifNo: "92161358264",
+      bankName: "State Bank of India (SBI)",
+      branch: "ISM Campus Dhanbad (Branch Code: 1641)"
+    };
+
+    let totalVisits = parseInt(localStorage.getItem('aasha_hits_v33') || '1') + 1;
+    localStorage.setItem('aasha_hits_v33', totalVisits);
+
+    const initialUniverse = {
+      historicalLedger: [
+        { id: 'TXN-901', source: 'ROYAL_WEDDING_MANDAP_COMMISSION (Dhanbad)', gross: 102000, tax: 18360, net: 83640, status: 'DIRECT_SBI_CREDITED', date: '2026-08-30' },
+        { id: 'TXN-902', source: 'GOVT_AI_TECH_PARK_INFRA_LOCK (Dhanbad)', gross: 180000, tax: 32400, net: 147600, status: 'DIRECT_SBI_CREDITED', date: '2026-08-30' },
+        { id: 'TXN-903', source: 'UNIVERSAL_1_CLICK_DOCUMENT_FEE', gross: 2999, tax: 539.82, net: 2459.18, status: 'DIRECT_SBI_CREDITED', date: '2026-08-31' },
+        { id: 'TXN-904', source: 'AIR_INDIA_IATA_VIP_CHARTER_COMMISSION', gross: 38000, tax: 6840, net: 31160, status: 'DIRECT_SBI_CREDITED', date: '2026-09-01' }
+      ],
+      liveLedger: [],
+      activeLedgerMode: 'HISTORICAL',
+      fixtures: [
+        { id: 'FIX-INT-01', sector: 'INTERIOR', title: 'Skyline Luxury Penthouse Turnkey Interior & Woodwork', city: 'Delhi GK-II', budget: '₹ 45,00,000', rawBudget: 4500000, lockFee: 45000, status: 'OPEN', client: 'Skyline Buildtech', claimedStages: [] },
+        { id: 'FIX-BNK-01', sector: 'BANK_FINANCE', title: 'Mudra Tarun (₹10 Lakh) Instant Loan Sanction Desk', city: 'ISM Campus Dhanbad', budget: '₹ 10,00,000', rawBudget: 1000000, lockFee: 10000, status: 'OPEN', client: 'State Bank of India', claimedStages: [] },
+        { id: 'FIX-HSP-01', sector: 'HEALTHCARE', title: 'Super-Speciality Modular ICU Wing (100-Bed)', city: 'Dhanbad / Ranchi', budget: '₹ 2,20,00,000', rawBudget: 22000000, lockFee: 220000, status: 'OPEN', client: 'National Health Mission', claimedStages: [] },
+        { id: 'FIX-UNV-01', sector: 'EDUCATION', title: 'IIT (ISM) Dhanbad AI Supercomputing Campus', city: 'Dhanbad, Jharkhand', budget: '₹ 1,80,00,000', rawBudget: 18000000, lockFee: 180000, status: 'OPEN', client: 'IIT (ISM) Hub', claimedStages: [] },
+        { id: 'FIX-CRP-01', sector: 'CARPENTRY', title: 'Apex Hardwood Timber & Joinery Batch', city: 'Patna, Bihar', budget: '₹ 8,50,000', rawBudget: 850000, lockFee: 8500, status: 'CLOSED', client: 'Apex Woodcrafters', claimedStages: ['OPEN', 'USED', 'CLOSED'] },
+        { id: 'FIX-MFG-01', sector: 'MANUFACTURERS', title: 'Pidilite Fevicol Direct Factory Crates', city: 'Mumbai / Pan-India', budget: '₹ 15,00,000', rawBudget: 1500000, lockFee: 15000, status: 'OPEN', client: 'Pidilite Industries', claimedStages: [] },
+        { id: 'FIX-AIR-01', sector: 'AVIATION', title: 'Air India VIP Corporate Charter Fleet', city: 'Mumbai / Dubai', budget: '₹ 38,00,000', rawBudget: 3800000, lockFee: 38000, status: 'CLOSED', client: 'Air India & Tata SIA', claimedStages: ['OPEN', 'USED', 'CLOSED'] },
+        { id: 'FIX-GOV-01', sector: 'GOVT_INFRA', title: 'NHAI Smart Highway Solar Canopy Grid', city: 'Ranchi Expressway', budget: '₹ 3,50,00,000', rawBudget: 35000000, lockFee: 350000, status: 'OPEN', client: 'National Highway Authority', claimedStages: [] }
+      ]
+    };
+
+    if (!localStorage.getItem('aasha_db_master_v33')) {
+      localStorage.setItem('aasha_db_master_v33', JSON.stringify(initialUniverse));
+    }
+
+    function getDB() { return JSON.parse(localStorage.getItem('aasha_db_master_v33')); }
+    function saveDB(d) { localStorage.setItem('aasha_db_master_v33', JSON.stringify(d)); }
+
+    let isCommander = true; // Auto-Unlocks Full Owner Command
+    let activeTab = 'fixtures';
+    let filter = 'ALL';
+
+    function render() {
+      const db = getDB();
+      const currentLedger = db.activeLedgerMode === 'HISTORICAL' ? db.historicalLedger : db.liveLedger;
+      const gross = currentLedger.reduce((a, c) => a + c.gross, 0);
+      const tax = currentLedger.reduce((a, c) => a + c.tax, 0);
+      const net = currentLedger.reduce((a, c) => a + c.net, 0);
+
+      const filtered = filter === 'ALL' ? db.fixtures : db.fixtures.filter(f => f.sector === filter);
+
+      document.getElementById('app').innerHTML = `
+      <div class="max-w-7xl mx-auto p-4 md:p-6 space-y-6">
+        <header class="flex justify-between items-center border-b border-slate-800 pb-4 flex-wrap gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-2xl font-black gold-text">AASHA SOVEREIGN OS</h1>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">👑 MASTER COMMANDER</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5">Owner: <b class="text-white">${MASTER_CONFIG.payeeName}</b> | SBI A/c: <b class="text-emerald-400 font-mono">${MASTER_CONFIG.accountNo}</b> (${MASTER_CONFIG.branch})</p>
+          </div>
+          <div class="text-xs font-mono bg-emerald-950 text-emerald-300 px-3 py-1.5 rounded-xl border border-emerald-500/30">
+            UPI: ${MASTER_CONFIG.upiId}
+          </div>
+        </header>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
+            <span class="text-xs uppercase text-slate-400 font-bold">Gross Turnover</span>
+            <p class="text-3xl font-black text-white mt-1">₹ ${gross.toLocaleString()}</p>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
+            <span class="text-xs uppercase text-slate-400 font-bold">18% GST Reserve</span>
+            <p class="text-3xl font-black text-indigo-400 mt-1">₹ ${tax.toLocaleString()}</p>
+          </div>
+          <div class="bg-slate-900 border border-emerald-500/40 p-5 rounded-3xl bg-gradient-to-br from-slate-900 to-emerald-950/20">
+            <span class="text-xs uppercase text-emerald-400 font-bold">Net Realized Profit (SBI Bank)</span>
+            <p class="text-3xl font-black text-emerald-400 mt-1">₹ ${net.toLocaleString()}</p>
+          </div>
+        </div>
+
+        <!-- Filter Tags -->
+        <div class="flex gap-2 flex-wrap bg-slate-950 p-2 rounded-2xl border border-slate-800">
+          {['ALL', 'INTERIOR', 'BANK_FINANCE', 'HEALTHCARE', 'EDUCATION', 'CARPENTRY', 'MANUFACTURERS', 'AVIATION', 'GOVT_INFRA'].map(s => \`
+            <button onclick="setFilter('\${s}')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition \${filter === s ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-400'}"\>\${s}\</button\>
+          \`).join('')}
+        </div>
+
+        <!-- Deals Matrix -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          ${filtered.map(f => `
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl flex flex-col justify-between space-y-3 shadow-xl">
+              <div>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 font-bold uppercase">${f.sector}</span>
+                <h3 class="text-base font-bold text-white mt-1 leading-snug">${f.title}</h3>
+                <p class="text-xs text-slate-400 mt-1">Budget: <b class="text-emerald-400">${f.budget}</b> • 1% Fee: <b class="text-amber-400">₹${f.lockFee.toLocaleString()}</b></p>
+              </div>
+              <div class="grid grid-cols-3 gap-1 pt-2 border-t border-slate-800">
+                <button onclick="executeStage('${f.id}', 'OPEN')" class="py-1.5 rounded text-[10px] font-bold ${f.status === 'OPEN' ? 'bg-emerald-500 text-slate-950 font-black' : 'bg-slate-800 text-slate-300'}">OPEN</button>
+                <button onclick="executeStage('${f.id}', 'USED')" class="py-1.5 rounded text-[10px] font-bold ${f.status === 'USED' ? 'bg-indigo-500 text-white font-black' : 'bg-slate-800 text-slate-300'}">USED</button>
+                <button onclick="executeStage('${f.id}', 'CLOSED')" class="py-1.5 rounded text-[10px] font-bold ${f.status === 'CLOSED' ? 'bg-red-500 text-white font-black' : 'bg-slate-800 text-slate-300'}">CLOSE</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>`;
+    }
+
+    function setFilter(f) { filter = f; render(); }
+
+    function executeStage(id, stage) {
+      const db = getDB();
+      const item = db.fixtures.find(f => f.id === id);
+      if (!item) return;
+      if (!item.claimedStages) item.claimedStages = [];
+
+      if (!item.claimedStages.includes(stage)) {
+        const fee = item.lockFee;
+        const tax = fee * 0.18;
+        const net = fee - tax;
+        item.claimedStages.push(stage);
+        item.status = stage;
+
+        db.historicalLedger.unshift({
+          id: 'TXN-' + Date.now().toString().slice(-4),
+          source: `${stage}_STAGE (${item.title})`,
+          gross: fee,
+          tax: Number(tax.toFixed(2)),
+          net: Number(net.toFixed(2)),
+          status: 'DIRECT_SBI_CREDITED',
+          date: new Date().toISOString().slice(0, 10)
+        });
+
+        saveDB(db);
+        alert(`Stage [${stage}] Executed!\n₹ ${net.toFixed(2)} Net Profit credited to SBI A/c (${MASTER_CONFIG.accountNo}).`);
+      } else {
+        item.status = stage;
+        saveDB(db);
+        alert(`Status updated to [${stage}].`);
+      }
+      render();
+    }
+
+    render();
+  </script>
+</body>
+</html>
