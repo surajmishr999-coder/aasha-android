@@ -1,168 +1,3777 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AASHA Sovereign World-OS | Master Commander Universe</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .gold-gradient { background: linear-gradient(135deg, #f59e0b, #d97706); }
-    .gold-text { background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>AASHA World-OS — Owner Master</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+
+body{
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,
+  "Segoe UI",sans-serif;
+  background:#f6f7fb;
+  color:#172033;
+}
+
+.tab.active{
+  background:#111827;
+  color:white;
+}
+
+.card{
+  background:white;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 4px 18px rgba(0,0,0,.04);
+}
+
+input,select,textarea{
+  width:100%;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  padding:10px;
+  background:white;
+  box-sizing:border-box;
+}
+
+textarea{
+  min-height:100px;
+}
+
+button{
+  border-radius:10px;
+  padding:9px 13px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.primary{
+  background:#111827;
+  color:white;
+}
+
+.success{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.danger{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.warning{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.secondary{
+  background:#e5e7eb;
+  color:#111827;
+}
+
+.badge{
+  display:inline-block;
+  border-radius:999px;
+  padding:3px 8px;
+  font-size:12px;
+  background:#f3f4f6;
+}
+
+.fixture-card{
+  cursor:pointer;
+  transition:.2s;
+}
+
+.fixture-card:hover{
+  transform:translateY(-2px);
+  border-color:#f59e0b;
+}
+
+.fixture-card.selected{
+  border:2px solid #f59e0b;
+}
+
+.dark-suite{
+  background:#0b1329;
+  color:#f8fafc;
+  border-radius:16px;
+  padding:20px;
+}
+
+.dark-suite input,
+.dark-suite select,
+.dark-suite textarea{
+  background:#0f172a;
+  color:white;
+  border-color:#475569;
+}
+
+.dark-suite label{
+  color:#cbd5e1;
+  font-size:13px;
+  font-weight:600;
+}
+
+.document-preview{
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  padding:15px;
+  border-radius:12px;
+}
+
+.stat{
+  min-height:100px;
+}
+
+@media(max-width:700px){
+
+  .input-grid{
+    grid-template-columns:1fr !important;
+  }
+
+}
+
+</style>
 </head>
-<body class="bg-[#020617] text-slate-100 min-h-screen">
-  <div id="app"></div>
 
-  <script>
-    const MASTER_CONFIG = {
-      payeeName: "SURAJ KUMAR MISHRA",
-      upiId: "surajmishr999-1@oksbi",
-      accountNo: "44220560317",
-      cifNo: "92161358264",
-      bankName: "State Bank of India (SBI)",
-      branch: "ISM Campus Dhanbad (Branch Code: 1641)"
-    };
+<body>
 
-    let totalVisits = parseInt(localStorage.getItem('aasha_hits_v33') || '1') + 1;
-    localStorage.setItem('aasha_hits_v33', totalVisits);
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-    const initialUniverse = {
-      historicalLedger: [
-        { id: 'TXN-901', source: 'ROYAL_WEDDING_MANDAP_COMMISSION (Dhanbad)', gross: 102000, tax: 18360, net: 83640, status: 'DIRECT_SBI_CREDITED', date: '2026-08-30' },
-        { id: 'TXN-902', source: 'GOVT_AI_TECH_PARK_INFRA_LOCK (Dhanbad)', gross: 180000, tax: 32400, net: 147600, status: 'DIRECT_SBI_CREDITED', date: '2026-08-30' },
-        { id: 'TXN-903', source: 'UNIVERSAL_1_CLICK_DOCUMENT_FEE', gross: 2999, tax: 539.82, net: 2459.18, status: 'DIRECT_SBI_CREDITED', date: '2026-08-31' },
-        { id: 'TXN-904', source: 'AIR_INDIA_IATA_VIP_CHARTER_COMMISSION', gross: 38000, tax: 6840, net: 31160, status: 'DIRECT_SBI_CREDITED', date: '2026-09-01' }
-      ],
-      liveLedger: [],
-      activeLedgerMode: 'HISTORICAL',
-      fixtures: [
-        { id: 'FIX-INT-01', sector: 'INTERIOR', title: 'Skyline Luxury Penthouse Turnkey Interior & Woodwork', city: 'Delhi GK-II', budget: '₹ 45,00,000', rawBudget: 4500000, lockFee: 45000, status: 'OPEN', client: 'Skyline Buildtech', claimedStages: [] },
-        { id: 'FIX-BNK-01', sector: 'BANK_FINANCE', title: 'Mudra Tarun (₹10 Lakh) Instant Loan Sanction Desk', city: 'ISM Campus Dhanbad', budget: '₹ 10,00,000', rawBudget: 1000000, lockFee: 10000, status: 'OPEN', client: 'State Bank of India', claimedStages: [] },
-        { id: 'FIX-HSP-01', sector: 'HEALTHCARE', title: 'Super-Speciality Modular ICU Wing (100-Bed)', city: 'Dhanbad / Ranchi', budget: '₹ 2,20,00,000', rawBudget: 22000000, lockFee: 220000, status: 'OPEN', client: 'National Health Mission', claimedStages: [] },
-        { id: 'FIX-UNV-01', sector: 'EDUCATION', title: 'IIT (ISM) Dhanbad AI Supercomputing Campus', city: 'Dhanbad, Jharkhand', budget: '₹ 1,80,00,000', rawBudget: 18000000, lockFee: 180000, status: 'OPEN', client: 'IIT (ISM) Hub', claimedStages: [] },
-        { id: 'FIX-CRP-01', sector: 'CARPENTRY', title: 'Apex Hardwood Timber & Joinery Batch', city: 'Patna, Bihar', budget: '₹ 8,50,000', rawBudget: 850000, lockFee: 8500, status: 'CLOSED', client: 'Apex Woodcrafters', claimedStages: ['OPEN', 'USED', 'CLOSED'] },
-        { id: 'FIX-MFG-01', sector: 'MANUFACTURERS', title: 'Pidilite Fevicol Direct Factory Crates', city: 'Mumbai / Pan-India', budget: '₹ 15,00,000', rawBudget: 1500000, lockFee: 15000, status: 'OPEN', client: 'Pidilite Industries', claimedStages: [] },
-        { id: 'FIX-AIR-01', sector: 'AVIATION', title: 'Air India VIP Corporate Charter Fleet', city: 'Mumbai / Dubai', budget: '₹ 38,00,000', rawBudget: 3800000, lockFee: 38000, status: 'CLOSED', client: 'Air India & Tata SIA', claimedStages: ['OPEN', 'USED', 'CLOSED'] },
-        { id: 'FIX-GOV-01', sector: 'GOVT_INFRA', title: 'NHAI Smart Highway Solar Canopy Grid', city: 'Ranchi Expressway', budget: '₹ 3,50,00,000', rawBudget: 35000000, lockFee: 350000, status: 'OPEN', client: 'National Highway Authority', claimedStages: [] }
-      ]
-    };
+<header class="bg-white border-b sticky top-0 z-50">
 
-    if (!localStorage.getItem('aasha_db_master_v33')) {
-      localStorage.setItem('aasha_db_master_v33', JSON.stringify(initialUniverse));
+<div class="max-w-7xl mx-auto p-4
+flex justify-between items-center gap-3">
+
+<div>
+
+<h1 class="text-xl font-bold">
+AASHA World-OS
+</h1>
+
+<p class="text-xs text-gray-500">
+Owner Master • Real Data • No Fake Earnings
+</p>
+
+</div>
+
+<span class="badge">
+Browser Prototype
+</span>
+
+</div>
+
+</header>
+
+
+<main class="max-w-7xl mx-auto p-4">
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav class="flex flex-wrap gap-2 mb-5">
+
+<button class="tab active"
+data-tab="dashboard">
+Dashboard
+</button>
+
+<button class="tab"
+data-tab="leads">
+Client Leads
+</button>
+
+<button class="tab"
+data-tab="fixtures">
+12 Fixtures
+</button>
+
+<button class="tab"
+data-tab="documents">
+Documents
+</button>
+
+<button class="tab"
+data-tab="earningsPanel">
+Earnings & Payments
+</button>
+
+<button class="tab"
+data-tab="updates">
+Pending Updates
+</button>
+
+<button class="tab"
+data-tab="settings">
+Owner Settings
+</button>
+
+</nav>
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section id="dashboard" class="panel">
+
+<div class="grid md:grid-cols-5 gap-3">
+
+<div class="card stat">
+
+<div class="text-sm text-gray-500">
+Total Leads
+</div>
+
+<div id="leadCount"
+class="text-3xl font-bold">
+0
+</div>
+
+</div>
+
+
+<div class="card stat">
+
+<div class="text-sm text-gray-500">
+Pending Approval
+</div>
+
+<div id="pendingCount"
+class="text-3xl font-bold">
+0
+</div>
+
+</div>
+
+
+<div class="card stat">
+
+<div class="text-sm text-gray-500">
+Documents
+</div>
+
+<div id="docCount"
+class="text-3xl font-bold">
+0
+</div>
+
+</div>
+
+
+<div class="card stat">
+
+<div class="text-sm text-gray-500">
+Verified Earnings
+</div>
+
+<div id="earnings"
+class="text-3xl font-bold">
+₹0
+</div>
+
+</div>
+
+
+<div class="card stat">
+
+<div class="text-sm text-gray-500">
+Payment Pending
+</div>
+
+<div id="pendingPayments"
+class="text-3xl font-bold">
+₹0
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card mt-4">
+
+<h2 class="font-bold">
+Owner Workflow
+</h2>
+
+<p class="text-sm mt-2">
+
+Source →
+Discovery →
+Verification →
+Owner Approval →
+Lead →
+Contact →
+Deal →
+Document →
+Payment →
+Owner Verification →
+Earning →
+Audit
+
+</p>
+
+<p class="text-xs text-gray-500 mt-3">
+
+AASHA browser prototype public/authorized data workflow
+use karta hai. Real banking, GST, government portal,
+payment gateway aur advertising network automatically
+verify nahi hote.
+
+</p>
+
+</div>
+
+
+<div class="card mt-4">
+
+<h2 class="font-bold mb-3">
+Earnings Summary
+</h2>
+
+<div class="grid md:grid-cols-3 gap-3">
+
+<div>
+
+<p class="text-sm text-gray-500">
+Total Received
+</p>
+
+<b id="totalReceived">
+₹0
+</b>
+
+</div>
+
+
+<div>
+
+<p class="text-sm text-gray-500">
+Total Charges
+</p>
+
+<b id="totalCharges">
+₹0
+</b>
+
+</div>
+
+
+<div>
+
+<p class="text-sm text-gray-500">
+Verified Net Earnings
+</p>
+
+<b id="totalNet">
+₹0
+</b>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     CLIENT LEADS
+===================================================== -->
+
+<section id="leads" class="panel hidden">
+
+<div class="card">
+
+<h2 class="font-bold mb-3">
+Add Genuine Client / Project Lead
+</h2>
+
+<div class="grid md:grid-cols-2 gap-3">
+
+<input
+id="lName"
+placeholder="Client / Company Name"
+>
+
+<input
+id="lType"
+placeholder="Project Type"
+>
+
+<input
+id="lLocation"
+placeholder="Location"
+>
+
+<input
+id="lContact"
+placeholder="Public Contact / Official Website"
+>
+
+<input
+id="lBudget"
+type="number"
+placeholder="Estimated Budget"
+>
+
+<input
+id="lSource"
+placeholder="Source URL / Reference"
+>
+
+<textarea
+id="lNeed"
+class="md:col-span-2"
+placeholder="Requirement / Scope"
+></textarea>
+
+</div>
+
+<button
+class="primary mt-3"
+onclick="addLead()">
+Save as Pending Approval
+</button>
+
+</div>
+
+
+<div id="leadList"
+class="grid md:grid-cols-2 gap-3 mt-4">
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     12 FIXTURES
+===================================================== -->
+
+<section id="fixtures" class="panel hidden">
+
+<div class="card mb-4">
+
+<h2 class="font-bold">
+12 Universal Fixtures Engine
+</h2>
+
+<p class="text-sm text-gray-500 mt-2">
+
+Fixtures service/project categories hain.
+Fixture khud real client, tender, project ya contract
+ka proof nahi hai.
+
+</p>
+
+</div>
+
+
+<div id="fixtureList"
+class="grid md:grid-cols-3 gap-3">
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     DOCUMENT CENTER
+===================================================== -->
+
+<section id="documents" class="panel hidden">
+
+
+<div class="dark-suite">
+
+<div class="header-box">
+
+<h2 class="text-xl font-bold">
+AASHA World-OS — Universal Document Suite
+</h2>
+
+<p class="text-sm text-slate-400 mt-1">
+12 Fixtures + Full Commercial Document Engine
+</p>
+
+</div>
+
+
+<!-- FIXTURE SELECTOR -->
+
+<div class="grid md:grid-cols-3 gap-2 mb-5">
+
+<button class="secondary"
+onclick="selectFixture('Royal Weddings')">
+👑 Royal Weddings
+</button>
+
+<button class="secondary"
+onclick="selectFixture('3D Interiors')">
+🏛️ 3D Interiors
+</button>
+
+<button class="secondary"
+onclick="selectFixture('5-Star Hotels')">
+🏨 5-Star Hotels
+</button>
+
+<button class="secondary"
+onclick="selectFixture('Food Mills & Timber')">
+🏭 Food Mills & Timber
+</button>
+
+<button class="secondary"
+onclick="selectFixture('Hospital & Govt Infra')">
+🏥 Hospital & Govt Infra
+</button>
+
+<button class="secondary"
+onclick="selectFixture('Inland Ports & Logistics')">
+🚢 Inland Ports & Logistics
+</button>
+
+<button class="secondary"
+onclick="selectFixture('Solar & Renewable Energy')">
+⚡ Solar & Renewable Energy
+</button>
+
+<button class="secondary"
+onclick="selectFixture('Commercial Real Estate')">
+🏢 Commercial Real Estate
+</button>
+
+<button class="secondary"
+onclick="selectFixture('Cold Storage Hubs')">
+❄️ Cold Storage Hubs
+</button>
+
+<button class="secondary"
+onclick="selectFixture('IT Parks & Smart Tech')">
+💻 IT Parks & Networks
+</button>
+
+<button class="secondary"
+onclick="selectFixture('Heavy Machinery Leasing')">
+🚜 Heavy Machinery
+</button>
+
+<button class="secondary"
+onclick="selectFixture('Automobile Logistics')">
+🚗 Automobile Logistics
+</button>
+
+</div>
+
+
+<h3 id="currentLabel"
+class="text-lg font-bold text-amber-400 mb-4">
+Selected: Royal Weddings
+</h3>
+
+
+<!-- DOCUMENT FORM -->
+
+<div class="grid md:grid-cols-2 gap-3">
+
+
+<div>
+
+<label>
+Document Type
+</label>
+
+<select id="dType">
+
+<option>Quotation</option>
+
+<option>Work Order</option>
+
+<option>Purchase Order</option>
+
+<option>MoU / Agreement</option>
+
+<option>Service Agreement</option>
+
+<option>Vendor / Supplier Agreement</option>
+
+<option>SLA</option>
+
+<option>Project Proposal</option>
+
+<option>Scope of Work</option>
+
+<option>BOQ / Cost Sheet</option>
+
+<option>Project Report</option>
+
+<option>Tax Invoice</option>
+
+<option>Proforma Invoice</option>
+
+<option>Commercial Invoice</option>
+
+<option>Delivery Challan</option>
+
+<option>Payment Receipt</option>
+
+<option>Advance Receipt</option>
+
+<option>Completion Certificate</option>
+
+<option>Handover Certificate</option>
+
+<option>Debit Note</option>
+
+<option>Credit Note</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>
+Project Name
+</label>
+
+<input
+id="dProject"
+placeholder="Project Name"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Issuer / Provider Legal Name
+</label>
+
+<input
+id="dIssuer"
+placeholder="Issuer / Company Name"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Udyam / MSME Registration
+</label>
+
+<input
+id="dUdyam"
+placeholder="Only if actually registered"
+>
+
+</div>
+
+
+<div>
+
+<label>
+GSTIN
+</label>
+
+<input
+id="dGstin"
+placeholder="Only if actually registered"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Client / Customer Legal Name
+</label>
+
+<input
+id="dClient"
+placeholder="Client Name"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Client Address
+</label>
+
+<input
+id="dClientAddress"
+placeholder="Client Address"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Contact
+</label>
+
+<input
+id="dContact"
+placeholder="Official / authorized contact"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Official Reference / Tender Reference
+</label>
+
+<input
+id="dReference"
+placeholder="Reference only if genuine"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Project Location
+</label>
+
+<input
+id="dLocation"
+placeholder="Project Location"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Start Date
+</label>
+
+<input
+id="dStartDate"
+type="date"
+>
+
+</div>
+
+
+<div>
+
+<label>
+End Date
+</label>
+
+<input
+id="dEndDate"
+type="date"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Base Amount ₹
+</label>
+
+<input
+id="dAmount"
+type="number"
+min="0"
+placeholder="0"
+>
+
+</div>
+
+
+<div>
+
+<label>
+GST Rate
+</label>
+
+<select id="dGstRate">
+
+<option value="0">
+0%
+</option>
+
+<option value="5">
+5%
+</option>
+
+<option value="12">
+12%
+</option>
+
+<option value="18">
+18%
+</option>
+
+<option value="28">
+28%
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>
+Payment Terms
+</label>
+
+<textarea
+id="dPaymentTerms"
+placeholder="Advance, milestone, credit etc."
+></textarea>
+
+</div>
+
+
+<div>
+
+<label>
+Warranty / Support
+</label>
+
+<textarea
+id="dWarranty"
+placeholder="Warranty / support details"
+></textarea>
+
+</div>
+
+
+<div class="md:col-span-2">
+
+<label>
+Scope / Description
+</label>
+
+<textarea
+id="dScope"
+placeholder="Detailed scope, deliverables, work description"
+></textarea>
+
+</div>
+
+
+<div class="md:col-span-2">
+
+<label>
+Terms & Conditions
+</label>
+
+<textarea
+id="dTerms"
+placeholder="Terms and conditions"
+></textarea>
+
+</div>
+
+</div>
+
+
+<div class="flex flex-wrap gap-2 mt-4">
+
+<button
+class="warning"
+onclick="previewDocumentData()">
+Preview
+</button>
+
+<button
+class="primary"
+onclick="createFullDocument()">
+🖨️ Create Draft & Print
+</button>
+
+</div>
+
+
+<p class="text-xs text-slate-400 mt-4">
+
+GST calculation is only a user-supplied calculation.
+AASHA does not determine whether GST applies.
+This document is not itself a government certificate,
+government approval, GST registration, tender award,
+digital signature or statutory authorization.
+
+</p>
+
+</div>
+
+
+<!-- DOCUMENT REGISTER -->
+
+<div class="card mt-4">
+
+<h2 class="font-bold mb-3">
+Document Register
+</h2>
+
+<div id="docList">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     EARNINGS & PAYMENTS
+===================================================== -->
+
+<section id="earningsPanel" class="panel hidden">
+
+<div class="card">
+
+<h2 class="font-bold mb-2">
+Actual Earnings & Payment Ledger
+</h2>
+
+<p class="text-sm text-gray-500 mb-4">
+
+Payment ko tabhi Verified karein jab Owner ke paas
+actual bank/payment gateway/provider confirmation ho.
+
+</p>
+
+
+<div class="grid md:grid-cols-2 gap-3">
+
+<input
+id="eDealId"
+placeholder="Deal / Project ID"
+>
+
+<input
+id="eClient"
+placeholder="Client Name"
+>
+
+<input
+id="eDocumentId"
+placeholder="Document ID"
+>
+
+<input
+id="eInvoice"
+type="number"
+min="0"
+placeholder="Invoice Amount ₹"
+>
+
+<input
+id="eReceived"
+type="number"
+min="0"
+placeholder="Payment Received ₹"
+>
+
+<input
+id="eCharges"
+type="number"
+min="0"
+placeholder="Platform / Other Charges ₹"
+>
+
+<input
+id="eReference"
+placeholder="Payment Reference / UTR"
+>
+
+<input
+id="eDate"
+type="date"
+>
+
+<textarea
+id="eNotes"
+class="md:col-span-2"
+placeholder="Owner verification notes"
+></textarea>
+
+</div>
+
+
+<button
+class="primary mt-3"
+onclick="recordPayment()">
+Record Payment
+</button>
+
+</div>
+
+
+<div class="card mt-4">
+
+<h2 class="font-bold mb-3">
+Payment Ledger
+</h2>
+
+<div id="earningsList">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     PENDING UPDATES
+===================================================== -->
+
+<section id="updates" class="panel hidden">
+
+<div class="card">
+
+<h2 class="font-bold">
+Pending Updates
+</h2>
+
+<p class="text-sm text-gray-500">
+
+New information Owner Approval ke bina publish
+nahi kiya jana chahiye.
+
+</p>
+
+<div id="updateList"
+class="mt-3">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     OWNER SETTINGS
+===================================================== -->
+
+<section id="settings" class="panel hidden">
+
+<div class="card">
+
+<h2 class="font-bold">
+Owner Controls
+</h2>
+
+
+<div class="grid md:grid-cols-2 gap-3 mt-3">
+
+
+<label>
+
+Owner Name
+
+<input
+id="ownerName"
+placeholder="Owner"
+>
+
+</label>
+
+
+<label>
+
+Publishing Mode
+
+<input
+value="OFF — Owner Approval Required"
+disabled
+>
+
+</label>
+
+
+<label>
+
+Data Policy
+
+<input
+value="Public / Authorized Sources Only"
+disabled
+>
+
+</label>
+
+
+<label>
+
+Bank Credentials
+
+<input
+value="Never Store in Public Frontend"
+disabled
+>
+
+</label>
+
+
+<label>
+
+Fake Earnings
+
+<input
+value="DISABLED"
+disabled
+>
+
+</label>
+
+
+<label>
+
+Government Approval Claim
+
+<input
+value="DISABLED"
+disabled
+>
+
+</label>
+
+
+</div>
+
+
+<button
+class="primary mt-3"
+onclick="saveSettings()">
+Save Owner Name
+</button>
+
+
+<button
+class="danger mt-3 ml-2"
+onclick="resetDemo()">
+Reset Local Prototype
+</button>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+/* =====================================================
+   DATABASE
+===================================================== */
+
+const KEY = "aasha_world_os_final_v2";
+
+
+function getDB(){
+
+  const defaultDB = {
+
+    leads:[],
+
+    documents:[],
+
+    updates:[],
+
+    earnings:[],
+
+    settings:{
+      owner:"Owner"
     }
 
-    function getDB() { return JSON.parse(localStorage.getItem('aasha_db_master_v33')); }
-    function saveDB(d) { localStorage.setItem('aasha_db_master_v33', JSON.stringify(d)); }
+  };
 
-    let isCommander = true; // Auto-Unlocks Full Owner Command
-    let activeTab = 'fixtures';
-    let filter = 'ALL';
+  try{
 
-    function render() {
-      const db = getDB();
-      const currentLedger = db.activeLedgerMode === 'HISTORICAL' ? db.historicalLedger : db.liveLedger;
-      const gross = currentLedger.reduce((a, c) => a + c.gross, 0);
-      const tax = currentLedger.reduce((a, c) => a + c.tax, 0);
-      const net = currentLedger.reduce((a, c) => a + c.net, 0);
+    const saved =
+      localStorage.getItem(KEY);
 
-      const filtered = filter === 'ALL' ? db.fixtures : db.fixtures.filter(f => f.sector === filter);
-
-      document.getElementById('app').innerHTML = `
-      <div class="max-w-7xl mx-auto p-4 md:p-6 space-y-6">
-        <header class="flex justify-between items-center border-b border-slate-800 pb-4 flex-wrap gap-3">
-          <div>
-            <div class="flex items-center gap-2">
-              <h1 class="text-2xl font-black gold-text">AASHA SOVEREIGN OS</h1>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">👑 MASTER COMMANDER</span>
-            </div>
-            <p class="text-xs text-slate-400 mt-0.5">Owner: <b class="text-white">${MASTER_CONFIG.payeeName}</b> | SBI A/c: <b class="text-emerald-400 font-mono">${MASTER_CONFIG.accountNo}</b> (${MASTER_CONFIG.branch})</p>
-          </div>
-          <div class="text-xs font-mono bg-emerald-950 text-emerald-300 px-3 py-1.5 rounded-xl border border-emerald-500/30">
-            UPI: ${MASTER_CONFIG.upiId}
-          </div>
-        </header>
-
-        <!-- Summary Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
-            <span class="text-xs uppercase text-slate-400 font-bold">Gross Turnover</span>
-            <p class="text-3xl font-black text-white mt-1">₹ ${gross.toLocaleString()}</p>
-          </div>
-          <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
-            <span class="text-xs uppercase text-slate-400 font-bold">18% GST Reserve</span>
-            <p class="text-3xl font-black text-indigo-400 mt-1">₹ ${tax.toLocaleString()}</p>
-          </div>
-          <div class="bg-slate-900 border border-emerald-500/40 p-5 rounded-3xl bg-gradient-to-br from-slate-900 to-emerald-950/20">
-            <span class="text-xs uppercase text-emerald-400 font-bold">Net Realized Profit (SBI Bank)</span>
-            <p class="text-3xl font-black text-emerald-400 mt-1">₹ ${net.toLocaleString()}</p>
-          </div>
-        </div>
-
-        <!-- Filter Tags -->
-        <div class="flex gap-2 flex-wrap bg-slate-950 p-2 rounded-2xl border border-slate-800">
-          {['ALL', 'INTERIOR', 'BANK_FINANCE', 'HEALTHCARE', 'EDUCATION', 'CARPENTRY', 'MANUFACTURERS', 'AVIATION', 'GOVT_INFRA'].map(s => \`
-            <button onclick="setFilter('\${s}')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition \${filter === s ? 'bg-amber-500 text-slate-950 font-black' : 'text-slate-400'}"\>\${s}\</button\>
-          \`).join('')}
-        </div>
-
-        <!-- Deals Matrix -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          ${filtered.map(f => `
-            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl flex flex-col justify-between space-y-3 shadow-xl">
-              <div>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 font-bold uppercase">${f.sector}</span>
-                <h3 class="text-base font-bold text-white mt-1 leading-snug">${f.title}</h3>
-                <p class="text-xs text-slate-400 mt-1">Budget: <b class="text-emerald-400">${f.budget}</b> • 1% Fee: <b class="text-amber-400">₹${f.lockFee.toLocaleString()}</b></p>
-              </div>
-              <div class="grid grid-cols-3 gap-1 pt-2 border-t border-slate-800">
-                <button onclick="executeStage('${f.id}', 'OPEN')" class="py-1.5 rounded text-[10px] font-bold ${f.status === 'OPEN' ? 'bg-emerald-500 text-slate-950 font-black' : 'bg-slate-800 text-slate-300'}">OPEN</button>
-                <button onclick="executeStage('${f.id}', 'USED')" class="py-1.5 rounded text-[10px] font-bold ${f.status === 'USED' ? 'bg-indigo-500 text-white font-black' : 'bg-slate-800 text-slate-300'}">USED</button>
-                <button onclick="executeStage('${f.id}', 'CLOSED')" class="py-1.5 rounded text-[10px] font-bold ${f.status === 'CLOSED' ? 'bg-red-500 text-white font-black' : 'bg-slate-800 text-slate-300'}">CLOSE</button>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>`;
+    if(!saved){
+      return defaultDB;
     }
 
-    function setFilter(f) { filter = f; render(); }
+    const data =
+      JSON.parse(saved);
 
-    function executeStage(id, stage) {
-      const db = getDB();
-      const item = db.fixtures.find(f => f.id === id);
-      if (!item) return;
-      if (!item.claimedStages) item.claimedStages = [];
+    return {
 
-      if (!item.claimedStages.includes(stage)) {
-        const fee = item.lockFee;
-        const tax = fee * 0.18;
-        const net = fee - tax;
-        item.claimedStages.push(stage);
-        item.status = stage;
+      ...defaultDB,
 
-        db.historicalLedger.unshift({
-          id: 'TXN-' + Date.now().toString().slice(-4),
-          source: `${stage}_STAGE (${item.title})`,
-          gross: fee,
-          tax: Number(tax.toFixed(2)),
-          net: Number(net.toFixed(2)),
-          status: 'DIRECT_SBI_CREDITED',
-          date: new Date().toISOString().slice(0, 10)
-        });
+      ...data,
 
-        saveDB(db);
-        alert(`Stage [${stage}] Executed!\n₹ ${net.toFixed(2)} Net Profit credited to SBI A/c (${MASTER_CONFIG.accountNo}).`);
-      } else {
-        item.status = stage;
-        saveDB(db);
-        alert(`Status updated to [${stage}].`);
+      leads:Array.isArray(data.leads)
+        ? data.leads : [],
+
+      documents:Array.isArray(data.documents)
+        ? data.documents : [],
+
+      updates:Array.isArray(data.updates)
+        ? data.updates : [],
+
+      earnings:Array.isArray(data.earnings)
+        ? data.earnings : [],
+
+      settings:{
+        ...defaultDB.settings,
+        ...(data.settings || {})
       }
-      render();
+
+    };
+
+  }catch(error){
+
+    console.error(error);
+
+    return defaultDB;
+
+  }
+
+}
+
+
+function saveDB(data){
+
+  localStorage.setItem(
+    KEY,
+    JSON.stringify(data)
+  );
+
+  render();
+
+}
+
+
+function makeID(prefix){
+
+  return prefix + "-" +
+    Date.now()
+      .toString(36)
+      .toUpperCase();
+
+}
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/[&<>"']/g,function(char){
+
+      return {
+
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+
+      }[char];
+
+    });
+
+}
+
+
+function money(value){
+
+  return "₹" +
+    Number(value || 0)
+      .toLocaleString("en-IN",{
+        maximumFractionDigits:2
+      });
+
+}
+
+
+/* =====================================================
+   12 UNIVERSAL FIXTURES
+===================================================== */
+
+const fixtureData = {
+
+"Royal Weddings":{
+
+  code:"AWO-WED",
+
+  sac:"998596",
+
+  description:
+  "Wedding / Event Projects",
+
+  scope:
+  "Complete stage architectural fabrication, theme lighting, premium banquet infrastructure and event coordination.",
+
+  sla:
+  "Technical readiness should be completed according to the mutually agreed event schedule."
+
+},
+
+"3D Interiors":{
+
+  code:"AWO-INT",
+
+  sac:"998391",
+
+  description:
+  "Interior Design / Execution",
+
+  scope:
+  "3D spatial design, CAD modelling, modular cabinetry, interior finishes and turnkey execution.",
+
+  sla:
+  "Milestone-based completion according to approved drawings, BOQ and work schedule."
+
+},
+
+"5-Star Hotels":{
+
+  code:"AWO-HTL",
+
+  sac:"996311",
+
+  description:
+  "Hotel Construction / Renovation",
+
+  scope:
+  "Hotel room, banquet, hospitality, renovation and related commercial service requirements.",
+
+  sla:
+  "Service and operational commitments shall follow the executed agreement."
+
+},
+
+"Food Mills & Timber":{
+
+  code:"AWO-FMT",
+
+  sac:"998816",
+
+  description:
+  "Mills / Timber / Manufacturing",
+
+  scope:
+  "Industrial processing, timber supply, material dispatch and related logistics.",
+
+  sla:
+  "Quality and dispatch requirements shall follow the agreed purchase/work order."
+
+},
+
+"Hospital & Govt Infra":{
+
+  code:"AWO-GOV",
+
+  sac:"995413",
+
+  description:
+  "Healthcare / Infrastructure",
+
+  scope:
+  "Civil, infrastructure, healthcare facility and related execution services.",
+
+  sla:
+  "Execution shall follow the applicable contract, specifications and statutory requirements."
+
+},
+
+"Inland Ports & Logistics":{
+
+  code:"AWO-ICD",
+
+  sac:"996511",
+
+  description:
+  "Ports / Logistics",
+
+  scope:
+  "Cargo yard, logistics coordination, gate operations, transport and manifest-related services.",
+
+  sla:
+  "Turnaround and operational commitments shall follow the executed service agreement."
+
+},
+
+"Solar & Renewable Energy":{
+
+  code:"AWO-SLR",
+
+  sac:"995424",
+
+  description:
+  "Solar / Renewable Projects",
+
+  scope:
+  "Solar installation, renewable-energy project execution, equipment integration and commissioning.",
+
+  sla:
+  "Performance requirements shall be based on the approved technical specification and contract."
+
+},
+
+"Commercial Real Estate":{
+
+  code:"AWO-CRE",
+
+  sac:"997212",
+
+  description:
+  "Commercial Property",
+
+  scope:
+  "Commercial office fit-out, property services, infrastructure and operational requirements.",
+
+  sla:
+  "Handover and operational obligations shall follow the executed agreement."
+
+},
+
+"Cold Storage Hubs":{
+
+  code:"AWO-CLD",
+
+  sac:"996722",
+
+  description:
+  "Cold Chain / Storage",
+
+  scope:
+  "Temperature-controlled storage, refrigeration, racking and logistics support.",
+
+  sla:
+  "Temperature and service levels shall follow the agreed technical SLA."
+
+},
+
+"IT Parks & Smart Tech":{
+
+  code:"AWO-ITP",
+
+  sac:"998313",
+
+  description:
+  "IT / Smart Infrastructure",
+
+  scope:
+  "IT infrastructure, network architecture, smart technology and security-related implementation.",
+
+  sla:
+  "Availability and service commitments shall follow the signed SLA."
+
+},
+
+"Heavy Machinery Leasing":{
+
+  code:"AWO-HML",
+
+  sac:"997311",
+
+  description:
+  "Machinery / Equipment",
+
+  scope:
+  "Heavy construction equipment leasing, deployment and related operational services.",
+
+  sla:
+  "Equipment availability, maintenance and safety obligations shall follow the lease agreement."
+
+},
+
+"Automobile Logistics":{
+
+  code:"AWO-AVL",
+
+  sac:"996519",
+
+  description:
+  "Auto Transport / Logistics",
+
+  scope:
+  "Vehicle yard management, finished vehicle transportation and inventory coordination.",
+
+  sla:
+  "Transport and handling obligations shall follow the carrier agreement."
+
+}
+
+};
+
+
+let activeFixture =
+  "Royal Weddings";
+
+
+/* =====================================================
+   FIXTURE SELECTION
+===================================================== */
+
+function selectFixture(key){
+
+  if(!fixtureData[key]){
+    return;
+  }
+
+  activeFixture = key;
+
+  const label =
+    document.getElementById(
+      "currentLabel"
+    );
+
+  if(label){
+
+    label.textContent =
+      "Selected: " + key;
+
+  }
+
+
+  const scope =
+    document.getElementById(
+      "dScope"
+    );
+
+  if(scope){
+
+    scope.value =
+      fixtureData[key].scope;
+
+  }
+
+
+  const project =
+    document.getElementById(
+      "dProject"
+    );
+
+  if(project && !project.value){
+
+    project.value =
+      key + " Project";
+
+  }
+
+}
+
+
+/* =====================================================
+   ADD LEAD
+===================================================== */
+
+function addLead(){
+
+  const db = getDB();
+
+  const lead = {
+
+    id:makeID("LEAD"),
+
+    name:
+      document.getElementById("lName").value.trim(),
+
+    type:
+      document.getElementById("lType").value.trim(),
+
+    location:
+      document.getElementById("lLocation").value.trim(),
+
+    contact:
+      document.getElementById("lContact").value.trim(),
+
+    budget:
+      Number(
+        document.getElementById("lBudget").value || 0
+      ),
+
+    source:
+      document.getElementById("lSource").value.trim(),
+
+    need:
+      document.getElementById("lNeed").value.trim(),
+
+    status:"PENDING APPROVAL",
+
+    created:new Date().toISOString()
+
+  };
+
+
+  if(!lead.name){
+
+    alert(
+      "Client / Company Name required."
+    );
+
+    return;
+
+  }
+
+
+  db.leads.unshift(lead);
+
+
+  db.updates.unshift({
+
+    id:makeID("UPD"),
+
+    kind:"LEAD",
+
+    recordId:lead.id,
+
+    title:lead.name,
+
+    status:"PENDING APPROVAL",
+
+    created:new Date().toISOString()
+
+  });
+
+
+  saveDB(db);
+
+
+  [
+    "lName",
+    "lType",
+    "lLocation",
+    "lContact",
+    "lBudget",
+    "lSource",
+    "lNeed"
+  ].forEach(function(id){
+
+    const el =
+      document.getElementById(id);
+
+    if(el){
+      el.value="";
     }
+
+  });
+
+}
+
+
+/* =====================================================
+   APPROVE LEAD
+===================================================== */
+
+function approveLead(index){
+
+  const db = getDB();
+
+  if(!db.leads[index]){
+    return;
+  }
+
+  db.leads[index].status =
+    "OWNER APPROVED";
+
+
+  db.leads[index].approvedAt =
+    new Date().toISOString();
+
+
+  db.updates =
+    db.updates.filter(function(update){
+
+      return update.recordId !==
+        db.leads[index].id;
+
+    });
+
+
+  saveDB(db);
+
+}
+
+
+/* =====================================================
+   REJECT LEAD
+===================================================== */
+
+function rejectLead(index){
+
+  const db = getDB();
+
+  if(!db.leads[index]){
+    return;
+  }
+
+  db.leads[index].status =
+    "REJECTED";
+
+
+  db.leads[index].rejectedAt =
+    new Date().toISOString();
+
+
+  db.updates =
+    db.updates.filter(function(update){
+
+      return update.recordId !==
+        db.leads[index].id;
+
+    });
+
+
+  saveDB(db);
+
+}
+
+
+/* =====================================================
+   FULL DOCUMENT ENGINE
+===================================================== */
+
+function createFullDocument(){
+
+  const db =
+    getDB();
+
+
+  const type =
+    document.getElementById(
+      "dType"
+    ).value;
+
+
+  const amount =
+    Number(
+      document.getElementById(
+        "dAmount"
+      ).value || 0
+    );
+
+
+  const gstRate =
+    Number(
+      document.getElementById(
+        "dGstRate"
+      ).value || 0
+    );
+
+
+  let gst = 0;
+
+
+  /*
+    GST is only a calculation entered by the user.
+    AASHA does not determine GST applicability.
+  */
+
+  if(
+    type === "Tax Invoice"
+  ){
+
+    gst =
+      amount *
+      gstRate /
+      100;
+
+  }
+
+
+  const meta =
+    fixtureData[activeFixture];
+
+
+  const documentData = {
+
+    id:
+      makeID("DOC"),
+
+    type:type,
+
+    fixture:
+      activeFixture,
+
+    fixtureCode:
+      meta.code,
+
+    sac:
+      meta.sac,
+
+    project:
+      document.getElementById(
+        "dProject"
+      ).value.trim(),
+
+    issuer:
+      document.getElementById(
+        "dIssuer"
+      ).value.trim(),
+
+    udyam:
+      document.getElementById(
+        "dUdyam"
+      ).value.trim(),
+
+    client:
+      document.getElementById(
+        "dClient"
+      ).value.trim(),
+
+    clientAddress:
+      document.getElementById(
+        "dClientAddress"
+      ).value.trim(),
+
+    gstin:
+      document.getElementById(
+        "dGstin"
+      ).value.trim(),
+
+    contact:
+      document.getElementById(
+        "dContact"
+      ).value.trim(),
+
+    reference:
+      document.getElementById(
+        "dReference"
+      ).value.trim(),
+
+    location:
+      document.getElementById(
+        "dLocation"
+      ).value.trim(),
+
+    startDate:
+      document.getElementById(
+        "dStartDate"
+      ).value,
+
+    endDate:
+      document.getElementById(
+        "dEndDate"
+      ).value,
+
+    amount:amount,
+
+    gstRate:gstRate,
+
+    gst:gst,
+
+    total:
+      amount + gst,
+
+    paymentTerms:
+      document.getElementById(
+        "dPaymentTerms"
+      ).value.trim(),
+
+    warranty:
+      document.getElementById(
+        "dWarranty"
+      ).value.trim(),
+
+    scope:
+      document.getElementById(
+        "dScope"
+      ).value.trim(),
+
+    terms:
+      document.getElementById(
+        "dTerms"
+      ).value.trim(),
+
+    status:
+      "DRAFT",
+
+    created:
+      new Date().toISOString()
+
+  };
+
+
+  if(!documentData.issuer){
+
+    alert(
+      "Issuer / Company name required."
+    );
+
+    return;
+
+  }
+
+
+  if(!documentData.client){
+
+    alert(
+      "Client / Customer name required."
+    );
+
+    return;
+
+  }
+
+
+  if(!documentData.project){
+
+    alert(
+      "Project name required."
+    );
+
+    return;
+
+  }
+
+
+  db.documents.unshift(
+    documentData
+  );
+
+
+  saveDB(db);
+
+
+  printFullDocument(
+    documentData
+  );
+
+}
+
+
+/* =====================================================
+   DOCUMENT PREVIEW
+===================================================== */
+
+function previewDocumentData(){
+
+  const type =
+    document.getElementById(
+      "dType"
+    ).value;
+
+  const project =
+    document.getElementById(
+      "dProject"
+    ).value || "Not provided";
+
+  const client =
+    document.getElementById(
+      "dClient"
+    ).value || "Not provided";
+
+  const issuer =
+    document.getElementById(
+      "dIssuer"
+    ).value || "Not provided";
+
+  const amount =
+    Number(
+      document.getElementById(
+        "dAmount"
+      ).value || 0
+    );
+
+
+  alert(
+
+    "DOCUMENT PREVIEW\n\n" +
+
+    "Fixture: " +
+    activeFixture + "\n" +
+
+    "Type: " +
+    type + "\n" +
+
+    "Project: " +
+    project + "\n" +
+
+    "Issuer: " +
+    issuer + "\n" +
+
+    "Client: " +
+    client + "\n" +
+
+    "Amount: " +
+    money(amount)
+
+  );
+
+}
+
+
+/* =====================================================
+   PRINT FULL DOCUMENT
+===================================================== */
+
+function printFullDocument(doc){
+
+  const popup =
+    window.open(
+      "",
+      "_blank"
+    );
+
+
+  if(!popup){
+
+    alert(
+      "Popup blocked. Browser popup permission allow karein."
+    );
+
+    return;
+
+  }
+
+
+  const amount =
+    Number(doc.amount || 0);
+
+  const gst =
+    Number(doc.gst || 0);
+
+  const total =
+    Number(doc.total || 0);
+
+  const meta =
+    fixtureData[doc.fixture] ||
+    fixtureData["Royal Weddings"];
+
+
+  popup.document.write(`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+${escapeHTML(doc.type)}
+-
+${escapeHTML(doc.id)}
+</title>
+
+<style>
+
+@page{
+  size:A4;
+  margin:15mm;
+}
+
+body{
+
+font-family:
+"Segoe UI",
+Arial,
+sans-serif;
+
+color:#0f172a;
+
+padding:10px;
+
+font-size:9.5pt;
+
+line-height:1.45;
+
+}
+
+.header{
+
+background:#0f172a;
+
+color:white;
+
+padding:18px 22px;
+
+border-radius:6px;
+
+border-left:6px solid #f59e0b;
+
+margin-bottom:18px;
+
+}
+
+.badge{
+
+background:#f59e0b;
+
+color:#0f172a;
+
+font-weight:800;
+
+font-size:9pt;
+
+padding:2px 8px;
+
+border-radius:4px;
+
+display:inline-block;
+
+}
+
+.sec-title{
+
+font-size:10.5pt;
+
+font-weight:bold;
+
+border-left:4px solid #f59e0b;
+
+padding-left:8px;
+
+margin:16px 0 8px;
+
+text-transform:uppercase;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:6px;
+
+}
+
+th,td{
+
+border:1px solid #cbd5e1;
+
+padding:7px 10px;
+
+text-align:left;
+
+}
+
+th{
+
+background:#f8fafc;
+
+}
+
+.box{
+
+background:#f8fafc;
+
+border:1px solid #e2e8f0;
+
+padding:10px;
+
+border-radius:5px;
+
+margin-top:6px;
+
+}
+
+.sig{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-top:50px;
+
+border-top:1px dashed #94a3b8;
+
+padding-top:15px;
+
+}
+
+.disclaimer{
+
+font-size:8pt;
+
+color:#64748b;
+
+margin-top:35px;
+
+}
+
+.no-print{
+
+margin-bottom:15px;
+
+}
+
+@media print{
+
+.no-print{
+display:none;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="no-print">
+
+<button
+onclick="window.print()"
+style="
+padding:9px 18px;
+background:#0f172a;
+color:white;
+border:none;
+border-radius:5px;
+font-weight:bold;
+">
+
+🖨️ Print / Save as PDF
+
+</button>
+
+</div>
+
+
+<div class="header">
+
+<span class="badge">
+AASHA WORLD-OS
+</span>
+
+<h2>
+
+${escapeHTML(doc.fixture)}
+
+—
+
+${escapeHTML(doc.type)}
+
+</h2>
+
+<table style="
+color:white;
+border:0;
+">
+
+<tr>
+
+<td style="
+border:0;
+">
+
+<b>ISSUER:</b>
+${escapeHTML(doc.issuer)}
+
+<br>
+
+<b>UDYAM/MSME:</b>
+${escapeHTML(doc.udyam || "Not provided")}
+
+<br>
+
+<b>GSTIN:</b>
+${escapeHTML(doc.gstin || "Not provided")}
+
+</td>
+
+<td style="
+border:0;
+text-align:right;
+">
+
+<b>DOCUMENT ID:</b>
+${escapeHTML(doc.id)}
+
+<br>
+
+<b>DATE:</b>
+${new Date(doc.created)
+.toLocaleDateString("en-IN")}
+
+<br>
+
+<b>STATUS:</b>
+${escapeHTML(doc.status)}
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="sec-title">
+1. Project Information
+</div>
+
+<table>
+
+<tr>
+
+<th>
+Project
+</th>
+
+<td>
+${escapeHTML(doc.project)}
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+Fixture
+</th>
+
+<td>
+${escapeHTML(doc.fixture)}
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+Fixture Code
+</th>
+
+<td>
+${escapeHTML(doc.fixtureCode)}
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+SAC Reference
+</th>
+
+<td>
+${escapeHTML(doc.sac)}
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+Location
+</th>
+
+<td>
+${escapeHTML(doc.location || "Not provided")}
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+Start
+</th>
+
+<td>
+${escapeHTML(doc.startDate || "Not provided")}
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+End
+</th>
+
+<td>
+${escapeHTML(doc.endDate || "Not provided")}
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+Official Reference
+</th>
+
+<td>
+${escapeHTML(doc.reference || "Not provided")}
+</td>
+
+</tr>
+
+</table>
+
+
+<div class="sec-title">
+2. Parties
+</div>
+
+<table>
+
+<tr>
+
+<th>
+Issuer
+</th>
+
+<td>
+${escapeHTML(doc.issuer)}
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+Client
+</th>
+
+<td>
+${escapeHTML(doc.client)}
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+Client Address
+</th>
+
+<td>
+${escapeHTML(doc.clientAddress || "Not provided")}
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+Contact
+</th>
+
+<td>
+${escapeHTML(doc.contact || "Not provided")}
+</td>
+
+</tr>
+
+</table>
+
+
+<div class="sec-title">
+3. Scope of Work
+</div>
+
+<div class="box">
+
+${escapeHTML(
+doc.scope || meta.scope
+).replace(/\n/g,"<br>")}
+
+</div>
+
+
+<div class="sec-title">
+4. SLA / Performance
+</div>
+
+<div class="box">
+
+${escapeHTML(
+meta.sla
+)}
+
+</div>
+
+
+<div class="sec-title">
+5. Financial Schedule
+</div>
+
+<table>
+
+<tr>
+
+<th>
+Description
+</th>
+
+<th>
+Amount
+</th>
+
+</tr>
+
+<tr>
+
+<td>
+${escapeHTML(doc.fixture)}
+—
+Commercial Scope
+</td>
+
+<td>
+${money(amount)}
+</td>
+
+</tr>
+
+${
+gst > 0
+
+?
+
+`
+
+<tr>
+
+<td>
+GST ${doc.gstRate}%
+</td>
+
+<td>
+${money(gst)}
+</td>
+
+</tr>
+
+`
+
+:
+
+""
+
+}
+
+
+<tr>
+
+<th>
+Total
+</th>
+
+<th>
+${money(total)}
+</th>
+
+</tr>
+
+</table>
+
+
+<div class="sec-title">
+6. Payment Terms
+</div>
+
+<div class="box">
+
+${escapeHTML(
+doc.paymentTerms ||
+"Not provided"
+).replace(/\n/g,"<br>")}
+
+</div>
+
+
+<div class="sec-title">
+7. Warranty / Support
+</div>
+
+<div class="box">
+
+${escapeHTML(
+doc.warranty ||
+"Not provided"
+).replace(/\n/g,"<br>")}
+
+</div>
+
+
+<div class="sec-title">
+8. Terms & Conditions
+</div>
+
+<div class="box">
+
+${escapeHTML(
+doc.terms ||
+"Not provided"
+).replace(/\n/g,"<br>")}
+
+</div>
+
+
+<div class="sig">
+
+<div>
+
+<b>
+FOR ${escapeHTML(doc.issuer)}
+</b>
+
+<br><br><br>
+
+Authorized Signatory
+
+</div>
+
+
+<div style="text-align:right">
+
+<b>
+CLIENT ACCEPTANCE
+</b>
+
+<br><br><br>
+
+Client / Customer
+
+</div>
+
+</div>
+
+
+<p class="disclaimer">
+
+AASHA-generated commercial document.
+
+This document is not itself a government certificate,
+government approval, GST registration, tender award,
+digital signature, statutory authorization or proof
+of government acceptance.
+
+Any statutory, tax, tender, registration or legal
+verification must be completed by the relevant
+authorized authority or legally authorized party.
+
+</p>
+
+
+</body>
+
+</html>
+
+`);
+
+
+  popup.document.close();
+
+}
+
+
+/* =====================================================
+   PAYMENT / EARNINGS
+===================================================== */
+
+function recordPayment(){
+
+  const db =
+    getDB();
+
+
+  const invoice =
+    Number(
+      document.getElementById(
+        "eInvoice"
+      ).value || 0
+    );
+
+
+  const received =
+    Number(
+      document.getElementById(
+        "eReceived"
+      ).value || 0
+    );
+
+
+  const charges =
+    Number(
+      document.getElementById(
+        "eCharges"
+      ).value || 0
+    );
+
+
+  if(received <= 0){
+
+    alert(
+      "Actual payment received amount enter karein."
+    );
+
+    return;
+
+  }
+
+
+  if(invoice < received){
+
+    alert(
+      "Received amount invoice amount se zyada nahi ho sakta."
+    );
+
+    return;
+
+  }
+
+
+  if(charges > received){
+
+    alert(
+      "Charges received amount se zyada nahi ho sakte."
+    );
+
+    return;
+
+  }
+
+
+  const payment = {
+
+    id:
+      makeID("PAY"),
+
+    dealId:
+      document.getElementById(
+        "eDealId"
+      ).value.trim(),
+
+    client:
+      document.getElementById(
+        "eClient"
+      ).value.trim(),
+
+    documentId:
+      document.getElementById(
+        "eDocumentId"
+      ).value.trim(),
+
+    invoiceAmount:
+      invoice,
+
+    receivedAmount:
+      received,
+
+    pendingAmount:
+      invoice - received,
+
+    charges:
+      charges,
+
+    netEarning:
+      received - charges,
+
+    reference:
+      document.getElementById(
+        "eReference"
+      ).value.trim(),
+
+    date:
+      document.getElementById(
+        "eDate"
+      ).value ||
+      new Date()
+        .toISOString()
+        .slice(0,10),
+
+    notes:
+      document.getElementById(
+        "eNotes"
+      ).value.trim(),
+
+    status:
+      "PENDING OWNER VERIFICATION",
+
+    verifiedByOwner:
+      false,
+
+    created:
+      new Date().toISOString()
+
+  };
+
+
+  db.earnings.unshift(
+    payment
+  );
+
+
+  saveDB(db);
+
+
+  [
+    "eDealId",
+    "eClient",
+    "eDocumentId",
+    "eInvoice",
+    "eReceived",
+    "eCharges",
+    "eReference",
+    "eDate",
+    "eNotes"
+  ].forEach(function(id){
+
+    const el =
+      document.getElementById(id);
+
+    if(el){
+      el.value="";
+    }
+
+  });
+
+
+  alert(
+    "Payment record saved. Owner verification required before it is counted as verified earnings."
+  );
+
+}
+
+
+/* =====================================================
+   VERIFY PAYMENT
+===================================================== */
+
+function verifyPayment(index){
+
+  const db =
+    getDB();
+
+
+  const payment =
+    db.earnings[index];
+
+
+  if(!payment){
+    return;
+  }
+
+
+  const ok =
+    confirm(
+      "Confirm karein ki payment actual bank/payment gateway/provider record se verify ho chuka hai?"
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  payment.status =
+    "VERIFIED";
+
+  payment.verifiedByOwner =
+    true;
+
+  payment.verifiedAt =
+    new Date().toISOString();
+
+
+  saveDB(db);
+
+}
+
+
+/* =====================================================
+   UNVERIFY PAYMENT
+===================================================== */
+
+function unverifyPayment(index){
+
+  const db =
+    getDB();
+
+
+  const payment =
+    db.earnings[index];
+
+
+  if(!payment){
+    return;
+  }
+
+
+  payment.status =
+    "PENDING OWNER VERIFICATION";
+
+  payment.verifiedByOwner =
+    false;
+
+  payment.unverifiedAt =
+    new Date().toISOString();
+
+
+  saveDB(db);
+
+}
+
+
+/* =====================================================
+   DASHBOARD RENDER
+===================================================== */
+
+function render(){
+
+  const db =
+    getDB();
+
+
+  document.getElementById(
+    "leadCount"
+  ).textContent =
+    db.leads.length;
+
+
+  document.getElementById(
+    "pendingCount"
+  ).textContent =
+
+    db.leads.filter(function(lead){
+
+      return lead.status ===
+        "PENDING APPROVAL";
+
+    }).length;
+
+
+  document.getElementById(
+    "docCount"
+  ).textContent =
+    db.documents.length;
+
+
+  const verifiedPayments =
+    db.earnings.filter(function(item){
+
+      return item.verifiedByOwner === true;
+
+    });
+
+
+  const verifiedNet =
+    verifiedPayments.reduce(
+
+      function(total,item){
+
+        return total +
+          Number(
+            item.netEarning || 0
+          );
+
+      },
+
+      0
+
+    );
+
+
+  const received =
+    verifiedPayments.reduce(
+
+      function(total,item){
+
+        return total +
+          Number(
+            item.receivedAmount || 0
+          );
+
+      },
+
+      0
+
+    );
+
+
+  const charges =
+    verifiedPayments.reduce(
+
+      function(total,item){
+
+        return total +
+          Number(
+            item.charges || 0
+          );
+
+      },
+
+      0
+
+    );
+
+
+  const pending =
+    db.earnings.reduce(
+
+      function(total,item){
+
+        return total +
+          Number(
+            item.pendingAmount || 0
+          );
+
+      },
+
+      0
+
+    );
+
+
+  document.getElementById(
+    "earnings"
+  ).textContent =
+    money(verifiedNet);
+
+
+  document.getElementById(
+    "totalReceived"
+  ).textContent =
+    money(received);
+
+
+  document.getElementById(
+    "totalCharges"
+  ).textContent =
+    money(charges);
+
+
+  document.getElementById(
+    "totalNet"
+  ).textContent =
+    money(verifiedNet);
+
+
+  document.getElementById(
+    "pendingPayments"
+  ).textContent =
+    money(pending);
+
+
+  /* =====================================================
+     LEADS
+  ===================================================== */
+
+  const leadList =
+    document.getElementById(
+      "leadList"
+    );
+
+
+  if(!db.leads.length){
+
+    leadList.innerHTML =
+      "<div class='card'>No leads yet.</div>";
+
+  }else{
+
+    leadList.innerHTML =
+
+      db.leads.map(function(
+        lead,index
+      ){
+
+        return `
+
+<div class="card">
+
+<div class="flex justify-between gap-2">
+
+<b>
+${escapeHTML(lead.name)}
+</b>
+
+<span class="badge">
+${escapeHTML(lead.status)}
+</span>
+
+</div>
+
+
+<p class="text-sm mt-2">
+
+${escapeHTML(lead.type || "—")}
+
+•
+
+${escapeHTML(lead.location || "—")}
+
+</p>
+
+
+<p class="text-sm mt-2">
+
+${escapeHTML(lead.need || "—")}
+
+</p>
+
+
+<p class="text-sm mt-2">
+
+Budget:
+${money(lead.budget)}
+
+</p>
+
+
+<p class="text-xs text-gray-500 mt-2">
+
+Contact:
+${escapeHTML(lead.contact || "—")}
+
+<br>
+
+Source:
+${escapeHTML(lead.source || "—")}
+
+<br>
+
+ID:
+${escapeHTML(lead.id)}
+
+</p>
+
+
+${
+lead.status === "PENDING APPROVAL"
+
+?
+
+`
+
+<button
+class="success mt-3"
+onclick="approveLead(${index})">
+Approve
+</button>
+
+<button
+class="danger mt-3 ml-2"
+onclick="rejectLead(${index})">
+Reject
+</button>
+
+`
+
+:
+
+""
+
+}
+
+</div>
+
+`;
+
+      }).join("");
+
+  }
+
+
+  /* =====================================================
+     FIXTURES
+  ===================================================== */
+
+  document.getElementById(
+    "fixtureList"
+  ).innerHTML =
+
+    Object.keys(
+      fixtureData
+    ).map(function(key){
+
+      const item =
+        fixtureData[key];
+
+      return `
+
+<div
+class="card fixture-card"
+onclick="selectFixture('${key.replace(/'/g,"\\'")}')">
+
+<div class="flex justify-between gap-2">
+
+<b>
+${escapeHTML(key)}
+</b>
+
+<span class="badge">
+${escapeHTML(item.code)}
+</span>
+
+</div>
+
+
+<p class="text-sm mt-2">
+${escapeHTML(item.description)}
+</p>
+
+
+<p class="text-xs text-gray-500 mt-2">
+
+SAC:
+${escapeHTML(item.sac)}
+
+</p>
+
+
+<p class="text-xs mt-2">
+
+${escapeHTML(item.scope)}
+
+</p>
+
+</div>
+
+`;
+
+    }).join("");
+
+
+  /* =====================================================
+     DOCUMENTS
+  ===================================================== */
+
+  const docList =
+    document.getElementById(
+      "docList"
+    );
+
+
+  if(!db.documents.length){
+
+    docList.innerHTML =
+      "<p class='text-gray-500'>अभी कोई document नहीं बना है।</p>";
+
+  }else{
+
+    docList.innerHTML =
+
+      db.documents.map(function(doc){
+
+        return `
+
+<div class="border rounded-xl p-4 mb-3">
+
+<div class="flex justify-between gap-2">
+
+<div>
+
+<b>
+${escapeHTML(doc.type)}
+</b>
+
+<p class="text-sm">
+${escapeHTML(doc.project)}
+</p>
+
+</div>
+
+<span class="badge">
+${escapeHTML(doc.status)}
+</span>
+
+</div>
+
+
+<p class="text-xs text-gray-500 mt-2">
+
+Document ID:
+${escapeHTML(doc.id)}
+
+</p>
+
+
+<p class="text-sm mt-2">
+
+${escapeHTML(doc.issuer)}
+
+→
+
+${escapeHTML(doc.client)}
+
+</p>
+
+
+<p class="text-sm">
+
+Fixture:
+${escapeHTML(doc.fixture)}
+
+</p>
+
+
+<p class="text-sm">
+
+Total:
+${money(doc.total)}
+
+</p>
+
+
+<button
+class="primary mt-3"
+onclick='printDocumentById(${JSON.stringify(doc.id)})'>
+Print / PDF
+</button>
+
+</div>
+
+`;
+
+      }).join("");
+
+  }
+
+
+  /* =====================================================
+     EARNINGS
+  ===================================================== */
+
+  const earningsList =
+    document.getElementById(
+      "earningsList"
+    );
+
+
+  if(!db.earnings.length){
+
+    earningsList.innerHTML =
+      "<p class='text-gray-500'>No payment records yet.</p>";
+
+  }else{
+
+    earningsList.innerHTML =
+
+      db.earnings.map(function(
+        item,index
+      ){
+
+        return `
+
+<div class="border rounded-xl p-4 mb-3">
+
+<div class="flex justify-between gap-2">
+
+<b>
+${escapeHTML(
+item.client || "Client not provided"
+)}
+</b>
+
+<span class="badge">
+${escapeHTML(item.status)}
+</span>
+
+</div>
+
+
+<p class="text-sm mt-2">
+
+Deal:
+${escapeHTML(item.dealId || "—")}
+
+</p>
+
+
+<p class="text-sm">
+
+Document:
+${escapeHTML(item.documentId || "—")}
+
+</p>
+
+
+<div class="grid md:grid-cols-4 gap-2 mt-3 text-sm">
+
+<div>
+Invoice<br>
+<b>${money(item.invoiceAmount)}</b>
+</div>
+
+<div>
+Received<br>
+<b>${money(item.receivedAmount)}</b>
+</div>
+
+<div>
+Charges<br>
+<b>${money(item.charges)}</b>
+</div>
+
+<div>
+Net<br>
+<b>${money(item.netEarning)}</b>
+</div>
+
+</div>
+
+
+<p class="text-xs text-gray-500 mt-3">
+
+Payment Reference:
+${escapeHTML(item.reference || "—")}
+
+<br>
+
+Date:
+${escapeHTML(item.date || "—")}
+
+</p>
+
+
+${
+!item.verifiedByOwner
+
+?
+
+`
+
+<button
+class="success mt-3"
+onclick="verifyPayment(${index})">
+Mark Owner Verified
+</button>
+
+`
+
+:
+
+`
+
+<button
+class="warning mt-3"
+onclick="unverifyPayment(${index})">
+Remove Verification
+</button>
+
+`
+
+}
+
+</div>
+
+`;
+
+      }).join("");
+
+  }
+
+
+  /* =====================================================
+     UPDATES
+  ===================================================== */
+
+  const updateList =
+    document.getElementById(
+      "updateList"
+    );
+
+
+  if(!db.updates.length){
+
+    updateList.innerHTML =
+      "<p class='text-gray-500'>No pending updates.</p>";
+
+  }else{
+
+    updateList.innerHTML =
+
+      db.updates.map(function(update){
+
+        return `
+
+<div class="border-b py-3">
+
+<b>
+${escapeHTML(update.title)}
+</b>
+
+<span class="badge">
+${escapeHTML(update.status)}
+</span>
+
+<p class="text-xs">
+
+${escapeHTML(update.kind)}
+
+•
+
+${escapeHTML(update.recordId)}
+
+</p>
+
+</div>
+
+`;
+
+      }).join("");
+
+  }
+
+
+  /* =====================================================
+     OWNER SETTINGS
+  ===================================================== */
+
+  const owner =
+    document.getElementById(
+      "ownerName"
+    );
+
+
+  if(owner){
+
+    owner.value =
+      db.settings.owner ||
+      "Owner";
+
+  }
+
+}
+
+
+/* =====================================================
+   PRINT DOCUMENT FROM REGISTER
+===================================================== */
+
+function printDocumentById(id){
+
+  const db =
+    getDB();
+
+
+  const doc =
+    db.documents.find(function(item){
+
+      return item.id === id;
+
+    });
+
+
+  if(!doc){
+
+    alert(
+      "Document not found."
+    );
+
+    return;
+
+  }
+
+
+  printFullDocument(doc);
+
+}
+
+
+/* =====================================================
+   OWNER SETTINGS
+===================================================== */
+
+function saveSettings(){
+
+  const db =
+    getDB();
+
+
+  db.settings.owner =
+    document.getElementById(
+      "ownerName"
+    ).value.trim() ||
+    "Owner";
+
+
+  saveDB(db);
+
+
+  alert(
+    "Owner setting saved locally."
+  );
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetDemo(){
+
+  const ok =
+    confirm(
+      "Kya aap AASHA ke is browser prototype ka local data delete karna chahte hain?"
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  localStorage.removeItem(
+    KEY
+  );
+
+
+  render();
+
+}
+
+
+/* =====================================================
+   TABS
+===================================================== */
+
+document
+.querySelectorAll(".tab")
+.forEach(function(button){
+
+  button.addEventListener(
+    "click",
+    function(){
+
+      document
+      .querySelectorAll(".tab")
+      .forEach(function(btn){
+
+        btn.classList.remove(
+          "active"
+        );
+
+      });
+
+
+      button.classList.add(
+        "active"
+      );
+
+
+      document
+      .querySelectorAll(".panel")
+      .forEach(function(panel){
+
+        panel.classList.add(
+          "hidden"
+        );
+
+      });
+
+
+      const target =
+        document.getElementById(
+          button.dataset.tab
+        );
+
+
+      if(target){
+
+        target.classList.remove(
+          "hidden"
+        );
+
+      }
+
+    }
+
+  );
+
+});
+
+
+/* =====================================================
+   INITIALIZE DOCUMENT DEFAULTS
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    const scope =
+      document.getElementById(
+        "dScope"
+      );
+
+    if(scope){
+
+      scope.value =
+        fixtureData[
+          activeFixture
+        ].scope;
+
+    }
+
+
+    const project =
+      document.getElementById(
+        "dProject"
+      );
+
+    if(project){
+
+      project.value =
+        activeFixture +
+        " Project";
+
+    }
+
+
+    const terms =
+      document.getElementById(
+        "dTerms"
+      );
+
+    if(terms){
+
+      terms.value =
+        "The parties shall follow the mutually agreed scope, commercial terms, applicable laws and executed agreement. Any statutory approval shall be obtained from the relevant authority where required.";
+
+    }
+
 
     render();
-  </script>
+
+  }
+
+);
+
+</script>
+
 </body>
 </html>
