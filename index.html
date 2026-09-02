@@ -20,7 +20,20 @@
     .gold-text { background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .glass-panel { background: rgba(15, 23, 42, 0.94); backdrop-filter: blur(18px); }
     .glass-card { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
-    .business-card-hover:hover { border-color: rgba(245, 158, 11, 0.5); transform: translateY(-2px); transition: all 0.2s ease-in-out; }
+ /* AASHA DYNAMIC DOC ENGINE */
+.sheet-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); display: flex; justify-content: center; align-items: flex-end; z-index: 9999; }
+.sheet-overlay.hidden { display: none !important; }
+.sheet-content { background: #0f172a; color: #f8fafc; width: 100%; max-width: 600px; max-height: 85vh; overflow-y: auto; border-radius: 16px 16px 0 0; padding: 1.25rem; border: 1px solid rgba(255,255,255,0.1); }
+.sheet-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 8px; margin-bottom: 12px; }
+.doc-btn { width: 100%; padding: 12px; margin: 6px 0; background: #1e293b; color: #fff; border: 1px solid #475569; border-radius: 8px; text-align: left; font-weight: 600; cursor: pointer; }
+.field-group { margin-bottom: 12px; }
+.field-group label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
+.field-group input { width: 100%; padding: 10px; background: #020617; color: #fff; border: 1px solid #334155; border-radius: 6px; box-sizing: border-box; }
+.btn-submit { width: 100%; background: #06b6d4; color: #000; padding: 12px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+.btn-secondary { background: transparent; border: none; color: #38bdf8; cursor: pointer; margin-bottom: 12px; font-size: 13px; }
+
+
+        .business-card-hover:hover { border-color: rgba(245, 158, 11, 0.5); transform: translateY(-2px); transition: all 0.2s ease-in-out; }
   </style>
 </head>
 
