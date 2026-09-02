@@ -1066,6 +1066,133 @@
     </div>
   </div>
 </div>
+<!-- AASHA DOCUMENT ENGINE MODAL -->
+<div id="doc-sheet" class="sheet-overlay hidden">
+  <div class="sheet-content">
+    <div class="sheet-header">
+      <h3 id="sheet-title" class="text-lg font-bold text-amber-400">Fixture Documents</h3>
+      <button id="close-sheet" class="text-xl font-bold text-slate-400" type="button">&times;</button>
+    </div>
+    <div id="doc-type-selection"></div>
+    <div id="form-wrapper" class="hidden">
+      <button id="back-to-types" class="btn-secondary" type="button">← Back to Documents</button>
+      <form id="active-dynamic-form"></form>
+    </div>
+  </div>
+</div>
+
+<script>
+// DOCUMENT ENGINE LOGIC
+const documentEngineSchema = {
+  commonFields: [
+    { id: "doc_number", label: "Document Ref No.", type: "text", required: true },
+    { id: "party_name", label: "Client / Entity Name", type: "text", required: true },
+    { id: "date", label: "Date of Issue", type: "date", required: true },
+    { id: "tax_id", label: "GSTIN / Reg No.", type: "text", required: false },
+    { id: "contact", label: "Phone / Email", type: "text", required: true }
+  ],
+  fixtures: {
+    royal_weddings: { name: "Royal Weddings", documents: [{ id: "event_contract", title: "Luxury Event Master Contract", fields: [{ id: "venue_name", label: "Palace / Venue Name", type: "text" }, { id: "guest_count", label: "Expected Guests", type: "number" }, { id: "total_budget", label: "Total Package (INR)", type: "number" }] }] },
+    interiors_3d: { name: "3D Interiors", documents: [{ id: "boq_sheet", title: "BOQ & Scope of Work (SOW)", fields: [{ id: "sqft_area", label: "Carpet Area (Sq. Ft.)", type: "number" }, { id: "material_spec", label: "Material Grade", type: "text" }] }] },
+    hotels_5star: { name: "5-Star Hotels", documents: [{ id: "supply_sla", title: "Commercial Operations SLA", fields: [{ id: "quality_compliance_id", label: "FSSAI Code", type: "text" }] }] },
+    food_mills_timber: { name: "Food Mills & Timber", documents: [{ id: "transit_permit", title: "Forest & Mandi Transit Pass", fields: [{ id: "raw_material_type", label: "Commodity", type: "text" }, { id: "net_weight_tons", label: "Net Weight (MT)", type: "number" }] }] },
+    hospital_govt_infra: { name: "Hospital & Govt Infra", documents: [{ id: "tender_bid_doc", title: "Public Infra Bid Compliance", fields: [{ id: "tender_id", label: "Tender Ref ID", type: "text" }, { id: "emd_amount", label: "EMD Amount (INR)", type: "number" }] }] },
+    inland_ports_logistics: { name: "Inland Ports & Logistics", documents: [{ id: "lading_bill", title: "Consignment Note & Bill of Lading", fields: [{ id: "container_no", label: "Container No.", type: "text" }, { id: "origin_hub", label: "Port of Origin", type: "text" }] }] },
+    solar_renewable: { name: "Solar & Renewable Energy", documents: [{ id: "ppa_agreement", title: "Power Purchase Agreement (PPA)", fields: [{ id: "plant_capacity_kw", label: "Capacity (kW/MW)", type: "number" }, { id: "tariff_rate", label: "Tariff Rate per kWh", type: "number" }] }] },
+    commercial_real_estate: { name: "Commercial Real Estate", documents: [{ id: "lease_deed", title: "Commercial Lease Deed", fields: [{ id: "unit_floor_no", label: "Unit/Floor No.", type: "text" }, { id: "lock_in_months", label: "Lock-in (Months)", type: "number" }] }] },
+    cold_storage_hubs: { name: "Cold Storage Hubs", documents: [{ id: "warehouse_receipt", title: "Warehouse Receipt (NWR)", fields: [{ id: "storage_temp", label: "Required Temp (°C)", type: "text" }, { id: "chamber_no", label: "Chamber No.", type: "text" }] }] },
+    it_parks_networks: { name: "IT Parks & Networks", documents: [{ id: "network_sla", title: "Enterprise Network SLA", fields: [{ id: "uptime_commitment", label: "Uptime SLA %", type: "text" }, { id: "bandwidth_mbps", label: "Bandwidth Speed", type: "text" }] }] },
+    heavy_machinery: { name: "Heavy Machinery", documents: [{ id: "rental_handover", title: "Equipment Lease & Meter Log", fields: [{ id: "machine_serial", label: "Model No.", type: "text" }, { id: "hour_meter_in", label: "Meter Reading", type: "number" }] }] },
+    automobile_logistics: { name: "Automobile Logistics", documents: [{ id: "carrier_manifest", title: "Multi-Car Carrier Manifest", fields: [{ id: "carrier_truck_no", label: "Trailer Reg No.", type: "text" }, { id: "vin_numbers", label: "VIN Numbers", type: "text" }] }] }
+  }
+};
+
+let currentFixtureKey = null;
+
+function openFixtureDocs(fixtureKey) {
+  currentFixtureKey = fixtureKey;
+  const fixture = documentEngineSchema.fixtures[fixtureKey] || { name: "Commercial Suite", documents: [] };
+  const titleEl = document.getElementById("sheet-title");
+  if (titleEl) titleEl.innerText = fixture.name;
+  const docTypeBox = document.getElementById("doc-type-selection");
+  if (!docTypeBox) return;
+  docTypeBox.innerHTML = "";
+
+  fixture.documents.forEach((doc) => {
+    const btn = document.createElement("button");
+    btn.className = "doc-btn";
+    btn.innerText = `📄 ${doc.title}`;
+    btn.onclick = () => loadDynamicForm(doc.id);
+    docTypeBox.appendChild(btn);
+  });
+  document.getElementById("doc-type-selection").classList.remove("hidden");
+  document.getElementById("form-wrapper").classList.add("hidden");
+  document.getElementById("doc-sheet").classList.remove("hidden");
+}
+
+function loadDynamicForm(docId) {
+  const fixture = documentEngineSchema.fixtures[currentFixtureKey];
+  const doc = fixture.documents.find((d) => d.id === docId);
+  const form = document.getElementById("active-dynamic-form");
+  const fields = [...documentEngineSchema.commonFields, ...doc.fields];
+
+  form.innerHTML = fields.map((f) => `
+    <div class="field-group">
+      <label>${f.label}</label>
+      <input type="${f.type}" name="${f.id}" ${f.required ? "required" : ""} />
+    </div>`).join("") + `<button type="submit" class="btn-submit">Generate Printable Master PDF</button>`;
+
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    generatePrintableDocument(fixture.name, doc.title, Object.fromEntries(new FormData(form).entries()));
+    document.getElementById("doc-sheet").classList.add("hidden");
+  };
+
+  document.getElementById("doc-type-selection").classList.add("hidden");
+  document.getElementById("form-wrapper").classList.remove("hidden");
+}
+
+function generatePrintableDocument(fixtureName, docTitle, data) {
+  const printWindow = window.open("", "_blank");
+  let rows = "";
+  for (const [k, v] of Object.entries(data)) {
+    if (!["party_name", "date", "doc_number", "tax_id", "contact"].includes(k) && v) {
+      rows += `<tr><td style="padding:8px;border:1px solid #cbd5e1;font-weight:600;background:#f8fafc;">${k.replace(/_/g," ").toUpperCase()}</td><td style="padding:8px;border:1px solid #cbd5e1;">${v}</td></tr>`;
+    }
+  }
+  printWindow.document.write(`<!DOCTYPE html><html><head><title>${docTitle}</title><style>body{font-family:sans-serif;padding:20px;color:#0f172a;}.header{display:flex;justify-content:space-between;border-bottom:2px solid #0f172a;padding-bottom:10px;}table{width:100%;border-collapse:collapse;margin-top:20px;}</style></head><body><div class="header"><div><h2>AASHA WORLD-OS</h2><small>${fixtureName}</small></div><div>Ref: ${data.doc_number||"AASHA-001"}<br>Date: ${data.date}</div></div><h3 style="text-align:center;margin-top:20px;">${docTitle}</h3><p><strong>Party:</strong> ${data.party_name} | <strong>Contact:</strong> ${data.contact}</p><table><tbody>${rows}</tbody></table><script>window.onload=function(){window.print();}<\/script></body></html>`);
+  printWindow.document.close();
+}
+
+document.addEventListener("click", (e) => {
+  const target = e.target.closest("button, div, a");
+  if (!target) return;
+  const txt = target.innerText ? target.innerText.toLowerCase() : "";
+
+  if (txt.includes("royal wedding")) openFixtureDocs("royal_weddings");
+  else if (txt.includes("3d interior")) openFixtureDocs("interiors_3d");
+  else if (txt.includes("5-star hotel")) openFixtureDocs("hotels_5star");
+  else if (txt.includes("food mill")) openFixtureDocs("food_mills_timber");
+  else if (txt.includes("hospital")) openFixtureDocs("hospital_govt_infra");
+  else if (txt.includes("inland port")) openFixtureDocs("inland_ports_logistics");
+  else if (txt.includes("solar")) openFixtureDocs("solar_renewable");
+  else if (txt.includes("commercial real")) openFixtureDocs("commercial_real_estate");
+  else if (txt.includes("cold storage")) openFixtureDocs("cold_storage_hubs");
+  else if (txt.includes("it park")) openFixtureDocs("it_parks_networks");
+  else if (txt.includes("heavy machinery")) openFixtureDocs("heavy_machinery");
+  else if (txt.includes("automobile")) openFixtureDocs("automobile_logistics");
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const cBtn = document.getElementById("close-sheet");
+  if (cBtn) cBtn.onclick = () => document.getElementById("doc-sheet").classList.add("hidden");
+  const bBtn = document.getElementById("back-to-types");
+  if (bBtn) bBtn.onclick = () => {
+    document.getElementById("form-wrapper").classList.add("hidden");
+    document.getElementById("doc-type-selection").classList.remove("hidden");
+  };
+});
+</script>
 
 </body>
 </html>
