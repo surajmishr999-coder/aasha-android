@@ -3321,6 +3321,1666 @@ document.addEventListener("DOMContentLoaded", function() {
     renderLedgerTable();
 });
 </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AASHA World-OS v1.0 — Owner Master</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+}
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 4px 18px rgba(0,0,0,.07);
+}
+input,select,textarea{
+  width:100%;
+  padding:11px;
+  border:1px solid #d0d5dd;
+  border-radius:10px;
+  margin-top:5px;
+  margin-bottom:10px;
+}
+textarea{min-height:90px}
+button{
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:700;
+  cursor:pointer;
+}
+.nav{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.nav button{background:#172033;color:white}
+.page{display:none}
+.page.active{display:block}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:14px;
+}
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#eef2f6;
+  font-size:12px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+th,td{
+  padding:9px;
+  border-bottom:1px solid #eaecf0;
+  text-align:left;
+}
+</style>
+</head>
+
+<body>
+
+<header class="bg-slate-950 text-white p-5">
+<div class="max-w-7xl mx-auto">
+
+<h1 class="text-2xl font-bold">
+AASHA World-OS
+</h1>
+
+<p class="text-slate-300">
+v1.0 Integrated — Owner Master
+</p>
+
+<p class="text-sm text-slate-400">
+ONLY OWNER CONTROL • Approval Required
+</p>
+
+</div>
+</header>
+
+<main class="max-w-7xl mx-auto p-4">
+
+<!-- NAVIGATION -->
+
+<div class="card mb-5">
+
+<div class="nav">
+
+<button onclick="openPage('dashboard')">Dashboard</button>
+<button onclick="openPage('projects')">Customers / Projects</button>
+<button onclick="openPage('design')">Interior Designer</button>
+<button onclick="openPage('professionals')">Professionals</button>
+<button onclick="openPage('products')">Manufacturer / Supplier</button>
+<button onclick="openPage('documents')">Documents</button>
+<button onclick="openPage('approvals')">Owner Approval</button>
+<button onclick="openPage('earnings')">Actual Earnings</button>
+<button onclick="openPage('support')">Support / Updates</button>
+
+</div>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+
+<div class="grid">
+
+<div class="card">
+<p>Projects</p>
+<h2 id="countProjects" class="text-3xl font-bold">0</h2>
+</div>
+
+<div class="card">
+<p>Professionals</p>
+<h2 id="countProfessionals" class="text-3xl font-bold">0</h2>
+</div>
+
+<div class="card">
+<p>Products</p>
+<h2 id="countProducts" class="text-3xl font-bold">0</h2>
+</div>
+
+<div class="card">
+<p>Documents</p>
+<h2 id="countDocuments" class="text-3xl font-bold">0</h2>
+</div>
+
+<div class="card">
+<p>Pending Approval</p>
+<h2 id="countPending" class="text-3xl font-bold">0</h2>
+</div>
+
+<div class="card">
+<p>Actual Earnings</p>
+<h2 id="countEarnings" class="text-3xl font-bold">
+₹0
+</h2>
+</div>
+
+</div>
+
+
+<div class="card mt-5">
+
+<h2 class="text-xl font-bold">
+🔐 Owner Security
+</h2>
+
+<p>
+This version is designed around:
+</p>
+
+<ul class="list-disc ml-5 mt-2">
+
+<li>Only Owner can approve important actions</li>
+<li>AI is suggestion-only</li>
+<li>Automatic updates require Owner approval</li>
+<li>Actual Earnings only from VERIFIED_RECEIVED payments</li>
+<li>Important records keep audit history</li>
+
+</ul>
+
+<p class="text-red-600 mt-3">
+Prototype security uses browser storage. Production security must use
+Firebase Authentication/MFA, Owner UID/custom claims,
+Firestore Rules and server-side backend authorization.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- CUSTOMER PROJECT -->
+
+<section id="projects" class="page">
+
+<div class="card">
+
+<h2 class="text-xl font-bold mb-3">
+👤 Customer & Project
+</h2>
+
+<div class="grid">
+
+<label>
+Customer Name
+<input id="customerName">
+</label>
+
+<label>
+Project Type
+<select id="projectType">
+
+<option>Home</option>
+<option>Flat</option>
+<option>Office</option>
+<option>Shop</option>
+<option>Hotel</option>
+<option>Commercial</option>
+<option>Infrastructure</option>
+
+</select>
+</label>
+
+<label>
+Location / Pincode
+<input id="projectLocation">
+</label>
+
+<label>
+Area Sq.Ft.
+<input id="projectArea" type="number">
+</label>
+
+<label>
+Budget ₹
+<input id="projectBudget" type="number">
+</label>
+
+<label>
+Design Style
+<select id="projectStyle">
+
+<option>Modern</option>
+<option>Minimal</option>
+<option>Luxury</option>
+<option>Classic</option>
+<option>Contemporary</option>
+
+</select>
+</label>
+
+</div>
+
+<label>
+Customer Requirements
+<textarea id="projectRequirements"></textarea>
+</label>
+
+<button
+onclick="createProject()"
+class="bg-slate-900 text-white">
+
+Create Project
+
+</button>
+
+</div>
+
+
+<div class="card mt-5">
+
+<h3 class="font-bold text-lg">
+Project List
+</h3>
+
+<div id="projectList"></div>
+
+</div>
+
+</section>
+
+
+<!-- INTERIOR DESIGNER -->
+
+<section id="design" class="page">
+
+<div class="card">
+
+<h2 class="text-xl font-bold mb-3">
+🎨 Interior Designer Design Studio
+</h2>
+
+<div class="grid">
+
+<label>
+Project ID
+<input id="designProject">
+</label>
+
+<label>
+Room
+<select id="designRoom">
+
+<option>Living Room</option>
+<option>Bedroom</option>
+<option>Modular Kitchen</option>
+<option>Bathroom</option>
+<option>Wardrobe</option>
+<option>Office</option>
+<option>Shop</option>
+
+</select>
+</label>
+
+<label>
+Room Width
+<input id="designWidth">
+</label>
+
+<label>
+Room Length
+<input id="designLength">
+</label>
+
+<label>
+Theme
+<select id="designTheme">
+
+<option>Modern</option>
+<option>Luxury</option>
+<option>Minimal</option>
+<option>Classic</option>
+
+</select>
+</label>
+
+<label>
+Material / Finish
+<input id="designMaterial">
+</label>
+
+<label>
+Lighting
+<input id="designLighting">
+</label>
+
+<label>
+Fixtures
+<input id="designFixtures">
+</label>
+
+</div>
+
+<label>
+Design Brief
+<textarea id="designBrief"></textarea>
+</label>
+
+<button
+onclick="createDesign()"
+class="bg-purple-700 text-white">
+
+Create Design Draft
+
+</button>
+
+<div id="designResult" class="mt-5"></div>
+
+</div>
+
+</section>
+
+
+<!-- PROFESSIONALS -->
+
+<section id="professionals" class="page">
+
+<div class="card">
+
+<h2 class="text-xl font-bold mb-3">
+👥 Professional Ecosystem
+</h2>
+
+<div class="grid">
+
+<label>
+Name
+<input id="proName">
+</label>
+
+<label>
+Role
+<select id="proRole">
+
+<option>Interior Designer</option>
+<option>Architect</option>
+<option>Engineer</option>
+<option>Carpenter</option>
+<option>Contractor</option>
+<option>Manufacturer</option>
+<option>Supplier / Dealer</option>
+
+</select>
+</label>
+
+<label>
+Company
+<input id="proCompany">
+</label>
+
+<label>
+City / District / Pincode
+<input id="proLocation">
+</label>
+
+<label>
+Public Business Contact
+<input id="proContact">
+</label>
+
+<label>
+Services
+<input id="proServices">
+</label>
+
+</div>
+
+<button
+onclick="addProfessional()"
+class="bg-blue-700 text-white">
+
+Add Professional
+
+</button>
+
+</div>
+
+<div class="card mt-5">
+
+<div id="professionalList"></div>
+
+</div>
+
+</section>
+
+
+<!-- MANUFACTURER SUPPLIER -->
+
+<section id="products" class="page">
+
+<div class="card">
+
+<h2 class="text-xl font-bold mb-3">
+🏭 Manufacturer / Supplier / Fixture Master
+</h2>
+
+<div class="grid">
+
+<label>
+Type
+<select id="supplierType">
+
+<option>Manufacturer</option>
+<option>Supplier / Dealer</option>
+
+</select>
+</label>
+
+<label>
+Brand
+<input id="brand">
+</label>
+
+<label>
+Product
+<input id="product">
+</label>
+
+<label>
+Model / SKU
+<input id="sku">
+</label>
+
+<label>
+Category
+<select id="productCategory">
+
+<option>Plywood / Board</option>
+<option>MDF / HDF</option>
+<option>Laminate</option>
+<option>Acrylic</option>
+<option>Veneer</option>
+<option>Kitchen Hardware</option>
+<option>Wardrobe Hardware</option>
+<option>Furniture Fittings</option>
+<option>Doors / Locks</option>
+<option>Bathroom</option>
+<option>Lighting</option>
+<option>Electrical</option>
+<option>Glass / Aluminium</option>
+<option>Tools</option>
+<option>Other</option>
+
+</select>
+</label>
+
+<label>
+Specification
+<input id="specification">
+</label>
+
+<label>
+Location
+<input id="supplierLocation">
+</label>
+
+<label>
+Public Business Contact
+<input id="supplierContact">
+</label>
+
+</div>
+
+<button
+onclick="addProduct()"
+class="bg-green-700 text-white">
+
+Add Product
+
+</button>
+
+</div>
+
+<div class="card mt-5">
+
+<div id="productList"></div>
+
+</div>
+
+</section>
+
+
+<!-- DOCUMENTS -->
+
+<section id="documents" class="page">
+
+<div class="card">
+
+<h2 class="text-xl font-bold mb-3">
+📄 Documents / BOQ / Commercial
+</h2>
+
+<div class="grid">
+
+<label>
+Project ID
+<input id="documentProject">
+</label>
+
+<label>
+Created For
+<select id="documentRole">
+
+<option>Customer</option>
+<option>Interior Designer</option>
+<option>Architect</option>
+<option>Engineer</option>
+<option>Carpenter</option>
+<option>Manufacturer</option>
+<option>Supplier</option>
+
+</select>
+</label>
+
+<label>
+Document Type
+<select id="documentType">
+
+<option>Client Requirement Sheet</option>
+<option>Design Proposal</option>
+<option>Concept Presentation</option>
+<option>Floor / Layout Plan</option>
+<option>Furniture & Fixture Schedule</option>
+<option>Material Selection Sheet</option>
+<option>BOQ / Quantity Sheet</option>
+<option>Cost Estimate</option>
+<option>Quotation</option>
+<option>Work Order</option>
+<option>Installation Checklist</option>
+<option>Project Timeline</option>
+<option>Site Measurement Sheet</option>
+<option>Inspection Report</option>
+<option>Progress Report</option>
+<option>Invoice / Payment Record</option>
+<option>Handover Document</option>
+<option>Warranty / Maintenance Record</option>
+<option>Supplier Quotation</option>
+<option>Purchase / Order Record</option>
+<option>Delivery Record</option>
+<option>Technical Specification</option>
+<option>Government Application</option>
+<option>NOC Application</option>
+<option>Tender / Project Document</option>
+
+</select>
+</label>
+
+</div>
+
+<label>
+Details
+<textarea id="documentDetails"></textarea>
+</label>
+
+<button
+onclick="createDocument()"
+class="bg-indigo-700 text-white">
+
+Create Document Draft
+
+</button>
+
+<button
+onclick="window.print()"
+class="bg-slate-600 text-white">
+
+Print / Save PDF
+
+</button>
+
+</div>
+
+<div class="card mt-5">
+
+<div id="documentList"></div>
+
+</div>
+
+</section>
+
+
+<!-- APPROVAL -->
+
+<section id="approvals" class="page">
+
+<div class="card">
+
+<h2 class="text-xl font-bold">
+🔐 Owner Approval Center
+</h2>
+
+<p class="text-gray-600">
+Every important action begins as PENDING_OWNER_APPROVAL.
+</p>
+
+<div id="approvalList"></div>
+
+</div>
+
+</section>
+
+
+<!-- EARNINGS -->
+
+<section id="earnings" class="page">
+
+<div class="card">
+
+<h2 class="text-xl font-bold">
+💰 Actual Earnings Ledger
+</h2>
+
+<p class="text-gray-600">
+Only VERIFIED_RECEIVED is counted as Actual Earnings.
+</p>
+
+<div class="grid">
+
+<label>
+Project ID
+<input id="earningProject">
+</label>
+
+<label>
+Amount Received ₹
+<input id="earningAmount" type="number">
+</label>
+
+<label>
+Verified Payment Reference
+<input id="earningReference">
+</label>
+
+<label>
+Payment Status
+<select id="earningStatus">
+
+<option>PENDING</option>
+<option>VERIFIED_RECEIVED</option>
+<option>REFUNDED</option>
+
+</select>
+</label>
+
+</div>
+
+<button
+onclick="recordEarning()"
+class="bg-emerald-700 text-white">
+
+Record Payment
+
+</button>
+
+</div>
+
+<div class="card mt-5">
+
+<div id="earningList"></div>
+
+</div>
+
+</section>
+
+
+<!-- SUPPORT -->
+
+<section id="support" class="page">
+
+<div class="card">
+
+<h2 class="text-xl font-bold">
+🔄 Easy Update Center
+</h2>
+
+<div class="grid">
+
+<label>
+Update Name
+<input id="updateName">
+</label>
+
+<label>
+Version
+<input id="updateVersion" value="v1.1">
+</label>
+
+</div>
+
+<label>
+Update Description
+<textarea id="updateDescription"></textarea>
+</label>
+
+<button
+onclick="createUpdate()"
+class="bg-orange-600 text-white">
+
+Save Update for Owner Approval
+
+</button>
+
+<div id="updateList"></div>
+
+</div>
+
+
+<div class="card mt-5">
+
+<h2 class="text-xl font-bold">
+🛠️ Complete Support
+</h2>
+
+<div class="grid">
+
+<label>
+Category
+<select id="ticketCategory">
+
+<option>Technical</option>
+<option>Customer</option>
+<option>Interior Designer</option>
+<option>Architect</option>
+<option>Engineer</option>
+<option>Carpenter</option>
+<option>Manufacturer</option>
+<option>Supplier</option>
+<option>Payment</option>
+<option>Security</option>
+
+</select>
+</label>
+
+<label>
+Priority
+<select id="ticketPriority">
+
+<option>Normal</option>
+<option>High</option>
+<option>Critical</option>
+
+</select>
+</label>
+
+</div>
+
+<textarea
+id="ticketDescription"
+placeholder="Describe the issue">
+
+</textarea>
+
+<button
+onclick="createTicket()"
+class="bg-slate-900 text-white">
+
+Create Support Ticket
+
+</button>
+
+<div id="ticketList"></div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   AASHA WORLD-OS v1.0
+   SINGLE ACTIVE VERSION
+   PROTOTYPE STORAGE ONLY
+   ========================================================= */
+
+const DB_KEY = "AASHA_WORLD_OS_V1";
+
+let db = JSON.parse(
+localStorage.getItem(DB_KEY) ||
+JSON.stringify({
+
+projects:[],
+professionals:[],
+products:[],
+documents:[],
+approvals:[],
+earnings:[],
+updates:[],
+tickets:[],
+audit:[]
+
+})
+);
+
+
+function saveDB(){
+
+localStorage.setItem(
+DB_KEY,
+JSON.stringify(db)
+);
+
+render();
+
+}
+
+
+function ID(prefix){
+
+return prefix+"-"+Date.now()+"-"+
+Math.random().toString(36).slice(2,7);
+
+}
+
+
+function escapeHTML(value){
+
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function audit(action,target){
+
+db.audit.push({
+
+id:ID("AUDIT"),
+action:action,
+target:target,
+time:new Date().toISOString()
+
+});
+
+}
+
+
+function openPage(id){
+
+document
+.querySelectorAll(".page")
+.forEach(
+x=>x.classList.remove("active")
+);
+
+document
+.getElementById(id)
+.classList.add("active");
+
+}
+
+
+/* PROJECT */
+
+function createProject(){
+
+const item={
+
+id:ID("PROJECT"),
+
+customer:customerName.value,
+
+type:projectType.value,
+
+location:projectLocation.value,
+
+area:projectArea.value,
+
+budget:projectBudget.value,
+
+style:projectStyle.value,
+
+requirements:projectRequirements.value,
+
+status:"PENDING_OWNER_APPROVAL",
+
+created:new Date().toISOString()
+
+};
+
+db.projects.push(item);
+
+db.approvals.push({
+
+id:ID("APPROVAL"),
+
+type:"PROJECT",
+
+target:item.id,
+
+name:item.customer,
+
+status:"PENDING_OWNER_APPROVAL"
+
+});
+
+audit("PROJECT_CREATED",item.id);
+
+saveDB();
+
+}
+
+
+/* PROFESSIONAL */
+
+function addProfessional(){
+
+const item={
+
+id:ID("PRO"),
+
+name:proName.value,
+
+role:proRole.value,
+
+company:proCompany.value,
+
+location:proLocation.value,
+
+contact:proContact.value,
+
+services:proServices.value,
+
+status:"PENDING_OWNER_APPROVAL"
+
+};
+
+db.professionals.push(item);
+
+db.approvals.push({
+
+id:ID("APPROVAL"),
+
+type:"PROFESSIONAL",
+
+target:item.id,
+
+name:item.name+" — "+item.role,
+
+status:"PENDING_OWNER_APPROVAL"
+
+});
+
+audit("PROFESSIONAL_ADDED",item.id);
+
+saveDB();
+
+}
+
+
+/* PRODUCT */
+
+function addProduct(){
+
+const item={
+
+id:ID("PRODUCT"),
+
+type:supplierType.value,
+
+brand:brand.value,
+
+product:product.value,
+
+sku:sku.value,
+
+category:productCategory.value,
+
+specification:specification.value,
+
+location:supplierLocation.value,
+
+contact:supplierContact.value,
+
+status:"PENDING_OWNER_APPROVAL"
+
+};
+
+db.products.push(item);
+
+db.approvals.push({
+
+id:ID("APPROVAL"),
+
+type:"PRODUCT",
+
+target:item.id,
+
+name:item.brand+" — "+item.product,
+
+status:"PENDING_OWNER_APPROVAL"
+
+});
+
+audit("PRODUCT_ADDED",item.id);
+
+saveDB();
+
+}
+
+
+/* DESIGN */
+
+function createDesign(){
+
+const item={
+
+id:ID("DESIGN"),
+
+project:designProject.value,
+
+room:designRoom.value,
+
+width:designWidth.value,
+
+length:designLength.value,
+
+theme:designTheme.value,
+
+material:designMaterial.value,
+
+lighting:designLighting.value,
+
+fixtures:designFixtures.value,
+
+brief:designBrief.value
+
+};
+
+designResult.innerHTML=`
+
+<div class="card">
+
+<h3 class="text-lg font-bold">
+${escapeHTML(item.room)} — ${escapeHTML(item.theme)}
+</h3>
+
+<p><b>Project:</b> ${escapeHTML(item.project)}</p>
+
+<p><b>Room:</b>
+${escapeHTML(item.width)} ×
+${escapeHTML(item.length)}</p>
+
+<p><b>Material:</b>
+${escapeHTML(item.material)}</p>
+
+<p><b>Lighting:</b>
+${escapeHTML(item.lighting)}</p>
+
+<p><b>Fixtures:</b>
+${escapeHTML(item.fixtures)}</p>
+
+<p><b>Brief:</b>
+${escapeHTML(item.brief)}</p>
+
+<hr>
+
+<p>
+<strong>Design workflow:</strong>
+2D Layout → 3D Concept → Materials →
+Fixtures → BOQ → Estimate → Supplier Matching →
+Customer Review → Owner Approval
+</p>
+
+<button
+onclick="createDesignApproval('${item.id}')"
+class="bg-slate-900 text-white">
+
+Send for Owner Approval
+
+</button>
+
+</div>
+`;
+
+}
+
+
+function createDesignApproval(id){
+
+db.approvals.push({
+
+id:ID("APPROVAL"),
+
+type:"DESIGN",
+
+target:id,
+
+name:"Interior Design "+id,
+
+status:"PENDING_OWNER_APPROVAL"
+
+});
+
+audit("DESIGN_SENT_FOR_APPROVAL",id);
+
+saveDB();
+
+openPage("approvals");
+
+}
+
+
+/* DOCUMENT */
+
+function createDocument(){
+
+const item={
+
+id:ID("DOC"),
+
+project:documentProject.value,
+
+role:documentRole.value,
+
+type:documentType.value,
+
+details:documentDetails.value,
+
+status:"PENDING_OWNER_APPROVAL",
+
+created:new Date().toISOString()
+
+};
+
+db.documents.push(item);
+
+db.approvals.push({
+
+id:ID("APPROVAL"),
+
+type:"DOCUMENT",
+
+target:item.id,
+
+name:item.type,
+
+status:"PENDING_OWNER_APPROVAL"
+
+});
+
+audit("DOCUMENT_CREATED",item.id);
+
+saveDB();
+
+}
+
+
+/* EARNINGS */
+
+function recordEarning(){
+
+const item={
+
+id:ID("PAY"),
+
+project:earningProject.value,
+
+amount:Number(earningAmount.value||0),
+
+reference:earningReference.value,
+
+status:earningStatus.value,
+
+created:new Date().toISOString()
+
+};
+
+db.earnings.push(item);
+
+audit("PAYMENT_RECORDED",item.id);
+
+saveDB();
+
+}
+
+
+/* UPDATE */
+
+function createUpdate(){
+
+const item={
+
+id:ID("UPDATE"),
+
+name:updateName.value,
+
+version:updateVersion.value,
+
+description:updateDescription.value,
+
+status:"PENDING_OWNER_APPROVAL",
+
+created:new Date().toISOString()
+
+};
+
+db.updates.push(item);
+
+db.approvals.push({
+
+id:ID("APPROVAL"),
+
+type:"UPDATE",
+
+target:item.id,
+
+name:item.name+" "+item.version,
+
+status:"PENDING_OWNER_APPROVAL"
+
+});
+
+audit("UPDATE_CREATED",item.id);
+
+saveDB();
+
+}
+
+
+/* SUPPORT */
+
+function createTicket(){
+
+const item={
+
+id:ID("TICKET"),
+
+category:ticketCategory.value,
+
+priority:ticketPriority.value,
+
+description:ticketDescription.value,
+
+status:"OPEN",
+
+created:new Date().toISOString()
+
+};
+
+db.tickets.push(item);
+
+audit("SUPPORT_TICKET_CREATED",item.id);
+
+saveDB();
+
+}
+
+
+/* OWNER APPROVAL */
+
+function approveApproval(id){
+
+const approval=db.approvals.find(
+x=>x.id===id
+);
+
+if(!approval)return;
+
+approval.status="OWNER_APPROVED";
+
+const collections={
+
+PROJECT:db.projects,
+
+PROFESSIONAL:db.professionals,
+
+PRODUCT:db.products,
+
+DOCUMENT:db.documents
+
+};
+
+if(collections[approval.type]){
+
+const target=collections[approval.type]
+.find(x=>x.id===approval.target);
+
+if(target)
+target.status="OWNER_APPROVED";
+
+}
+
+audit("OWNER_APPROVED",id);
+
+saveDB();
+
+}
+
+
+function rejectApproval(id){
+
+const approval=db.approvals.find(
+x=>x.id===id
+);
+
+if(!approval)return;
+
+approval.status="REJECTED";
+
+audit("OWNER_REJECTED",id);
+
+saveDB();
+
+}
+
+
+/* RENDER */
+
+function render(){
+
+countProjects.textContent=
+db.projects.length;
+
+countProfessionals.textContent=
+db.professionals.length;
+
+countProducts.textContent=
+db.products.length;
+
+countDocuments.textContent=
+db.documents.length;
+
+const pending=db.approvals.filter(
+x=>x.status==="PENDING_OWNER_APPROVAL"
+).length;
+
+countPending.textContent=pending;
+
+const actual=db.earnings
+.filter(
+x=>x.status==="VERIFIED_RECEIVED"
+)
+.reduce(
+(sum,x)=>sum+Number(x.amount||0),
+0
+);
+
+countEarnings.textContent=
+"₹"+actual.toLocaleString("en-IN");
+
+
+projectList.innerHTML=
+db.projects.map(x=>`
+
+<div class="border p-3 rounded-xl mb-2">
+
+<b>${escapeHTML(x.customer)}</b>
+
+<br>
+${escapeHTML(x.type)}
+<br>
+${escapeHTML(x.location)}
+
+<br>
+
+<span class="badge">
+${escapeHTML(x.status)}
+</span>
+
+</div>
+
+`).join("");
+
+
+professionalList.innerHTML=
+db.professionals.map(x=>`
+
+<div class="border p-3 rounded-xl mb-2">
+
+<b>${escapeHTML(x.name)}</b>
+
+<br>
+${escapeHTML(x.role)}
+
+<br>
+${escapeHTML(x.company)}
+
+<br>
+${escapeHTML(x.location)}
+
+<br>
+${escapeHTML(x.contact)}
+
+<br>
+
+<span class="badge">
+${escapeHTML(x.status)}
+</span>
+
+</div>
+
+`).join("");
+
+
+productList.innerHTML=
+db.products.map(x=>`
+
+<div class="border p-3 rounded-xl mb-2">
+
+<b>${escapeHTML(x.brand)}</b>
+—
+${escapeHTML(x.product)}
+
+<br>
+
+SKU:
+${escapeHTML(x.sku)}
+
+<br>
+
+${escapeHTML(x.category)}
+
+<br>
+
+${escapeHTML(x.location)}
+
+<br>
+
+<span class="badge">
+${escapeHTML(x.status)}
+</span>
+
+</div>
+
+`).join("");
+
+
+documentList.innerHTML=
+db.documents.map(x=>`
+
+<div class="border p-3 rounded-xl mb-2">
+
+<b>${escapeHTML(x.type)}</b>
+
+<br>
+Project:
+${escapeHTML(x.project)}
+
+<br>
+Role:
+${escapeHTML(x.role)}
+
+<br>
+
+<span class="badge">
+${escapeHTML(x.status)}
+</span>
+
+</div>
+
+`).join("");
+
+
+earningList.innerHTML=
+db.earnings.map(x=>`
+
+<div class="border p-3 rounded-xl mb-2">
+
+<b>
+₹${Number(x.amount).toLocaleString("en-IN")}
+</b>
+
+<br>
+
+Project:
+${escapeHTML(x.project)}
+
+<br>
+
+Reference:
+${escapeHTML(x.reference)}
+
+<br>
+
+Status:
+<span class="badge">
+${escapeHTML(x.status)}
+</span>
+
+</div>
+
+`).join("");
+
+
+updateList.innerHTML=
+db.updates.map(x=>`
+
+<div class="border p-3 rounded-xl mb-2">
+
+<b>
+${escapeHTML(x.name)}
+</b>
+
+<br>
+
+Version:
+${escapeHTML(x.version)}
+
+<br>
+
+${escapeHTML(x.description)}
+
+<br>
+
+<span class="badge">
+${escapeHTML(x.status)}
+</span>
+
+</div>
+
+`).join("");
+
+
+ticketList.innerHTML=
+db.tickets.map(x=>`
+
+<div class="border p-3 rounded-xl mb-2">
+
+<b>
+${escapeHTML(x.category)}
+</b>
+
+<br>
+
+Priority:
+${escapeHTML(x.priority)}
+
+<br>
+
+${escapeHTML(x.description)}
+
+<br>
+
+Status:
+${escapeHTML(x.status)}
+
+</div>
+
+`).join("");
+
+
+const pendingApprovals=
+db.approvals.filter(
+x=>x.status==="PENDING_OWNER_APPROVAL"
+);
+
+approvalList.innerHTML=
+pendingApprovals.length
+?
+pendingApprovals.map(x=>`
+
+<div class="border p-4 rounded-xl mb-3">
+
+<b>${escapeHTML(x.name)}</b>
+
+<br>
+
+Type:
+${escapeHTML(x.type)}
+
+<br>
+
+<span class="badge">
+PENDING_OWNER_APPROVAL
+</span>
+
+<div class="mt-2">
+
+<button
+onclick="approveApproval('${x.id}')"
+class="bg-green-700 text-white">
+
+APPROVE
+
+</button>
+
+<button
+onclick="rejectApproval('${x.id}')"
+class="bg-red-700 text-white ml-2">
+
+REJECT
+
+</button>
+
+</div>
+
+</div>
+
+`).join("")
+:
+"<p>No pending approvals.</p>";
+
+}
+
+render();
+
+</script>
+
+
 
 </body>
 </html>
