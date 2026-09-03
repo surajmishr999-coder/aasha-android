@@ -1508,8 +1508,1824 @@ async function generatePrintableDocument(fixtureName, docTitle, data) {
 }
 </script>
 
+</body><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AASHA WORLD-OS | Sovereign Hospitality, Acquisition & Allotment Engine</title>
+  <style>
+    :root {
+      --bg-main: #060911;
+      --card-bg: #0b1120;
+      --panel-border: #1e293b;
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-purple: #8b5cf6;
+      --accent-rose: #f43f5e;
+      --text-head: #f8fafc;
+      --text-sub: #94a3b8;
+      --input-bg: #111827;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-head);
+      padding: 16px;
+      line-height: 1.5;
+    }
+
+    .container { max-width: 1340px; margin: 0 auto; }
+
+    .top-bar {
+      background: linear-gradient(135deg, #0b1120 0%, #1e1b4b 50%, #0b1120 100%);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .badge-pill {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .badge-cyan { background: #0284c7; color: #fff; }
+    .badge-green { background: #059669; color: #fff; }
+    .badge-purple { background: #6d28d9; color: #fff; }
+    .badge-amber { background: #d97706; color: #fff; }
+
+    .btn {
+      padding: 9px 15px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn:hover { opacity: 0.92; transform: translateY(-1px); }
+    .btn-cyan { background: #0284c7; color: #fff; }
+    .btn-green { background: #059669; color: #fff; }
+    .btn-amber { background: #d97706; color: #fff; }
+    .btn-purple { background: #7c3aed; color: #fff; }
+    .btn-dark { background: #1f2937; border: 1px solid var(--panel-border); color: #cbd5e1; }
+    .btn-danger { background: #dc2626; color: #fff; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 960px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    }
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 10px;
+    }
+    .card-title { font-size: 16px; font-weight: 700; color: var(--accent-cyan); }
+    .card-sub { font-size: 12px; color: var(--text-sub); }
+
+    label { font-size: 11px; color: var(--text-sub); font-weight: 600; display: block; margin-bottom: 4px; }
+    input, select, textarea {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--panel-border);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+      margin-bottom: 12px;
+    }
+    input:focus, select:focus { border-color: var(--accent-cyan); }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #0f172a;
+      border: 1px solid var(--panel-border);
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .checkbox-item input[type="checkbox"] { width: auto; margin-bottom: 0; }
+
+    .table-container { overflow-x: auto; margin-top: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+    th { background: #111827; color: var(--text-sub); padding: 10px 12px; border: 1px solid var(--panel-border); font-weight: 700; }
+    td { padding: 10px 12px; border: 1px solid var(--panel-border); background: var(--card-bg); }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+    }
+    .stat-val { font-size: 18px; font-weight: 800; margin-top: 3px; }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-dialog {
+      background: #0b1120;
+      border: 2px solid var(--accent-cyan);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 650px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- SOVEREIGN HEADER & ESCROW STATUS -->
+  <header class="top-bar">
+    <div>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <span class="badge-pill badge-cyan">CENTRAL AGGREGATOR OS</span>
+        <span id="headerTierBadge" class="badge-pill badge-green">SAFE CUSTOMER ESCROW ACTIVE</span>
+        <span class="badge-pill badge-purple">PREPAID HANDSHAKE ENGINE</span>
+      </div>
+      <h1 style="font-size: 24px; color: var(--accent-cyan); margin: 6px 0 2px 0;">AASHA WORLD-OS</h1>
+      <p style="font-size: 12px; color: var(--text-sub);">
+        Master Entity: <strong id="headerBeneficiary" style="color: #fff;">Suraj Kumar Mishra</strong> | 
+        Settled Node: <span id="headerBankDesc">SBI ISM Campus Dhanbad</span>
+      </p>
+    </div>
+
+    <div style="text-align: right;">
+      <div style="font-size: 11px; color: var(--accent-amber); font-weight: 700; margin-bottom: 4px;">
+        ESCROW UPI: <span id="headerUPI" style="color: #fff; font-family: monospace;">surajmishr999-1@oksbi</span>
+      </div>
+      <div style="display: flex; gap: 8px; justify-content: flex-end; align-items: center;">
+        <button onclick="openSettingsModal()" class="btn btn-dark" style="font-size: 11px;">⚙️ Master Settings</button>
+        <button onclick="exportHotelsToJSON()" class="btn btn-dark" style="font-size: 11px;">⬇️ Backup JSON</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- LIVE COMMERCIAL METRICS BANNER -->
+  <div class="stats-row">
+    <div class="stat-pill">
+      <div style="font-size: 11px; color: var(--text-sub);">Gross Booking Volume</div>
+      <div id="statGrossTurnover" class="stat-val" style="color: #fff;">₹0</div>
+    </div>
+    <div class="stat-pill">
+      <div style="font-size: 11px; color: var(--text-sub);">Hotel Net Remittance</div>
+      <div id="statHotelRemittance" class="stat-val" style="color: var(--text-sub);">₹0</div>
+    </div>
+    <div class="stat-pill" style="border-color: var(--accent-emerald);">
+      <div style="font-size: 11px; color: var(--accent-emerald);">Direct Customer Profit Vault</div>
+      <div id="statNetMarginEarned" class="stat-val" style="color: var(--accent-emerald);">₹0</div>
+    </div>
+    <div class="stat-pill" style="border-color: var(--accent-purple);">
+      <div style="font-size: 11px; color: var(--accent-purple);">Ancillary Add-on Gross</div>
+      <div id="statAddonVolume" class="stat-val" style="color: var(--accent-purple);">₹0</div>
+    </div>
+    <div class="stat-pill" style="border-color: var(--accent-cyan);">
+      <div style="font-size: 11px; color: var(--accent-cyan);">Prepaid Handshake Records</div>
+      <div id="statClearedCount" class="stat-val" style="color: var(--accent-cyan);">0 Verified</div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER ACQUISITION & MARKETING ENGINE -->
+  <div class="card" style="border-color: #7c3aed; background: linear-gradient(135deg, #110e2e 0%, #0b1120 100%);">
+    <div class="card-head">
+      <div>
+        <span class="badge-pill badge-purple">GROWTH & LEAD GENERATION</span>
+        <h2 class="card-title" style="margin-top: 4px; color: var(--accent-purple);">Customer Acquisition & Hyperlocal Funnel</h2>
+        <div class="card-sub">B2B Campus tie-ups, Ground Partner cuts, aur WhatsApp blast funnels.</div>
+      </div>
+      <button onclick="triggerHyperlocalBroadcast()" class="btn btn-purple" style="font-size: 11px;">📢 1-Click WhatsApp Broadcast</button>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;">
+      <div style="background: #090d18; border: 1px solid var(--panel-border); border-radius: 8px; padding: 12px;">
+        <span class="badge-pill badge-cyan">CHANNEL 1: B2B CORPORATE & CAMPUS</span>
+        <h4 style="font-size: 13px; margin: 6px 0 2px 0;">IIT/ISM Campus & PSU Desks</h4>
+        <p style="font-size: 11px; color: var(--text-sub); margin-bottom: 8px;">Direct corporate passes for seminars, campus fests, and executive guests with 10% advance guarantee.</p>
+        <button onclick="generateCorporatePassPrompt()" class="btn btn-dark" style="width: 100%; font-size: 10px;">🏢 Issue Corporate Pass</button>
+      </div>
+
+      <div style="background: #090d18; border: 1px solid var(--panel-border); border-radius: 8px; padding: 12px;">
+        <span class="badge-pill badge-green">CHANNEL 2: GROUND VENDOR PARTNERS</span>
+        <h4 style="font-size: 13px; margin: 6px 0 2px 0;">Photographer & DJ Referral Cut</h4>
+        <p style="font-size: 11px; color: var(--text-sub); margin-bottom: 8px;">Local tent houses aur DJs ko 2% spot referral commission dekar banquet lead lock karein.</p>
+        <button onclick="issuePartnerReferralCode()" class="btn btn-dark" style="width: 100%; font-size: 10px;">🤝 Generate Partner Tag</button>
+      </div>
+
+      <div style="background: #090d18; border: 1px solid var(--panel-border); border-radius: 8px; padding: 12px;">
+        <span class="badge-pill badge-amber">CHANNEL 3: SURGE DYNAMIC PRICING</span>
+        <h4 style="font-size: 13px; margin: 6px 0 2px 0;">Peak Season 25% Auto-Surge</h4>
+        <p style="font-size: 11px; color: var(--text-sub); margin-bottom: 8px;">Peak wedding dates (lagan season) par 15% base margin badhakar 25% direct lock karein.</p>
+        <label class="checkbox-item" style="margin-bottom: 0; background: transparent; border: none; padding: 0;">
+          <input type="checkbox" id="surgePricingToggle" onchange="togglePeakSurgePricing()" />
+          <strong style="color: var(--accent-amber);">Activate Lagan Peak Surge (+10%)</strong>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- SATELLITE LOCATOR RADAR + GPS AUTO-LOCATOR -->
+  <div class="card" style="border-color: #0369a1; background: linear-gradient(135deg, #081226 0%, #0b1120 100%);">
+    <div class="card-head">
+      <div>
+        <span class="badge-pill badge-cyan">GLOBAL OPENSTREETMAP RADAR</span>
+        <h2 class="card-title" style="margin-top: 4px;">Worldwide Property Geocoding & GPS Auto-Locator</h2>
+        <div class="card-sub">Global satellite name search karein ya 1-Click GPS se live current location scan karke aas-paas ke hotels lock karein.</div>
+      </div>
+      <span id="radarStatusTag" style="font-size: 11px; color: var(--accent-emerald); font-weight: 700;">● SATELLITE ENGINE ONLINE</span>
+    </div>
+
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <input type="text" id="worldLocatorInput" placeholder="Type hotel name or city (e.g., 'Taj Mahal Palace Mumbai', 'Wedlock Greens Dhanbad', 'Burj Al Arab Dubai')..."
+        style="flex: 2; min-width: 240px; margin-bottom: 0;" onkeydown="if(event.key==='Enter'){ executeWorldLocatorSearch(); event.preventDefault(); }" />
+      <button onclick="executeWorldLocatorSearch()" class="btn btn-cyan" style="white-space: nowrap;">🌍 Scan & Locate</button>
+      <!-- GPS 1-TAP DEVICE AUTO-LOCATOR BUTTON -->
+      <button onclick="triggerDeviceAutoLocator()" class="btn btn-green" style="white-space: nowrap;">🎯 1-Tap GPS Auto-Locate</button>
+    </div>
+
+    <div id="worldSearchResultsBox" style="display: none; margin-top: 14px; max-height: 250px; overflow-y: auto; background: #070d18; border: 1px solid var(--panel-border); border-radius: 8px; padding: 8px;"></div>
+  </div>
+
+  <!-- BROWSER VOICE AI AGENT -->
+  <div class="card" style="border-color: #6366f1; background: linear-gradient(135deg, #131238 0%, #0b1120 100%);">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <div>
+        <span class="badge-pill badge-purple">AUTONOMOUS VOICE CONCIERGE</span>
+        <h3 style="color: var(--accent-purple); font-size: 15px; margin-top: 4px;">AASHA Audio Consultant & Negotiation Engine</h3>
+        <p id="voiceEngineFeedback" style="font-size: 11px; color: var(--text-sub); margin: 0;">Voice Engine Ready. Click buttons to hear terms or talk via microphone.</p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button onclick="AASHA_AUDIO_AI.speakSystemPolicy()" class="btn btn-purple" style="font-size: 11px;">🔊 Voice Announce Policy</button>
+        <button onclick="AASHA_AUDIO_AI.activateMicListener()" class="btn btn-cyan" style="font-size: 11px;">🎙️ Speak Property Request</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    
+    <!-- 1. SOVEREIGN CLIENT BOOKING & AUTO-MARKUP DESK -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <span class="badge-pill badge-cyan">REVENUE DESK</span>
+          <h2 class="card-title" style="margin-top: 4px;">Client Allotment & Settlement Engine</h2>
+          <div class="card-sub">Wholesale Markup + Convenience Fee + Addons + Safe Escrow.</div>
+        </div>
+      </div>
+
+      <form id="sovereignClientBookingForm" onsubmit="handleBookingCreation(event)">
+        <label>Client Full Name *</label>
+        <input type="text" id="clientFullName" required placeholder="e.g., Rajesh Khanna" />
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label>Client Contact Number (10 Digits) *</label>
+            <input type="tel" id="clientPhoneNumber" required placeholder="e.g., 9876543210" />
+          </div>
+          <div>
+            <label>Acquisition Partner Tag (Optional)</label>
+            <input type="text" id="referralTagInput" placeholder="e.g., VENDOR-DJ-AMIT / CORP-IIT-ISM" />
+          </div>
+        </div>
+
+        <label>Selected Venue / Hotel Node *</label>
+        <select id="selectedVenueDropdown" onchange="syncSelectedVenueTariff()"></select>
+
+        <!-- FIXTURE: PAYMENT COLLECTION MODEL -->
+        <div style="background: #081226; border: 1px solid #0284c7; border-radius: 8px; padding: 10px 12px; margin-bottom: 12px;">
+          <label style="color: var(--accent-cyan);">Safe Earnings Settlement Fixture *</label>
+          <select id="collectionModelSelect" onchange="recalculateCommercialSplits()" style="margin-bottom: 4px;">
+            <option value="PREPAID_100">100% Full Prepaid Pass (Zero Hotel Dependence - Most Safe)</option>
+            <option value="SPLIT_TOKEN">10% Advance Token + Counter Clearance OTP</option>
+          </select>
+          <div style="font-size: 11px; color: var(--text-sub);">Full Prepaid pass locks 100% client money into your SBI account before hotel check-in.</div>
+        </div>
+
+        <!-- OPERATIONAL FIXTURES: EVENT SLOT & VENUE SPECS -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label>Event Slot Shift (Fixture) *</label>
+            <select id="eventSlotShift">
+              <option value="Evening (6 PM - Midnight)">Evening (6 PM - Midnight)</option>
+              <option value="Morning (9 AM - 4 PM)">Morning (9 AM - 4 PM)</option>
+              <option value="Full Day 24-Hour Pass">Full Day 24-Hour Pass</option>
+            </select>
+          </div>
+          <div>
+            <label>Venue Specs (Fixture) *</label>
+            <select id="venueSpecsSelect">
+              <option value="AC Banquet + Lawn + GenSet">AC Banquet + Lawn + GenSet</option>
+              <option value="AC Banquet Hall Only">AC Banquet Hall Only</option>
+              <option value="Luxury Suite / Executive Room">Luxury Suite / Executive Room</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label>Event / Stay Date *</label>
+            <input type="date" id="eventTargetDate" required />
+          </div>
+          <div>
+            <label>Wholesale Base Rate (₹) *</label>
+            <input type="number" id="targetBasePrice" required oninput="recalculateCommercialSplits()" />
+          </div>
+        </div>
+
+        <!-- HIGH-PROFIT ANCILLARY ADD-ON SERVICES -->
+        <div style="background: #0b1426; border: 1px solid #1e3a5f; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+          <div style="font-size: 11px; font-weight: 700; color: #8b5cf6; margin-bottom: 8px; text-transform: uppercase;">
+            💎 High-Margin Ancillary Add-ons (Direct Extra Profits)
+          </div>
+          
+          <label class="checkbox-item">
+            <input type="checkbox" id="addonDJ" onchange="recalculateCommercialSplits()" />
+            <span>Sound & Professional DJ Setup (+₹25,000 | <strong>Your Margin: ₹3,500</strong>)</span>
+          </label>
+
+          <label class="checkbox-item">
+            <input type="checkbox" id="addonDecor" onchange="recalculateCommercialSplits()" />
+            <span>Luxury Stage & Floral Decoration Suite (+₹45,000 | <strong>Your Margin: ₹6,000</strong>)</span>
+          </label>
+
+          <label class="checkbox-item">
+            <input type="checkbox" id="addonPhoto" onchange="recalculateCommercialSplits()" />
+            <span>Cinematic Photo & Drone Coverage (+₹40,000 | <strong>Your Margin: ₹5,000</strong>)</span>
+          </label>
+
+          <label class="checkbox-item">
+            <input type="checkbox" id="addonCab" onchange="recalculateCommercialSplits()" />
+            <span>Luxury Guest Transport Fleet (+₹18,000 | <strong>Your Margin: ₹2,500</strong>)</span>
+          </label>
+        </div>
+
+        <!-- COMMERCIAL MARGIN CALCULATOR PREVIEW -->
+        <div style="background: #0f172a; border: 1px solid var(--panel-border); border-radius: 8px; padding: 14px; margin-bottom: 14px; font-size: 12px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <span style="color: var(--text-sub);">Hotel Wholesale Base:</span>
+            <span id="previewBase" style="font-weight: 700;">₹0</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: var(--accent-emerald);">
+            <span>Platform Markup (<span id="previewMarkupPercent">15%</span>):</span>
+            <span id="previewMarkupVal" style="font-weight: 700;">+ ₹0</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: var(--accent-purple);">
+            <span>Ancillary Add-ons Total:</span>
+            <span id="previewAddonVal" style="font-weight: 700;">+ ₹0</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: var(--accent-cyan);">
+            <span>Convenience Desk Fee:</span>
+            <span id="previewFeeVal" style="font-weight: 700;">+ ₹299</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: var(--accent-amber);">
+            <span>Refundable Counter Deposit (Fixture):</span>
+            <span id="previewDepositVal" style="font-weight: 700;">₹10,000</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-top: 1px dashed var(--panel-border); padding-top: 8px; font-size: 14px; font-weight: 800;">
+            <span style="color: #fff;">Gross Client Allotment Quote:</span>
+            <span id="previewTotalMSRP" style="color: var(--accent-cyan);">₹0</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-green" style="width: 100%; padding: 12px; font-size: 13px;">
+          🔒 Freeze Slot Token & Transmit Ground Mandate
+        </button>
+      </form>
+    </div>
+
+    <!-- 2. DIRECTORY ONBOARDING & WEDDING CATERING MATRIX -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <span class="badge-pill badge-green">INVENTORY GATEWAY</span>
+          <h2 class="card-title" style="margin-top: 4px;">Fast Property Onboarding</h2>
+          <div class="card-sub">Taj Luxury chains se local Dhanbad wedding lawns tak direct database entry.</div>
+        </div>
+        <button onclick="toggleQuickAddForm()" class="btn btn-cyan" style="font-size: 11px;">➕ Quick Add Form</button>
+      </div>
+
+      <!-- TOGGLEABLE MANUAL FORM -->
+      <div id="quickAddFormWrap" style="display: none; background: #0f172a; border: 1px solid var(--accent-cyan); border-radius: 8px; padding: 14px; margin-bottom: 16px;">
+        <form id="propertyIntakeForm" onsubmit="handleManualPropertySave(event)">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label>Network Tier *</label>
+              <select id="newHotelTier">
+                <option value="LOCAL">Tier 2: Regional Property / Banquet (Dhanbad & Nearby)</option>
+                <option value="GLOBAL">Tier 1: Global Luxury (Taj, Oberoi, Marriott Chains)</option>
+              </select>
+            </div>
+            <div>
+              <label>Commercial Property Name *</label>
+              <input type="text" id="newHotelName" required placeholder="e.g., Sonotel Hotels & Resorts" />
+            </div>
+          </div>
+
+          <label>Complete Address & Landmark *</label>
+          <input type="text" id="newHotelAddress" required placeholder="e.g., Ozone Galleria Mall, Saraidhela, Dhanbad" />
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label>Wholesale Base Rate (₹) *</label>
+              <input type="number" id="newHotelBase" required placeholder="e.g., 35000" />
+            </div>
+            <div>
+              <label>Desk WhatsApp (Confidential) *</label>
+              <input type="text" id="newHotelDesk" required placeholder="e.g., 919234604444" />
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <button type="submit" class="btn btn-green" style="flex: 1;">✔ Save to Sovereign Catalog</button>
+            <button type="button" onclick="toggleQuickAddForm()" class="btn btn-dark">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- WEDDING CATERING PER-PLATE MARGIN CALCULATOR -->
+      <div style="padding-top: 10px; border-top: 1px dashed var(--panel-border);">
+        <span class="badge-pill badge-purple">CATERING MARGIN ENGINE</span>
+        <h3 style="font-size: 14px; color: var(--accent-cyan); margin-top: 6px;">Wedding Catering & Banquet Package Estimator</h3>
+        <p style="font-size: 11px; color: var(--text-sub); margin-bottom: 8px;">Calculate per-plate food bills and lock your 15% catering margin automatically.</p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+          <div>
+            <label>Guest Count</label>
+            <input type="number" id="catGuestTotal" placeholder="e.g. 500" oninput="computeCateringQuote()" />
+          </div>
+          <div>
+            <label>Veg Plate (₹)</label>
+            <input type="number" id="catVegPlateRate" placeholder="e.g. 700" oninput="computeCateringQuote()" />
+          </div>
+          <div>
+            <label>Non-Veg Plate (₹)</label>
+            <input type="number" id="catNonVegPlateRate" placeholder="e.g. 950" oninput="computeCateringQuote()" />
+          </div>
+        </div>
+
+        <div id="cateringResultDisplay" style="display: none; background: #070d18; border: 1px solid var(--accent-emerald); border-radius: 6px; padding: 10px; font-size: 12px; color: var(--accent-emerald);"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 3. VERIFIED CATALOG WITH BYPASS DEFENSE & SPONSORED LISTINGS -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2 class="card-title">Audited Properties Directory</h2>
+        <div class="card-sub">Phone numbers are masked to prevent offline client leakage. Master PIN (9999) required to unmask.</div>
+      </div>
+      <div style="display: flex; gap: 6px;">
+        <button onclick="filterCatalogView('ALL')" class="btn btn-dark">All</button>
+        <button onclick="filterCatalogView('FEATURED')" class="btn btn-dark" style="color: var(--accent-amber);">★ Sponsored Top</button>
+        <button onclick="filterCatalogView('GLOBAL')" class="btn btn-dark" style="color: var(--accent-cyan);">★ Taj & Luxury</button>
+        <button onclick="filterCatalogView('LOCAL')" class="btn btn-dark" style="color: var(--accent-emerald);">📍 Local Dhanbad</button>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;">
+      <input type="text" id="catalogSearchQuery" oninput="applyCatalogFilters()" placeholder="🔍 Live search hotel name, city, location..." style="flex: 2; margin-bottom: 0;" />
+      <input type="number" id="catalogBudgetCap" oninput="applyCatalogFilters()" placeholder="Max Budget Tariff (₹)" style="flex: 1; margin-bottom: 0;" />
+    </div>
+
+    <div id="catalogGridCards" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px;"></div>
+  </div>
+
+  <!-- 4. PERSISTENT SETTLEMENT VAULT, AUDIT, GMB STRIKE & LEGAL ACTIONS -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <span class="badge-pill badge-green">AUDITED SETTLEMENT VAULT</span>
+        <h2 class="card-title" style="margin-top: 4px;">Sovereign Revenue Ledger & Safe Remittance Hub</h2>
+        <div class="card-sub">Records persist in browser. Google GM Default Strike, Court Demand Letter, or Handshake Release.</div>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button onclick="exportLedgerToCSV()" class="btn btn-green" style="font-size: 11px;">📊 Export CSV / Excel</button>
+        <button onclick="renderLedgerTable()" class="btn btn-dark" style="font-size: 11px;">🔄 Refresh</button>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Slot Token / OTP</th>
+            <th>Client Info</th>
+            <th>Property / Target Date</th>
+            <th>Shift / Specs / Addons</th>
+            <th>Gross Value</th>
+            <th>Your Net Profit</th>
+            <th>Settlement State</th>
+            <th>Ground Handshake & GMB Strike</th>
+          </tr>
+        </thead>
+        <tbody id="ledgerRecordsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- MASTER SETTINGS & FIXTURES MODAL -->
+<div id="settingsModal" class="modal-backdrop">
+  <div class="modal-dialog">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--panel-border); padding-bottom: 12px; margin-bottom: 16px;">
+      <div>
+        <span class="badge-pill badge-purple">MASTER CONFIG</span>
+        <h3 style="color: var(--accent-cyan); font-size: 16px; margin-top: 4px;">Aggregator Settings & Commercial Fixtures</h3>
+      </div>
+      <button onclick="closeSettingsModal()" class="btn btn-dark" style="padding: 4px 10px; font-size: 11px;">✕ Close</button>
+    </div>
+
+    <form id="masterSettingsForm" onsubmit="saveMasterSettings(event)">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div>
+          <label>Beneficiary Entity Name *</label>
+          <input type="text" id="cfgBeneficiary" required />
+        </div>
+        <div>
+          <label>Primary SBI UPI ID *</label>
+          <input type="text" id="cfgUPI" required />
+        </div>
+      </div>
+
+      <label>Bank & Branch Description *</label>
+      <input type="text" id="cfgBank" required />
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+        <div>
+          <label>Wholesale Markup (%) *</label>
+          <input type="number" id="cfgMarkup" step="0.01" required />
+        </div>
+        <div>
+          <label>Desk Fee (₹) *</label>
+          <input type="number" id="cfgFee" required />
+        </div>
+        <div>
+          <label>Advance Token (%) *</label>
+          <input type="number" id="cfgTokenPercent" required />
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div>
+          <label>Counter Security Deposit (₹) *</label>
+          <input type="number" id="cfgDeposit" required />
+        </div>
+        <div>
+          <label>Update Master Security PIN *</label>
+          <input type="password" id="cfgMasterPin" required />
+        </div>
+      </div>
+
+      <div style="margin-top: 10px; display: flex; gap: 10px;">
+        <button type="submit" class="btn btn-green" style="flex: 1;">💾 Save Configuration & Fixtures</button>
+        <button type="button" onclick="resetDefaultFixtures()" class="btn btn-danger" style="font-size: 11px;">Reset Defaults</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============================================================= -->
+<!-- FULL JAVASCRIPT MASTER BUSINESS, ACQUISITION & LEGAL ENGINE   -->
+<!-- ============================================================= -->
+<script>
+// 1. SOVEREIGN ENGINE CONFIGURATION & OPERATIONAL FIXTURES
+const DEFAULT_FIXTURES = {
+    beneficiary: "Suraj Kumar Mishra",
+    upiId: "surajmishr999-1@oksbi",
+    bank: "State Bank of India, ISM Campus Dhanbad",
+    markupPercent: 15,
+    convenienceFee: 299,
+    advanceTokenPercent: 10,
+    securityDeposit: 10000,
+    masterPin: "9999"
+};
+
+let IS_SURGE_ACTIVE = false;
+
+function getMasterFixtures() {
+    const stored = localStorage.getItem("AASHA_MASTER_FIXTURES");
+    if (!stored) {
+        localStorage.setItem("AASHA_MASTER_FIXTURES", JSON.stringify(DEFAULT_FIXTURES));
+        return DEFAULT_FIXTURES;
+    }
+    return JSON.parse(stored);
+}
+
+function updateFixturesStorage(cfg) {
+    localStorage.setItem("AASHA_MASTER_FIXTURES", JSON.stringify(cfg));
+    reflectFixturesToUI();
+}
+
+function reflectFixturesToUI() {
+    const cfg = getMasterFixtures();
+    const activeRate = IS_SURGE_ACTIVE ? (cfg.markupPercent + 10) : cfg.markupPercent;
+
+    document.getElementById("headerBeneficiary").innerText = cfg.beneficiary;
+    document.getElementById("headerBankDesc").innerText = cfg.bank;
+    document.getElementById("headerUPI").innerText = cfg.upiId;
+    document.getElementById("previewMarkupPercent").innerText = activeRate + "%" + (IS_SURGE_ACTIVE ? " (SURGE)" : "");
+    document.getElementById("previewFeeVal").innerText = "+ ₹" + cfg.convenienceFee;
+    document.getElementById("previewDepositVal").innerText = "₹" + Number(cfg.securityDeposit || 10000).toLocaleString('en-IN');
+    recalculateCommercialSplits();
+}
+
+// 2. BASELINE VERIFIED MASTER INVENTORY (WITH SPONSORED LISTINGS)
+const DEFAULT_PROPERTIES = [
+    {
+        id: "HOTEL-DHN-01",
+        tier: "LOCAL",
+        featured: true,
+        name: "Wedlock Greens Hotels & Resorts",
+        address: "Govindpur Road, Dhanbad, Jharkhand",
+        baseRate: 48000,
+        deskPhone: "919234669200",
+        channel: "Direct Sovereign Ground Mandate"
+    },
+    {
+        id: "HOTEL-TAJ-01",
+        tier: "GLOBAL",
+        featured: true,
+        name: "Taj Mahal Palace & Tower",
+        address: "Apollo Bunder, Colaba, Mumbai",
+        baseRate: 38000,
+        deskPhone: "912266653366",
+        channel: "IHCL GDS Amadeus Corporate"
+    },
+    {
+        id: "HOTEL-DHN-03",
+        tier: "LOCAL",
+        featured: false,
+        name: "Sonotel Hotels & Resorts",
+        address: "Ozone Galleria Mall, Saraidhela, Dhanbad",
+        baseRate: 34000,
+        deskPhone: "919234604444",
+        channel: "Regional Luxury Allotment Node"
+    },
+    {
+        id: "HOTEL-DHN-02",
+        tier: "LOCAL",
+        featured: false,
+        name: "Hotel Skylark",
+        address: "Bank More, Dhanbad, Jharkhand",
+        baseRate: 22000,
+        deskPhone: "913262305121",
+        channel: "Commercial Desk Ground Link"
+    },
+    {
+        id: "HOTEL-TAJ-02",
+        tier: "GLOBAL",
+        featured: false,
+        name: "Taj Ganges",
+        address: "Nadesar Palace Grounds, Varanasi, UP",
+        baseRate: 22000,
+        deskPhone: "915426660001",
+        channel: "IHCL Business Connect"
+    }
+];
+
+function getPropertiesData() {
+    const raw = localStorage.getItem("AASHA_MASTER_INVENTORY");
+    if (!raw) {
+        localStorage.setItem("AASHA_MASTER_INVENTORY", JSON.stringify(DEFAULT_PROPERTIES));
+        return DEFAULT_PROPERTIES;
+    }
+    return JSON.parse(raw);
+}
+
+function savePropertiesData(list) {
+    localStorage.setItem("AASHA_MASTER_INVENTORY", JSON.stringify(list));
+}
+
+// 3. UI DROPDOWN & COMMERCIAL RECOMPUTE
+function syncPropertiesDropdown() {
+    const list = getPropertiesData();
+    const select = document.getElementById("selectedVenueDropdown");
+    if (!select) return;
+
+    select.innerHTML = "";
+    list.forEach(item => {
+        const opt = document.createElement("option");
+        opt.value = item.id;
+        opt.innerText = `${item.featured ? '★ [FEATURED] ' : ''}[${item.tier}] ${item.name} - ${item.address.substring(0, 26)}...`;
+        select.appendChild(opt);
+    });
+    syncSelectedVenueTariff();
+}
+
+function syncSelectedVenueTariff() {
+    const select = document.getElementById("selectedVenueDropdown");
+    const list = getPropertiesData();
+    const found = list.find(h => h.id === select.value);
+    if (found) {
+        document.getElementById("targetBasePrice").value = found.baseRate;
+        recalculateCommercialSplits();
+    }
+}
+
+function getSelectedAddonsTotal() {
+    let addonPrice = 0;
+    let addonProfit = 0;
+
+    if (document.getElementById("addonDJ")?.checked) { addonPrice += 25000; addonProfit += 3500; }
+    if (document.getElementById("addonDecor")?.checked) { addonPrice += 45000; addonProfit += 6000; }
+    if (document.getElementById("addonPhoto")?.checked) { addonPrice += 40000; addonProfit += 5000; }
+    if (document.getElementById("addonCab")?.checked) { addonPrice += 18000; addonProfit += 2500; }
+
+    return { addonPrice, addonProfit };
+}
+
+function recalculateCommercialSplits() {
+    const cfg = getMasterFixtures();
+    const base = Number(document.getElementById("targetBasePrice")?.value) || 0;
+    const markupRate = (IS_SURGE_ACTIVE ? (cfg.markupPercent + 10) : cfg.markupPercent) / 100;
+    const markup = Math.round(base * markupRate);
+    const { addonPrice, addonProfit } = getSelectedAddonsTotal();
+
+    const gross = base + markup + addonPrice + Number(cfg.convenienceFee);
+
+    document.getElementById("previewBase").innerText = "₹" + base.toLocaleString('en-IN');
+    document.getElementById("previewMarkupVal").innerText = "+ ₹" + markup.toLocaleString('en-IN');
+    document.getElementById("previewAddonVal").innerText = "+ ₹" + addonPrice.toLocaleString('en-IN');
+    document.getElementById("previewTotalMSRP").innerText = "₹" + gross.toLocaleString('en-IN');
+}
+
+function togglePeakSurgePricing() {
+    IS_SURGE_ACTIVE = document.getElementById("surgePricingToggle")?.checked;
+    reflectFixturesToUI();
+}
+
+// 4. CUSTOMER ACQUISITION ACTIONS
+function triggerHyperlocalBroadcast() {
+    const msg = encodeURIComponent(
+        `🚨 *AASHA OS | EXCLUSIVE WEDDING & BANQUET AVAILABILITY*\n\n` +
+        `Upcoming Lagan & Event Season Alert for Dhanbad:\n` +
+        `• Wedlock Greens & Sonotel Banquets slots now open.\n` +
+        `• Direct 10% Advance Booking Token with SBI ISM Campus Escrow Clearance.\n` +
+        `• Complimentary DJ / Lighting add-on consultation.\n\n` +
+        `Book your dates with verified allotment pass: https://surajmishra-official.github.io/aasha-world-os/\n` +
+        `Desk Coordinator: Suraj Kumar Mishra`
+    );
+    window.open(`https://wa.me/?text=${msg}`, "_blank");
+}
+
+function generateCorporatePassPrompt() {
+    const corp = prompt("Company / Institute Name (e.g. IIT ISM Dhanbad / BCCL):", "IIT ISM Dhanbad");
+    if (!corp) return;
+    const contact = prompt("Corporate Coordinator Mobile Number:", "9876543210");
+    alert(`✅ CORPORATE ALLOTMENT DESK ACTIVE:\nSpecial institutional tariff pass unlocked for ${corp}. Leads will map with verified direct mandate.`);
+    document.getElementById("clientFullName").value = `Executive Guest (${corp})`;
+    document.getElementById("clientPhoneNumber").value = contact;
+    document.getElementById("referralTagInput").value = `CORP-${corp.replace(/\s+/g, '-').toUpperCase()}`;
+}
+
+function issuePartnerReferralCode() {
+    const partner = prompt("Vendor Name & Service (e.g., Amit DJ / Royal Photo Dhanbad):", "Amit DJ Dhanbad");
+    if (!partner) return;
+    const tag = `VENDOR-${partner.replace(/\s+/g, '-').toUpperCase()}`;
+    document.getElementById("referralTagInput").value = tag;
+    alert(`🤝 PARTNER REVENUE LINK CREATED:\nTag '${tag}' assigned. 2% spot commission will automatically calculate on confirmed booking clearance.`);
+}
+
+// 5. OPENSTREETMAP NOMINATIM WORLD LOCATOR + GPS AUTO-LOCATOR ENGINE
+async function executeWorldLocatorSearch() {
+    const input = document.getElementById("worldLocatorInput");
+    const query = input.value.trim();
+    const resultsBox = document.getElementById("worldSearchResultsBox");
+    const statusTag = document.getElementById("radarStatusTag");
+
+    if (!query) {
+        alert("Kripya hotel aur city ka naam likhein.");
+        return;
+    }
+
+    statusTag.innerText = "⏳ SCANNING SATELLITE ENGINE...";
+    statusTag.style.color = "#f59e0b";
+    resultsBox.style.display = "block";
+    resultsBox.innerHTML = `<div style="text-align:center; padding:12px; font-size:12px; color:#94a3b8;">Scanning global nodes for "${query}"...</div>`;
+
+    try {
+        const endpoint = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5`;
+        const res = await fetch(endpoint, { headers: { 'Accept-Language': 'en' } });
+        const data = await res.json();
+
+        statusTag.innerText = "● SATELLITE ENGINE ONLINE";
+        statusTag.style.color = "#10b981";
+
+        if (!data || data.length === 0) {
+            resultsBox.innerHTML = `<div style="padding:10px; font-size:12px; color:#f43f5e;">Koi property nahi mili. Thoda aur specific naam likhein.</div>`;
+            return;
+        }
+
+        resultsBox.innerHTML = "";
+        data.forEach(item => {
+            const displayName = item.display_name;
+            const primaryName = item.name || query;
+            const lat = parseFloat(item.lat).toFixed(4);
+            const lon = parseFloat(item.lon).toFixed(4);
+
+            const div = document.createElement("div");
+            div.style.cssText = "padding: 10px; border-bottom: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center; gap: 10px;";
+            div.innerHTML = `
+                <div style="flex: 1;">
+                    <div style="font-size: 13px; font-weight: 700; color: #38bdf8;">🏨 ${primaryName}</div>
+                    <div style="font-size: 11px; color: #94a3b8;">📍 ${displayName}</div>
+                    <div style="font-size: 10px; color: #10b981; margin-top: 2px;">Coords: [${lat}, ${lon}] • Type: ${item.type || 'Hospitality'}</div>
+                </div>
+                <button onclick="autoIngestFoundHotel('${encodeURIComponent(primaryName)}', '${encodeURIComponent(displayName)}')" class="btn btn-green" style="font-size: 11px; padding: 6px 12px; white-space: nowrap;">
+                    ⚡ Auto-Ingest
+                </button>
+            `;
+            resultsBox.appendChild(div);
+        });
+
+    } catch (e) {
+        statusTag.innerText = "❌ CONNECTION ERROR";
+        statusTag.style.color = "#f43f5e";
+        resultsBox.innerHTML = `<div style="padding:10px; font-size:12px; color:#f43f5e;">Satellite connection issue. Please check internet.</div>`;
+    }
+}
+
+// FIXTURE: GPS 1-TAP DEVICE AUTO-LOCATOR
+function triggerDeviceAutoLocator() {
+    const statusTag = document.getElementById("radarStatusTag");
+    const resultsBox = document.getElementById("worldSearchResultsBox");
+
+    if (!navigator.geolocation) {
+        alert("GPS Geolocation aapke browser mein supported nahi hai.");
+        return;
+    }
+
+    statusTag.innerText = "🎯 LOCKING GPS COORDINATES...";
+    statusTag.style.color = "#38bdf8";
+    resultsBox.style.display = "block";
+    resultsBox.innerHTML = `<div style="text-align:center; padding:12px; font-size:12px; color:#38bdf8;">Locking live satellite GPS position... Kripya allow karein.</div>`;
+
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        statusTag.innerText = `● GPS LOCKED: ${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+        statusTag.style.color = "#10b981";
+
+        try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1`);
+            const data = await res.json();
+            const locationName = data.display_name || "Current Location";
+            const detectedArea = data.address?.suburb || data.address?.city || data.address?.town || "Dhanbad";
+
+            document.getElementById("worldLocatorInput").value = detectedArea;
+            resultsBox.innerHTML = `
+                <div style="padding: 12px; background: #0b1426; border: 1px solid #0284c7; border-radius: 6px;">
+                    <div style="font-size: 12px; font-weight: bold; color: #38bdf8;">🎯 LIVE DEVICE GPS DETECTED</div>
+                    <div style="font-size: 11px; color: #fff; margin-top: 4px;">📍 ${locationName}</div>
+                    <div style="font-size: 10px; color: #10b981; margin-top: 2px;">Latitude: ${lat.toFixed(5)} | Longitude: ${lon.toFixed(5)}</div>
+                    <div style="margin-top: 8px;">
+                        <button onclick="executeWorldLocatorSearch()" class="btn btn-green" style="font-size: 10px; padding: 4px 10px;">
+                            🔍 Scan Nearby Hotels in ${detectedArea}
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            if (locationName.toLowerCase().includes("dhanbad") || locationName.toLowerCase().includes("jharkhand")) {
+                const select = document.getElementById("selectedVenueDropdown");
+                if (select && select.options.length > 0) {
+                    select.selectedIndex = 0;
+                    syncSelectedVenueTariff();
+                }
+            }
+
+            AASHA_AUDIO_AI.speak(`Aapka GPS location ${detectedArea} lock ho chuka hai.`);
+        } catch(err) {
+            resultsBox.innerHTML = `<div style="padding:10px; font-size:12px; color:#f43f5e;">Reverse geocoding fail hui. Par GPS lock hai.</div>`;
+        }
+
+    }, (err) => {
+        statusTag.innerText = "❌ GPS DENIED / TIMEOUT";
+        statusTag.style.color = "#f43f5e";
+        resultsBox.innerHTML = `<div style="padding:10px; font-size:12px; color:#f43f5e;">GPS permission grant nahi hui. Browser settings mein check karein.</div>`;
+    }, { timeout: 10000, enableHighAccuracy: true });
+}
+
+function autoIngestFoundHotel(encName, encAddr) {
+    const name = decodeURIComponent(encName);
+    const addr = decodeURIComponent(encAddr);
+    const isGlobal = !addr.toLowerCase().includes("dhanbad") && !addr.toLowerCase().includes("jharkhand");
+
+    const list = getPropertiesData();
+    const newId = (isGlobal ? "HOTEL-TAJ-" : "HOTEL-DHN-") + (list.length + 1).toString().padStart(2, "0");
+
+    list.unshift({
+        id: newId,
+        tier: isGlobal ? "GLOBAL" : "LOCAL",
+        featured: false,
+        name: name,
+        address: addr,
+        baseRate: isGlobal ? 32000 : 22000,
+        deskPhone: "919431100000",
+        channel: isGlobal ? "Global Satellite Consolidator" : "Regional Geocoded Node"
+    });
+
+    savePropertiesData(list);
+    syncPropertiesDropdown();
+    applyCatalogFilters();
+
+    document.getElementById("worldSearchResultsBox").style.display = "none";
+    document.getElementById("worldLocatorInput").value = "";
+
+    AASHA_AUDIO_AI.speak(`Property ${name} located and ingested into central database.`);
+    alert(`✅ Real Property '${name}' Central Network mein successfully add ho gayi.`);
+}
+
+// 6. MANUAL PROPERTY INTAKE
+function toggleQuickAddForm() {
+    const form = document.getElementById("quickAddFormWrap");
+    form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
+}
+
+function handleManualPropertySave(e) {
+    e.preventDefault();
+    const tier = document.getElementById("newHotelTier").value;
+    const name = document.getElementById("newHotelName").value.trim();
+    const addr = document.getElementById("newHotelAddress").value.trim();
+    const base = Number(document.getElementById("newHotelBase").value) || 20000;
+    const phone = document.getElementById("newHotelDesk").value.trim().replace(/[^0-9]/g, "");
+
+    const list = getPropertiesData();
+    const newId = `PROP-${Date.now().toString().slice(-4)}`;
+
+    list.unshift({
+        id: newId,
+        tier: tier,
+        featured: false,
+        name: name,
+        address: addr,
+        baseRate: base,
+        deskPhone: phone,
+        channel: tier === "GLOBAL" ? "International Luxury Channel" : "Direct Regional Node"
+    });
+
+    savePropertiesData(list);
+    syncPropertiesDropdown();
+    applyCatalogFilters();
+    document.getElementById("propertyIntakeForm").reset();
+    toggleQuickAddForm();
+    alert(`✅ Property '${name}' verified and cataloged.`);
+}
+
+// 7. CATALOG FILTERING & SPONSORED LISTING TOGGLE
+let activeTierFilter = "ALL";
+function filterCatalogView(tier) {
+    activeTierFilter = tier;
+    applyCatalogFilters();
+}
+
+function applyCatalogFilters() {
+    const query = (document.getElementById("catalogSearchQuery")?.value || "").toLowerCase();
+    const maxBudget = Number(document.getElementById("catalogBudgetCap")?.value) || Infinity;
+    const cfg = getMasterFixtures();
+
+    const list = getPropertiesData();
+    const filtered = list.filter(item => {
+        const matchesQuery = item.name.toLowerCase().includes(query) || item.address.toLowerCase().includes(query);
+        let matchesTier = true;
+        if (activeTierFilter === "GLOBAL") matchesTier = (item.tier === "GLOBAL");
+        else if (activeTierFilter === "LOCAL") matchesTier = (item.tier === "LOCAL");
+        else if (activeTierFilter === "FEATURED") matchesTier = (item.featured === true);
+
+        const matchesBudget = item.baseRate <= maxBudget;
+        return matchesQuery && matchesTier && matchesBudget;
+    });
+
+    const grid = document.getElementById("catalogGridCards");
+    if (!grid) return;
+    grid.innerHTML = "";
+
+    if (filtered.length === 0) {
+        grid.innerHTML = `<div style="color: var(--text-sub); padding: 15px;">No properties matching current criteria.</div>`;
+        return;
+    }
+
+    filtered.forEach(h => {
+        const markup = Math.round(h.baseRate * (cfg.markupPercent / 100));
+        const clientQuoted = h.baseRate + markup + Number(cfg.convenienceFee);
+        const isGlobal = h.tier === "GLOBAL";
+
+        const card = document.createElement("div");
+        card.style.cssText = `background: #0f172a; border: 1px solid ${h.featured ? '#f59e0b' : 'var(--panel-border)'}; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;`;
+        card.innerHTML = `
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <div>
+                        <span style="font-size: 9px; background: ${isGlobal ? '#d97706' : '#0284c7'}; color: #fff; padding: 2px 6px; border-radius: 3px; font-weight: 700;">
+                            ${isGlobal ? '★ GLOBAL LUXURY TIER' : '📍 REGIONAL GROUND DESK'}
+                        </span>
+                        ${h.featured ? '<span style="font-size: 9px; background: #f59e0b; color: #000; padding: 2px 6px; border-radius: 3px; font-weight: 800; margin-left: 4px;">★ FEATURED</span>' : ''}
+                    </div>
+                    <span style="font-size: 10px; color: var(--accent-emerald); font-weight: 700;">● LIVE ACTIVE</span>
+                </div>
+                <h3 style="margin: 0; font-size: 15px; color: var(--accent-cyan);">${h.name}</h3>
+                <p style="margin: 2px 0 10px 0; font-size: 11px; color: var(--text-sub);">📍 ${h.address}</p>
+
+                <div style="background: #111827; padding: 8px 10px; border-radius: 6px; font-size: 11px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; color: var(--text-sub);">
+                        <span>Wholesale Base:</span>
+                        <span>₹${h.baseRate.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; color: var(--accent-emerald); margin-top: 2px;">
+                        <span>Your Margin (${cfg.markupPercent}% + Fee):</span>
+                        <span>+ ₹${(markup + Number(cfg.convenienceFee)).toLocaleString('en-IN')}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: 800; color: var(--accent-cyan); margin-top: 4px; border-top: 1px solid var(--panel-border); padding-top: 4px;">
+                        <span>Client Quotation MRP:</span>
+                        <span>₹${clientQuoted.toLocaleString('en-IN')}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 8px;">
+                <button onclick="dispatchLeadToProperty('${h.id}')" class="btn btn-green" style="flex: 1; font-size: 11px;">
+                    🚀 Lock & Dispatch
+                </button>
+                <button onclick="unmaskPropertyDesk('${h.deskPhone}')" class="btn btn-dark" style="font-size: 11px;">
+                    🔒 PIN
+                </button>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+function unmaskPropertyDesk(phone) {
+    const cfg = getMasterFixtures();
+    const pin = prompt("🔒 SOVEREIGN AUTHENTICATION:\nEnter Master PIN (Suraj Kumar Mishra) to reveal confidential desk phone:");
+    if (pin === cfg.masterPin) {
+        alert("📞 CONFIDENTIAL DESK CONTACT:\nDirect Phone: +" + phone);
+    } else {
+        alert("⛔ ACCESS DENIED: Invalid Master Security PIN.");
+    }
+}
+
+function dispatchLeadToProperty(propId) {
+    const item = getPropertiesData().find(p => p.id === propId);
+    if (!item) return;
+
+    const guestName = prompt("Client / Inquiry Name:") || "Verified Guest";
+    const guestPhone = prompt("Client Mobile Number (10 Digits):") || "9999999999";
+    const eventDate = prompt("Event / Stay Date (YYYY-MM-DD):") || "2026-10-15";
+
+    document.getElementById("clientFullName").value = guestName;
+    document.getElementById("clientPhoneNumber").value = guestPhone;
+    document.getElementById("selectedVenueDropdown").value = item.id;
+    document.getElementById("eventTargetDate").value = eventDate;
+    syncSelectedVenueTariff();
+
+    handleBookingCreation(new Event('submit'));
+}
+
+// 8. SOVEREIGN BOOKING ENGINE & ANTI-BYPASS DISPATCH
+function handleBookingCreation(e) {
+    if (e && e.preventDefault) e.preventDefault();
+
+    const cfg = getMasterFixtures();
+    const clientName = document.getElementById("clientFullName").value.trim();
+    const rawPhone = document.getElementById("clientPhoneNumber").value.trim().replace(/[^0-9]/g, "");
+    const clientPhone = rawPhone.slice(-10);
+    const referralTag = document.getElementById("referralTagInput")?.value.trim() || 'DIRECT_PORTAL';
+    const hotelId = document.getElementById("selectedVenueDropdown").value;
+    const collectionModel = document.getElementById("collectionModelSelect").value;
+    const eventDate = document.getElementById("eventTargetDate").value;
+    const eventShift = document.getElementById("eventSlotShift").value;
+    const venueSpecs = document.getElementById("venueSpecsSelect").value;
+    const baseRate = Number(document.getElementById("targetBasePrice").value) || 0;
+
+    const inventory = getPropertiesData();
+    const hotel = inventory.find(h => h.id === hotelId) || inventory[0];
+
+    const markupRate = (IS_SURGE_ACTIVE ? (cfg.markupPercent + 10) : cfg.markupPercent) / 100;
+    const markup = Math.round(baseRate * markupRate);
+    const fee = Number(cfg.convenienceFee);
+    const { addonPrice, addonProfit } = getSelectedAddonsTotal();
+
+    const gross = baseRate + markup + addonPrice + fee;
+    const totalOwnerProfit = markup + fee + addonProfit;
+    const hotelShare = baseRate + (addonPrice - addonProfit);
+
+    const slotId = "ASH-" + Date.now().toString().slice(-6);
+    const deskHandshakeOTP = Math.floor(1000 + Math.random() * 9000).toString();
+    const auditHash = "HASH-" + btoa(`${eventDate}_${hotel.name}_AASHA`).substring(0, 8).toUpperCase();
+
+    const bookings = JSON.parse(localStorage.getItem("AASHA_SOVEREIGN_BOOKINGS") || "[]");
+    const record = {
+        slotId: slotId,
+        auditHash: auditHash,
+        deskHandshakeOTP: deskHandshakeOTP,
+        clientName: clientName,
+        clientPhone: clientPhone,
+        referralTag: referralTag,
+        collectionModel: collectionModel,
+        hotelName: hotel.name,
+        hotelAddress: hotel.address,
+        hotelPhone: hotel.deskPhone,
+        eventDate: eventDate,
+        eventShift: eventShift,
+        venueSpecs: venueSpecs,
+        addonTotal: addonPrice,
+        hotelShare: hotelShare,
+        commission: totalOwnerProfit,
+        gross: gross,
+        status: "PENDING_SETTLEMENT",
+        hotelRemitted: false,
+        utr: null,
+        timestamp: new Date().toISOString()
+    };
+
+    bookings.unshift(record);
+    localStorage.setItem("AASHA_SOVEREIGN_BOOKINGS", JSON.stringify(bookings));
+    renderLedgerTable();
+
+    AASHA_AUDIO_AI.speak(`Allotment Pass ${slotId} locked. Safe Prepaid Handshake initialized.`);
+
+    // 1. WhatsApp Notice to Hotel Desk (Anti-Bypass Statutory Warning + Desk Check-in OTP Mandate)
+    const hotelNotice = encodeURIComponent(
+        `🚨 [AASHA OS - STATUTORY ALLOTMENT & PREPAID MANDATE]\n` +
+        `Property: ${hotel.name}\n` +
+        `Event Date: ${eventDate} (${eventShift})\n` +
+        `Venue Fixture: ${venueSpecs}\n` +
+        `Slot Hash: ${auditHash}\n` +
+        `Client Ref: ${clientName} (*${clientPhone.slice(-4)})\n` +
+        `Acquisition Tag: ${referralTag}\n` +
+        `Settlement Model: ${collectionModel}\n` +
+        `Net Hotel Clearance: ₹${hotelShare.toLocaleString('en-IN')}\n\n` +
+        `🔒 DESK HANDSHAKE RULE:\n` +
+        `Guest ko check-in tabhi den jab platform Suraj Kumar Mishra ka commission secure hone ke baad aapko 4-Digit Handshake OTP verify kare.\n` +
+        `Direct client offline conversion violates statutory allotment clearing.`
+    );
+    window.open(`https://wa.me/${hotel.deskPhone}?text=${hotelNotice}`, "_blank");
+
+    // 2. Safe Earnings Collection Dispatch to Customer
+    const payableAmount = (collectionModel === "PREPAID_100") ? gross : Math.max(500, Math.round(gross * (cfg.advanceTokenPercent / 100)));
+    const clientNotice = encodeURIComponent(
+        `🏛️ *AASHA WORLD-OS | ALLOTMENT PASS RESERVED*\n` +
+        `Namaste ${clientName} ji,\n` +
+        `Aapka booking slot safe escrow mein reserve ho gaya hai:\n` +
+        `• Property: *${hotel.name}*\n` +
+        `• Event Date: *${eventDate} (${eventShift})*\n` +
+        `• Specs: *${venueSpecs}*\n` +
+        `• Slot Code: *${slotId}*\n` +
+        `• Total Package: *₹${gross.toLocaleString('en-IN')}*\n` +
+        `• Payable To Platform Escrow: *₹${payableAmount.toLocaleString('en-IN')}*\n\n` +
+        `🔒 Desk Par Bina Kisi Cash Jhanjhat Ke Room/Hall lene ke liye direct payment karein:\n` +
+        `UPI ID: *${cfg.upiId}*\n` +
+        `Beneficiary: *${cfg.beneficiary}*\n` +
+        `Bank: *${cfg.bank}*\n\n` +
+        `SMS receipt aur UTR verification aate hi Check-in Clearance OTP release ho jayega.`
+    );
+    setTimeout(() => {
+        window.open(`https://wa.me/91${clientPhone}?text=${clientNotice}`, "_blank");
+    }, 1200);
+
+    return false;
+}
+
+// 9. REAL REVENUE SETTLEMENT LEDGER & REVENUE METRICS
+function renderLedgerTable() {
+    const tbody = document.getElementById("ledgerRecordsBody");
+    if (!tbody) return;
+
+    const bookings = JSON.parse(localStorage.getItem("AASHA_SOVEREIGN_BOOKINGS") || "[]");
+    tbody.innerHTML = "";
+
+    let totalGross = 0;
+    let totalHotel = 0;
+    let totalMargin = 0;
+    let totalAddons = 0;
+    let clearedCount = 0;
+
+    if (bookings.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-sub); padding: 18px;">No active bookings. Generate allotment passes from the booking desk above.</td></tr>`;
+    }
+
+    bookings.forEach(b => {
+        totalGross += b.gross;
+        totalHotel += b.hotelShare;
+        totalAddons += (b.addonTotal || 0);
+
+        if (b.status === "CLEARED") {
+            totalMargin += b.commission;
+            clearedCount++;
+        }
+
+        let statusHtml = "";
+        if (b.status === "CLEARED") {
+            statusHtml = `<span style="color: var(--accent-emerald); font-weight: 700;">✔ ESCROW SECURED (UTR: ${b.utr})</span>`;
+        } else if (b.status === "LEGAL_DISPUTE_BLACKLISTED") {
+            statusHtml = `<span style="color: var(--accent-rose); font-weight: 700;">🚨 BLACKLISTED / DISPUTE</span>`;
+        } else if (b.status === "GMB_DEFAULT_DISPUTE") {
+            statusHtml = `<span style="color: #f87171; font-weight: 700;">⚡ GMB DEFAULT STRIKE FILED</span>`;
+        } else {
+            statusHtml = `<span style="color: var(--accent-amber); font-weight: 700;">⏳ Pending ₹${b.commission.toLocaleString('en-IN')}</span>`;
+        }
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td style="font-family: monospace; color: var(--accent-cyan); font-weight: 700;">
+              ${b.slotId}<br>
+              <span style="font-size: 10px; color: var(--accent-amber);">OTP: ${b.deskHandshakeOTP || 'N/A'}</span>
+            </td>
+            <td><strong>${b.clientName}</strong><br><span style="color: var(--text-sub);">${b.clientPhone}</span><br><span style="font-size: 10px; color: var(--accent-purple);">Tag: ${b.referralTag || 'Direct'}</span></td>
+            <td>${b.hotelName}<br><span style="color: var(--accent-amber);">${b.eventDate}</span></td>
+            <td><span style="font-size: 11px; color: #fff;">${b.eventShift || 'Standard'}</span><br><span style="font-size: 10px; color: var(--text-sub);">${b.venueSpecs || 'AC Hall'}</span>${b.addonTotal ? `<br><strong style="font-size: 10px; color: var(--accent-purple);">Addons: ₹${b.addonTotal.toLocaleString('en-IN')}</strong>` : ''}</td>
+            <td><strong>₹${b.gross.toLocaleString('en-IN')}</strong></td>
+            <td style="color: var(--accent-emerald); font-weight: 700;">₹${b.commission.toLocaleString('en-IN')}</td>
+            <td>${statusHtml}</td>
+            <td>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div style="display: flex; gap: 4px;">
+                        <button onclick="printVoucherPass('${b.slotId}')" class="btn btn-dark" style="font-size: 10px; padding: 3px 6px;">📄 Pass</button>
+                        ${b.status !== "CLEARED" ? `<button onclick="settleBookingUTR('${b.slotId}', ${b.commission})" class="btn btn-green" style="font-size: 10px; padding: 3px 6px;">💰 Verify UTR</button>` : ''}
+                        <button onclick="releaseHotelRemittanceNet('${b.slotId}')" class="btn btn-dark" style="font-size: 10px; padding: 3px 6px; color: var(--accent-cyan);">🤝 Release Net</button>
+                    </div>
+                    <div style="display: flex; gap: 4px;">
+                        <!-- GOOGLE GM DEFAULT STRIKE BUTTON -->
+                        <button onclick="triggerGmbDefaultNotice('${b.slotId}')" title="GM refused payment: Strike on Google Business / Maps" style="background:#b91c1c; color:#fff; font-size:9px; padding:3px 6px; border:none; border-radius:3px; cursor:pointer; font-weight:bold;">🌐 GMB Strike</button>
+                        <button onclick="dispatchLegalWarningWhatsApp('${b.slotId}')" title="Send WhatsApp Police/Court Notice" style="background:#dc2626; color:#fff; font-size:9px; padding:3px 6px; border:none; border-radius:3px; cursor:pointer; font-weight:bold;">⚖️ GM Notice</button>
+                        <button onclick="issueLegalCourtNotice('${b.slotId}')" title="Print Legal Demand Letter" style="background:#1e293b; border:1px solid #dc2626; color:#f87171; font-size:9px; padding:3px 6px; border-radius:3px; cursor:pointer;">📄 Court Doc</button>
+                        <button onclick="blacklistHotelNode('${b.slotId}')" title="Blacklist Property" style="background:#000; border:1px solid #7f1d1d; color:#fca5a5; font-size:9px; padding:3px 6px; border-radius:3px; cursor:pointer;">🚫 Blacklist</button>
+                    </div>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById("statGrossTurnover").innerText = "₹" + totalGross.toLocaleString('en-IN');
+    document.getElementById("statHotelRemittance").innerText = "₹" + totalHotel.toLocaleString('en-IN');
+    document.getElementById("statNetMarginEarned").innerText = "₹" + totalMargin.toLocaleString('en-IN');
+    document.getElementById("statAddonVolume").innerText = "₹" + totalAddons.toLocaleString('en-IN');
+    document.getElementById("statClearedCount").innerText = `${clearedCount} Secured`;
+}
+
+// 10. GOOGLE BUSINESS / GMB STRIKE DISPATCH
+function triggerGmbDefaultNotice(slotId) {
+    const cfg = getMasterFixtures();
+    const bookings = JSON.parse(localStorage.getItem("AASHA_SOVEREIGN_BOOKINGS") || "[]");
+    const b = bookings.find(item => item.slotId === slotId);
+    if (!b) return;
+
+    const googleQuery = encodeURIComponent(`${b.hotelName} ${b.hotelAddress || 'Dhanbad'}`);
+    window.open(`https://www.google.com/search?q=${googleQuery}`, "_blank");
+
+    const gmPhone = b.hotelPhone || prompt("Enter Hotel GM WhatsApp Number (e.g. 919234669200):");
+    if (!gmPhone) return;
+
+    const gmbMsg = encodeURIComponent(
+        `🚨 *NOTICE OF COMMERCIAL DEFAULT & GOOGLE BUSINESS FRAUD STRIKE*\n\n` +
+        `TO: General Manager / Owner, *${b.hotelName}*\n` +
+        `PROPERTY REF: ${b.hotelName} | Booking Slot: *${b.slotId}*\n` +
+        `CLIENT REF: ${b.clientName} (*${b.clientPhone.slice(-4)})\n` +
+        `OUTSTANDING PLATFORM COMMISSION: *₹${b.commission.toLocaleString('en-IN')}*\n\n` +
+        `Aapke management ne client ko physically host kiya lekin platform ka valid share dene se inkar (refuse) kar diya hai.\n\n` +
+        `⚠️ *IMMEDIATE CONSEQUENCES INITIATED (24 HOURS):*\n` +
+        `1. *Google Business Profile (GMB) Action:* Aapke hotel ke official Google Maps listing par contractual default, offline payment diversion aur booking fraud ka formal evidence report file kiya ja raha hai.\n` +
+        `2. *Consumer Forum & Trade License Notice:* Dhanbad Cyber/Commercial Crime Cell aur National Consumer Helpline par establishment ke khilaf unlawful trade practice ki complaint initiate ho chuki hai.\n` +
+        `3. *Corporate Blacklist:* Sabhi corporate desks (IIT ISM Dhanbad, BCCL, Tata Steel tie-ups) se aapka venue freeze ho jayega.\n\n` +
+        `🔒 *REMEDY:* Dispute wapas lene aur legal action cancel karne ke liye platform share (₹${b.commission.toLocaleString('en-IN')}) turant clear karein:\n` +
+        `UPI ID: *${cfg.upiId}*\n` +
+        `Beneficiary: *${cfg.beneficiary}*\n` +
+        `Bank: *${cfg.bank}*\n\n` +
+        `Issued By: *Commercial Enforcement Wing, AASHA WORLD-OS*`
+    );
+
+    window.open(`https://wa.me/${gmPhone.replace(/[^0-9]/g, "")}?text=${gmbMsg}`, "_blank");
+
+    b.status = "GMB_DEFAULT_DISPUTE";
+    localStorage.setItem("AASHA_SOVEREIGN_BOOKINGS", JSON.stringify(bookings));
+    renderLedgerTable();
+
+    alert(`⚠️ GOOGLE BUSINESS STRIKE EXECUTED:\n1. Hotel '${b.hotelName}' ka Google Profile open kar diya gaya hai.\n2. GM ko statutory GMB default legal notice dispatch ho gaya hai.`);
+}
+
+// 11. SAFE WAY REMITTANCE: Hotel ko uska net amount tabhi dein jab platform commission pehle se safe ho
+function releaseHotelRemittanceNet(slotId) {
+    const cfg = getMasterFixtures();
+    const pin = prompt("🔒 SOVEREIGN AUTHENTICATION:\nEnter Master PIN (Suraj Kumar Mishra) to release Hotel Net Payout:");
+    if (pin !== cfg.masterPin) {
+      alert("⛔ ACCESS DENIED: Invalid Master Security PIN.");
+      return;
+    }
+
+    const bookings = JSON.parse(localStorage.getItem("AASHA_SOVEREIGN_BOOKINGS") || "[]");
+    const b = bookings.find(item => item.slotId === slotId);
+    if (!b) return;
+
+    if (b.status !== "CLEARED") {
+      alert("⚠️ CAUTION: Pehle customer ka UTR verify karke platform commission secure karein, uske baad hi hotel ko remittance bhejein.");
+      return;
+    }
+
+    const hotelMsg = encodeURIComponent(
+      `🏛️ *AASHA WORLD-OS | HOTEL NET SETTLEMENT RELEASED*\n` +
+      `Property: ${b.hotelName}\n` +
+      `Slot ID: ${b.slotId}\n` +
+      `Check-in Handshake Release OTP: *${b.deskHandshakeOTP}*\n\n` +
+      `💰 Hotel Net Remittance: *₹${b.hotelShare.toLocaleString('en-IN')}*\n` +
+      `Platform Commission: Verified & Deducted at Escrow Node.\n\n` +
+      `Guest ko room/banquet handover karein. Settlement closed.`
+    );
+    window.open(`https://wa.me/${b.hotelPhone}?text=${hotelMsg}`, "_blank");
+    alert(`✅ Check-in Handshake OTP [${b.deskHandshakeOTP}] aur Net settlement notification GM ko dispatch kar diya gaya.`);
+}
+
+function settleBookingUTR(slotId, expectedCommission) {
+    const cfg = getMasterFixtures();
+    const pin = prompt("🔒 SOVEREIGN CLEARANCE:\nEnter Master PIN (Suraj Kumar Mishra):");
+    if (pin !== cfg.masterPin) {
+        alert("⛔ ACCESS DENIED: Invalid Master PIN.");
+        return;
+    }
+
+    const utr = prompt(`💰 PAYMENT SETTLEMENT:\nEnter 12-Digit SBI Bank UTR for ₹${expectedCommission} received in ${cfg.upiId}:`);
+    if (!utr || utr.trim().length < 6) {
+        alert("❌ Settlement aborted: Valid Bank UTR is mandatory.");
+        return;
+    }
+
+    const bookings = JSON.parse(localStorage.getItem("AASHA_SOVEREIGN_BOOKINGS") || "[]");
+    const target = bookings.find(b => b.slotId === slotId);
+    if (target) {
+        target.status = "CLEARED";
+        target.utr = utr.trim();
+        target.clearedAt = new Date().toISOString();
+        localStorage.setItem("AASHA_SOVEREIGN_BOOKINGS", JSON.stringify(bookings));
+        renderLedgerTable();
+        AASHA_AUDIO_AI.speak(`Revenue settled against UTR ${utr}. Escrow secured.`);
+        alert(`✅ REVENUE CLEARED:\nSlot ${slotId} settled against UTR ${utr}. Customer earnings are 100% safe.`);
+    }
+}
+
+// 12. PRINTABLE VOUCHER WITH DIRECT REPO SBI QR MAPPING
+function printVoucherPass(slotId) {
+    const cfg = getMasterFixtures();
+    const bookings = JSON.parse(localStorage.getItem("AASHA_SOVEREIGN_BOOKINGS") || "[]");
+    const b = bookings.find(item => item.slotId === slotId);
+    if (!b) return;
+
+    const tokenAdvance = (b.collectionModel === "PREPAID_100") ? b.gross : Math.max(500, Math.round(b.gross * (cfg.advanceTokenPercent / 100)));
+    const depositAmt = Number(cfg.securityDeposit || 10000);
+    const printWin = window.open("", "_blank", "width=800,height=850");
+
+    const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Booking Allotment Pass - ${b.slotId}</title>
+      <style>
+        body { font-family: Arial, sans-serif; background: #fff; color: #111; padding: 25px; margin: 0; }
+        .voucher-box { max-width: 620px; margin: auto; border: 2px solid #0f172a; padding: 24px; border-radius: 8px; }
+        .header { border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 16px; }
+        .header h2 { margin: 0; font-size: 20px; color: #0f172a; text-transform: uppercase; }
+        .header p { margin: 3px 0 0 0; font-size: 12px; color: #555; }
+        .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 13px; }
+        .label { color: #555; font-weight: bold; }
+        .val { font-weight: bold; color: #000; text-align: right; }
+        .qr-section { margin-top: 18px; padding: 15px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; display: flex; gap: 16px; align-items: center; }
+        .qr-img { width: 130px; height: 130px; object-fit: contain; background: #fff; border: 1px solid #94a3b8; border-radius: 4px; }
+        .qr-desc { font-size: 12px; line-height: 1.5; color: #334155; }
+        .note { font-size: 11px; color: #64748b; margin-top: 16px; line-height: 1.4; border-top: 1px solid #eee; padding-top: 10px; }
+      </style>
+    </head>
+    <body>
+      <div class="voucher-box">
+        <div class="header">
+          <h2>AASHA Hotel & Event Allotment Desk</h2>
+          <p>Management Desk: ${cfg.beneficiary} | ${cfg.bank}</p>
+        </div>
+
+        <div class="row"><span class="label">Slot Token ID:</span><span class="val" style="color: #0284c7;">${b.slotId}</span></div>
+        <div class="row"><span class="label">Desk Handshake OTP:</span><span class="val" style="color: #d97706; font-size: 15px;">${b.deskHandshakeOTP}</span></div>
+        <div class="row"><span class="label">Settlement Security:</span><span class="val">${b.collectionModel || 'PREPAID_100'}</span></div>
+        <div class="row"><span class="label">Client Name:</span><span class="val">${b.clientName}</span></div>
+        <div class="row"><span class="label">Client Phone:</span><span class="val">${b.clientPhone}</span></div>
+        <div class="row"><span class="label">Channel Tag:</span><span class="val">${b.referralTag || 'Direct'}</span></div>
+        <div class="row"><span class="label">Reserved Property:</span><span class="val">${b.hotelName}</span></div>
+        <div class="row"><span class="label">Event Shift / Slot:</span><span class="val">${b.eventShift || 'Full Slot'}</span></div>
+        <div class="row"><span class="label">Venue Specifications:</span><span class="val">${b.venueSpecs || 'AC Banquet'}</span></div>
+        <div class="row"><span class="label">Event / Stay Date:</span><span class="val">${b.eventDate}</span></div>
+        <div class="row"><span class="label">Refundable Damage Deposit:</span><span class="val">₹${depositAmt.toLocaleString('en-IN')} (At Counter)</span></div>
+        <div class="row"><span class="label">Total Quoted Package:</span><span class="val">₹${b.gross.toLocaleString('en-IN')}</span></div>
+        <div class="row"><span class="label">Amount Payable to Secure:</span><span class="val" style="color: #16a34a; font-size: 14px;">₹${tokenAdvance.toLocaleString('en-IN')}</span></div>
+
+        <div class="qr-section">
+          <img class="qr-img" src="sbi-qr.png" alt="Official SBI QR" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=upi://pay?pa=${cfg.upiId}&pn=${encodeURIComponent(cfg.beneficiary)}&am=${tokenAdvance}&cu=INR'" />
+          <div class="qr-desc">
+            <strong>Scan via Google Pay / PhonePe / Paytm</strong><br>
+            Beneficiary: <strong>${cfg.beneficiary}</strong><br>
+            Bank: ${cfg.bank}<br>
+            UPI ID: <strong style="color: #0284c7;">${cfg.upiId}</strong><br>
+            <em>Credit confirmation SMS serves as valid allotment clearance.</em>
+          </div>
+        </div>
+
+        <div class="note">
+          * Yeh document counter reception entry pass hai. Check-in ke waqt ise reception par dikhakar slot claim karein. Hotel ko counter par direct cash dena strictly prohibited hai.
+        </div>
+      </div>
+      <script>
+        window.onload = function() { setTimeout(function() { window.print(); }, 500); };
+      <\/script>
+    </body>
+    </html>
+    `;
+
+    printWin.document.open();
+    printWin.document.write(html);
+    printWin.document.close();
+}
+
+// 13. STATUTORY LEGAL NOTICE GENERATOR (COURT DEMAND DOCUMENT)
+function issueLegalCourtNotice(slotId) {
+    const cfg = getMasterFixtures();
+    const bookings = JSON.parse(localStorage.getItem("AASHA_SOVEREIGN_BOOKINGS") || "[]");
+    const b = bookings.find(item => item.slotId === slotId);
+    if (!b) return;
+
+    const noticeWin = window.open("", "_blank", "width=850,height=900");
+    const legalDoc = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>LEGAL NOTICE - ${b.slotId}</title>
+        <style>
+          body { font-family: 'Times New Roman', Times, serif; padding: 40px; color: #000; line-height: 1.6; }
+          .court-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 25px; }
+          .court-header h2 { margin: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
+          .court-header p { margin: 4px 0 0 0; font-size: 13px; font-weight: bold; }
+          .meta-box { margin-bottom: 20px; font-size: 14px; }
+          .body-text { font-size: 14px; text-align: justify; margin-bottom: 18px; }
+          .claim-highlight { background: #f1f5f9; border-left: 4px solid #dc2626; padding: 12px; margin: 15px 0; font-weight: bold; }
+          .stamp-box { margin-top: 50px; display: flex; justify-content: space-between; align-items: flex-end; }
+        </style>
+      </head>
+      <body>
+        <div class="court-header">
+          <h2>FORMAL LEGAL DEMAND & STATUTORY NOTICE</h2>
+          <p>UNDER SECTION 405, 406 & 420 OF INDIAN PENAL CODE / BHARATIYA NYAYA SANHITA & INDIAN CONTRACT ACT</p>
+        </div>
+
+        <div class="meta-box">
+          <strong>DATE:</strong> ${new Date().toLocaleDateString('en-GB')}<br>
+          <strong>REF CODE:</strong> AASHA/LEGAL/${b.slotId}/${new Date().getFullYear()}<br>
+          <strong>TO:</strong> The General Manager / Managing Director / Commercial Desk,<br>
+          <strong>PROPERTY NAME:</strong> ${b.hotelName} (${b.hotelAddress || 'Registered Commercial Premises'})
+        </div>
+
+        <div class="body-text">
+          <strong>SUBJECT: DEMAND FOR UNPAID PLATFORM COMMISSION & NOTICE OF LEGAL PROCEEDINGS FOR FRAUDULENT BYPASS.</strong>
+        </div>
+
+        <div class="body-text">
+          Sir/Madam,<br><br>
+          Under explicit instructions and mandate from our client, <strong>${cfg.beneficiary}</strong> (Operating AASHA WORLD-OS Central Aggregator, ISM Campus Dhanbad Sector), this statutory legal notice is hereby served upon you:
+          <ol>
+            <li>That on date <strong>${b.eventDate}</strong>, our platform allotted client <strong>${b.clientName} (Phone: ${b.clientPhone})</strong> to your property under digital audit fingerprint <strong>${b.auditHash}</strong> with a total gross commercial commitment of <strong>₹${b.gross.toLocaleString('en-IN')}</strong>.</li>
+            <li>That as per statutory terms of aggregator allotment, platform commission of <strong>₹${b.commission.toLocaleString('en-IN')}</strong> was mandatory to be credited into designated SBI Account (UPI: <strong>${cfg.upiId}</strong>) within 24 hours of guest reception.</li>
+            <li>That your management has intentionally suppressed, converted, and misappropriated this platform asset by accepting direct offline settlement from the guest, thereby committing an act of <strong>Criminal Breach of Trust (Section 406)</strong> and <strong>Cheating with Dishonest Intent (Section 420)</strong>.</li>
+          </ol>
+        </div>
+
+        <div class="claim-highlight">
+          FINAL DEMAND: YOU ARE HEREBY CALLED UPON TO REMIT THE OUTSTANDING COMMISSION OF ₹${b.commission.toLocaleString('en-IN')} VIA RTGS/NEFT/UPI (${cfg.upiId}) WITHIN 48 HOURS OF RECEIPT OF THIS NOTICE.
+        </div>
+
+        <div class="body-text">
+          Take notice that failing compliance within 48 hours:
+          <br>a) A formal Criminal Complaint / FIR will be lodged at the jurisdictional Police Station & District Consumer Disputes Redressal Commission, Dhanbad.
+          <br>b) Your commercial establishment shall be permanently Blacklisted across our GDS, Corporate, and Regional Travel Aggregator networks, with public notification of contractual breach.
+          <br>c) You shall be liable for all litigation expenses, interest @ 18% per annum, and damages for business disruption.
+        </div>
+
+        <div class="stamp-box">
+          <div>
+            <strong>Jurisdiction:</strong> Dhanbad District Courts, Jharkhand.<br>
+            <strong>Official Record:</strong> AASHA WORLD-OS Audit Vault
+          </div>
+          <div style="text-align: right;">
+            <strong>FOR AASHA WORLD-OS</strong><br><br><br>
+            <strong>${cfg.beneficiary}</strong><br>
+            (Sovereign Platform Authority)
+          </div>
+        </div>
+
+        <script>
+          window.onload = function() { setTimeout(function() { window.print(); }, 400); };
+        <\/script>
+      </body>
+      </html>
+    `;
+    noticeWin.document.open();
+    noticeWin.document.write(legalDoc);
+    noticeWin.document.close();
+}
+
+// 14. LEGAL WHATSAPP STATUTORY DISPATCH TO GM
+function dispatchLegalWarningWhatsApp(slotId) {
+    const cfg = getMasterFixtures();
+    const bookings = JSON.parse(localStorage.getItem("AASHA_SOVEREIGN_BOOKINGS") || "[]");
+    const b = bookings.find(item => item.slotId === slotId);
+    if (!b) return;
+
+    const gmPhone = b.hotelPhone || prompt("Hotel GM / Desk WhatsApp Number (With Country Code e.g. 919234669200):");
+    if (!gmPhone) return;
+
+    const msg = encodeURIComponent(
+      `⚖️ *LEGAL NOTICE: CRIMINAL BREACH OF TRUST & FRAUD WARNING*\n\n` +
+      `TO: General Manager, ${b.hotelName}\n` +
+      `CASE REF: AASHA/LEGAL/${b.slotId}\n` +
+      `PROPERTY REF: ${b.hotelName} | Date: ${b.eventDate}\n` +
+      `CLIENT REF: ${b.clientName} (*${b.clientPhone.slice(-4)})\n\n` +
+      `Aapke hotel ne client se direct settlement karke AASHA OS ka platform share (₹${b.commission.toLocaleString('en-IN')}) withhold kiya hai. Yeh seedhe IPC Section 406 (Criminal Breach of Trust) aur Section 420 (Cheating) ka case hai.\n\n` +
+      `🚨 *48 HOURS STATUTORY DEADLINE:*\n` +
+      `Turant platform commission (₹${b.commission.toLocaleString('en-IN')}) official SBI UPI par remit karein:\n` +
+      `UPI ID: *${cfg.upiId}*\n` +
+      `Beneficiary: *${cfg.beneficiary}*\n\n` +
+      `Agar 48 ghante mein Bank UTR generate nahi hua, toh formal police complaint, commercial blacklisting aur Dhanbad Court legal notice file hoga.\n\n` +
+      `Issued By: *Legal Cell, AASHA WORLD-OS*`
+    );
+
+    window.open(`https://wa.me/${gmPhone.replace(/[^0-9]/g, "")}?text=${msg}`, "_blank");
+}
+
+// 15. BLACKLIST PROPERTY FROM PLATFORM
+function blacklistHotelNode(slotId) {
+    const cfg = getMasterFixtures();
+    const pin = prompt("🔒 SOVEREIGN SECURITY:\nEnter Master PIN to execute legal blacklisting:");
+    if (pin !== cfg.masterPin) {
+      alert("⛔ ACCESS DENIED: Invalid Master PIN.");
+      return;
+    }
+
+    const bookings = JSON.parse(localStorage.getItem("AASHA_SOVEREIGN_BOOKINGS") || "[]");
+    const b = bookings.find(item => item.slotId === slotId);
+    if (!b) return;
+
+    if (confirm(`Kya aap sach mein '${b.hotelName}' ko default aur fraud ke liye platform se BLACKLIST karna chahte hain?`)) {
+      b.status = "LEGAL_DISPUTE_BLACKLISTED";
+      localStorage.setItem("AASHA_SOVEREIGN_BOOKINGS", JSON.stringify(bookings));
+
+      const inv = JSON.parse(localStorage.getItem("AASHA_MASTER_INVENTORY") || "[]");
+      const updatedInv = inv.filter(h => !h.name.toLowerCase().includes(b.hotelName.toLowerCase()));
+      localStorage.setItem("AASHA_MASTER_INVENTORY", JSON.stringify(updatedInv));
+
+      renderLedgerTable();
+      syncPropertiesDropdown();
+      applyCatalogFilters();
+
+      alert(`🚨 PROPERTY BLACKLISTED:\n'${b.hotelName}' ko central network se nikaal diya gaya hai.`);
+    }
+}
+
+// 16. WEDDING CATERING ENGINE
+function computeCateringQuote() {
+    const guests = Number(document.getElementById("catGuestTotal")?.value) || 0;
+    const vegRate = Number(document.getElementById("catVegPlateRate")?.value) || 0;
+    const nonVegRate = Number(document.getElementById("catNonVegPlateRate")?.value) || 0;
+    const resBox = document.getElementById("cateringResultDisplay");
+    const cfg = getMasterFixtures();
+
+    if (!guests || (!vegRate && !nonVegRate)) {
+        resBox.style.display = "none";
+        return;
+    }
+
+    const avgRate = nonVegRate ? ((vegRate + nonVegRate) / 2) : vegRate;
+    const totalFoodBase = guests * avgRate;
+    const markupRate = (IS_SURGE_ACTIVE ? (cfg.markupPercent + 10) : cfg.markupPercent) / 100;
+    const markup = Math.round(totalFoodBase * markupRate);
+    const grossCatering = totalFoodBase + markup + Number(cfg.convenienceFee);
+
+    resBox.style.display = "block";
+    resBox.innerHTML = `
+      Estimated Food Base: ₹${totalFoodBase.toLocaleString('en-IN')} | 
+      <strong>Your Margin: ₹${markup.toLocaleString('en-IN')}</strong> | 
+      <strong>Client Quote: ₹${grossCatering.toLocaleString('en-IN')}</strong>
+    `;
+}
+
+// 17. BROWSER VOICE AI ASSISTANT
+const AASHA_AUDIO_AI = {
+    speak: function(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'hi-IN';
+            u.rate = 0.95;
+            window.speechSynthesis.speak(u);
+            document.getElementById("voiceEngineFeedback").innerText = `AI Speaking: "${text.substring(0, 45)}..."`;
+            u.onend = () => { document.getElementById("voiceEngineFeedback").innerText = "Voice Engine Ready."; };
+        } else {
+            alert(text);
+        }
+    },
+
+    speakSystemPolicy: function() {
+        const cfg = getMasterFixtures();
+        const msg = `Namaste! Main AASHA OS Voice Concierge hoon. Suraj Kumar Mishra ji ke platform par aapka swagat hai. Yahan Taj Luxury Chains se lekar Dhanbad ke sabhi venues par statutory markup ke sath allotment pass lock hota hai. Advance token hamare SBI UPI ${cfg.upiId} par direct route hota hai.`;
+        this.speak(msg);
+    },
+
+    activateMicListener: function() {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRec) {
+            alert("Voice recognition is not supported in this browser. Please use Chrome.");
+            return;
+        }
+
+        const recognizer = new SpeechRec();
+        recognizer.lang = 'hi-IN';
+        recognizer.interimResults = false;
+
+        recognizer.onstart = () => {
+            document.getElementById("voiceEngineFeedback").innerText = "🎙️ Listening... Boliye (e.g., 'Wedlock Greens Dhanbad mein date chahiye')";
+        };
+
+        recognizer.onresult = (e) => {
+            const transcript = e.results[0][0].transcript;
+            document.getElementById("voiceEngineFeedback").innerText = `Heard: "${transcript}"`;
+            this.processSpeechCommand(transcript);
+        };
+
+        recognizer.onerror = (err) => {
+            document.getElementById("voiceEngineFeedback").innerText = "Mic error: " + err.error;
+        };
+
+        recognizer.start();
+    },
+
+    processSpeechCommand: function(cmd) {
+        const lower = cmd.toLowerCase();
+        const list = getPropertiesData();
+        const match = list.find(p => lower.includes(p.name.toLowerCase()) || lower.includes(p.address.toLowerCase()));
+
+        if (match) {
+            document.getElementById("selectedVenueDropdown").value = match.id;
+            syncSelectedVenueTariff();
+            this.speak(`Maine ${match.name} select kar diya hai. Base rate ${match.baseRate} rupaye hai. Allotment quote ready hai.`);
+        } else {
+            this.speak(`Maine aapka request suna. Kripya date confirm karein taaki allotment token freeze ho sake.`);
+        }
+    }
+};
+
+// 18. EXPORT LEDGER TO CSV
+function exportLedgerToCSV() {
+    const bookings = JSON.parse(localStorage.getItem("AASHA_SOVEREIGN_BOOKINGS") || "[]");
+    if (bookings.length === 0) {
+        alert("⚠️ Export karne ke liye koi ledger records nahi hain.");
+        return;
+    }
+
+    let csv = "Slot ID,OTP,Client Name,Client Phone,Referral Tag,Model,Hotel Name,Event Date,Shift,Specs,Addons Total,Hotel Net,Platform Margin,Gross Amount,Status,UTR Reference,Timestamp\n";
+    bookings.forEach(b => {
+        csv += `"${b.slotId}","${b.deskHandshakeOTP || ''}","${b.clientName}","${b.clientPhone}","${b.referralTag || ''}","${b.collectionModel || ''}","${b.hotelName}","${b.eventDate}","${b.eventShift || ''}","${b.venueSpecs || ''}",${b.addonTotal || 0},${b.hotelShare},${b.commission},${b.gross},"${b.status}","${b.utr || ''}","${b.timestamp}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `AASHA_SOVEREIGN_LEDGER_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+}
+
+// 19. MASTER SETTINGS MODAL CONTROLLER
+function openSettingsModal() {
+    const cfg = getMasterFixtures();
+    const pin = prompt("🔒 SOVEREIGN MASTER ACCESS:\nEnter Master PIN (Suraj Kumar Mishra):");
+    if (pin !== cfg.masterPin) {
+        alert("⛔ ACCESS DENIED: Invalid Master PIN.");
+        return;
+    }
+
+    document.getElementById("cfgBeneficiary").value = cfg.beneficiary;
+    document.getElementById("cfgUPI").value = cfg.upiId;
+    document.getElementById("cfgBank").value = cfg.bank;
+    document.getElementById("cfgMarkup").value = cfg.markupPercent;
+    document.getElementById("cfgFee").value = cfg.convenienceFee;
+    document.getElementById("cfgTokenPercent").value = cfg.advanceTokenPercent;
+    document.getElementById("cfgDeposit").value = cfg.securityDeposit || 10000;
+    document.getElementById("cfgMasterPin").value = cfg.masterPin;
+
+    document.getElementById("settingsModal").style.display = "flex";
+}
+
+function closeSettingsModal() {
+    document.getElementById("settingsModal").style.display = "none";
+}
+
+function saveMasterSettings(e) {
+    e.preventDefault();
+    const updated = {
+        beneficiary: document.getElementById("cfgBeneficiary").value.trim(),
+        upiId: document.getElementById("cfgUPI").value.trim(),
+        bank: document.getElementById("cfgBank").value.trim(),
+        markupPercent: Number(document.getElementById("cfgMarkup").value) || 15,
+        convenienceFee: Number(document.getElementById("cfgFee").value) || 299,
+        advanceTokenPercent: Number(document.getElementById("cfgTokenPercent").value) || 10,
+        securityDeposit: Number(document.getElementById("cfgDeposit").value) || 10000,
+        masterPin: document.getElementById("cfgMasterPin").value.trim() || "9999"
+    };
+
+    updateFixturesStorage(updated);
+    closeSettingsModal();
+    applyCatalogFilters();
+    alert("✅ Master Configuration & Commercial Fixtures updated successfully.");
+}
+
+function resetDefaultFixtures() {
+    if (confirm("Master configuration ko factory defaults par reset karna chahte hain?")) {
+        updateFixturesStorage(DEFAULT_FIXTURES);
+        closeSettingsModal();
+        alert("✅ Fixtures reset to default.");
+    }
+}
+
+function exportHotelsToJSON() {
+    const list = getPropertiesData();
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(list, null, 2));
+    const dl = document.createElement("a");
+    dl.setAttribute("href", dataStr);
+    dl.setAttribute("download", `AASHA_MASTER_INVENTORY_${new Date().toISOString().slice(0, 10)}.json`);
+    document.body.appendChild(dl);
+    dl.click();
+    dl.remove();
+}
+
+// INITIAL STARTUP SEQUENCE
+document.addEventListener("DOMContentLoaded", function() {
+    reflectFixturesToUI();
+    syncPropertiesDropdown();
+    applyCatalogFilters();
+    renderLedgerTable();
+});
+</script>
+
 </body>
 </html>
+
+
 
 
 
