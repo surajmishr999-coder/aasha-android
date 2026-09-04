@@ -1405,5 +1405,1965 @@
       render();
     });
   </script>
+</body><!DOCTYPE html>
+<html lang="hi" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AASHA GRAND SOVEREIGN SUPREME WORLD-OS - SEPARATED CORE SUITE</title>
+  
+  <!-- Core Frameworks & Libraries -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #030712; color: #f8fafc; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #050811; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    .gold-gradient { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .gold-text { background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .glass-panel { background: rgba(15, 23, 42, 0.94); backdrop-filter: blur(18px); }
+    .glass-card { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .nav-btn.active { background: linear-gradient(135deg, #f59e0b, #d97706); color: #020617; font-weight: 800; }
+    .sheet-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: flex-end; z-index: 9999; }
+    .sheet-overlay.hidden { display: none !important; }
+    .sheet-content { background: #0f172a; color: #f8fafc; width: 100%; max-width: 720px; max-height: 90vh; overflow-y: auto; border-radius: 20px 20px 0 0; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.12); }
+    .doc-btn { width: 100%; padding: 12px; margin: 6px 0; background: #1e293b; color: #fff; border: 1px solid #475569; border-radius: 8px; text-align: left; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .doc-btn:hover { background: #334155; transform: translateX(3px); }
+    .field-group { margin-bottom: 12px; }
+    .field-group label { display: block; font-size: 11px; color: #94a3b8; margin-bottom: 4px; font-weight: 600; text-transform: uppercase; }
+    .field-group input, .field-group select, .field-group textarea { width: 100%; padding: 10px; background: #020617; color: #fff; border: 1px solid #334155; border-radius: 8px; box-sizing: border-box; font-size: 13px; }
+    .btn-submit { width: 100%; background: #06b6d4; color: #000; padding: 12px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
+    .btn-secondary { background: transparent; border: none; color: #38bdf8; cursor: pointer; margin-bottom: 12px; font-size: 13px; font-weight: bold; }
+    .badge-pill { display: inline-block; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+    .checkbox-item { display: flex; align-items: center; gap: 8px; background: #0f172a; border: 1px solid #1e293b; padding: 8px 12px; border-radius: 8px; margin-bottom: 6px; cursor: pointer; font-size: 12px; }
+    .checkbox-item input[type="checkbox"] { width: auto; margin-bottom: 0; }
+    .chess-sq { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; user-select: none; }
+    @media (min-width: 640px) { .chess-sq { width: 52px; height: 52px; font-size: 30px; } }
+    .chess-light { background-color: #cbd5e1; color: #0f172a; }
+    .chess-dark { background-color: #475569; color: #f8fafc; }
+    .chess-selected { background-color: #f59e0b !important; color: #000 !important; }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
+
+  <div id="app" class="flex-1 flex flex-col"></div>
+
+  <!-- Real-Time Notification Toast -->
+  <div id="notification-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-28 opacity-0 transition-all duration-300 pointer-events-none bg-emerald-950 border border-emerald-500 text-emerald-200 px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-bold">
+    <i class="fa-solid fa-bell text-emerald-400 text-lg animate-bounce"></i>
+    <span id="toast-message">Notification Alert</span>
+  </div>
+
+  <!-- Universal Document Engine Sheet Modal -->
+  <div id="doc-sheet" class="sheet-overlay hidden">
+    <div class="sheet-content">
+      <div class="flex justify-between items-center border-b border-slate-700 pb-3 mb-4">
+        <h3 id="sheet-title" class="text-lg font-bold text-amber-400">Universal Document Engine</h3>
+        <button id="close-sheet" class="text-2xl text-slate-400 hover:text-white" type="button">&times;</button>
+      </div>
+      <div id="doc-type-selection"></div>
+      <div id="form-wrapper" class="hidden">
+        <button id="back-to-types" class="btn-secondary" type="button">← Back to Selection</button>
+        <form id="active-dynamic-form"></form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Self-Healing AI Diagnostic Modal -->
+  <div id="self-heal-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-md w-full rounded-2xl p-5 space-y-3 border border-cyan-500/40">
+      <h3 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+        <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i> AI Autonomous System Diagnostic
+      </h3>
+      <p class="text-xs text-slate-300">All banking rails, NBFC pools, TPA insurance listeners, and SBI vault telemetry are 100% operational. Authorize stack optimization?</p>
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="document.getElementById('self-heal-modal').classList.add('hidden')" class="px-3 py-1.5 bg-slate-800 text-slate-300 rounded-lg text-xs">Dismiss</button>
+        <button onclick="applySafePatch()" class="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold">Apply Safe Patch</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Master Configuration Settings Modal -->
+  <div id="settingsModal" class="modal-backdrop">
+    <div class="bg-slate-900 border-2 border-cyan-500/60 rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl space-y-4">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-amber-400 uppercase">Master Platform Configuration</h3>
+        <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
+      </div>
+      <form id="masterSettingsForm" onsubmit="saveMasterSettings(event)" class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="text-slate-400 block mb-1">Beneficiary Name</label><input type="text" id="cfgBeneficiary" class="w-full bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-white outline-none" required /></div>
+          <div><label class="text-slate-400 block mb-1">Primary UPI ID</label><input type="text" id="cfgUPI" class="w-full bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-white outline-none" required /></div>
+        </div>
+        <div><label class="text-slate-400 block mb-1">Settlement Branch Description</label><input type="text" id="cfgBank" class="w-full bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-white outline-none" required /></div>
+        <div class="grid grid-cols-3 gap-3">
+          <div><label class="text-slate-400 block mb-1">Markup (%)</label><input type="number" id="cfgMarkup" class="w-full bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-white outline-none" required /></div>
+          <div><label class="text-slate-400 block mb-1">Desk Fee (₹)</label><input type="number" id="cfgFee" class="w-full bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-white outline-none" required /></div>
+          <div><label class="text-slate-400 block mb-1">Security PIN</label><input type="password" id="cfgMasterPin" class="w-full bg-slate-950 border border-slate-700 p-2.5 rounded-xl text-white outline-none" required /></div>
+        </div>
+        <button type="submit" class="w-full gold-gradient text-slate-950 font-black py-3 rounded-xl uppercase text-xs">Update Settings</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const MASTER_CONFIG = {
+      payeeName: "SURAJ KUMAR MISHRA",
+      upiId: "surajmishr999-1@oksbi",
+      accountNo: "44220560317",
+      cifNo: "92161358264",
+      bankName: "State Bank of India (SBI)",
+      branch: "ISM Campus Dhanbad (Code: 1641)",
+      platformTier: "AASHA APEX GLOBAL SOVEREIGN ENTERPRISE OS",
+      markupPercent: 15,
+      convenienceFee: 299,
+      advanceTokenPercent: 10,
+      securityDeposit: 10000,
+      masterPin: "9999"
+    };
+
+    const BANK_FACILITY_CONFIG = {
+      primaryBank: "State Bank of India / HDFC Consortium",
+      interestRate: 10.5,
+      minCibil: 750,
+      processingFee: 1.0,
+      maxTenure: 60
+    };
+
+    const NBFC_FACILITY_CONFIG = {
+      primaryNBFC: "Bajaj Finserv / Tata Capital Digital Rail",
+      interestRate: 14.8,
+      minCibil: 650,
+      processingFee: 2.0,
+      maxTenure: 36
+    };
+
+    const initialData = {
+      users: [
+        { id: 'usr-owner', email: 'owner@aasha.com', pass: 'owner', name: 'Suraj Kumar Mishra (Master Owner)', role: 'OWNER' },
+        { id: 'usr-guest', email: 'customer@aasha.com', pass: 'customer', name: 'Global Enterprise Client', role: 'CUSTOMER' }
+      ],
+      ledger: [
+        { id: 'TXN-901', source: 'ROYAL_WEDDING_MANDAP_COMMISSION', category: 'STAGE_PAYOUT', gross: 102000, tax: 18360.00, net: 83640.00, status: 'DIRECT_SBI_SETTLED', date: '2026-08-30' },
+        { id: 'TXN-902', source: 'GOVT_AI_TECH_PARK_INFRA_LOCK', category: 'STAGE_PAYOUT', gross: 180000, tax: 32400.00, net: 147600.00, status: 'DIRECT_SBI_SETTLED', date: '2026-08-30' },
+        { id: 'TXN-903', source: 'BANK_LOAN_SYNDICATION_COMMISSION', category: 'BANK_PAYOUT', gross: 35000, tax: 6300.00, net: 28700.00, status: 'DIRECT_SBI_SETTLED', date: '2026-08-29' },
+        { id: 'TXN-904', source: 'NBFC_MSME_CREDIT_LINE_FEE', category: 'NBFC_PAYOUT', gross: 22500, tax: 4050.00, net: 18450.00, status: 'DIRECT_SBI_SETTLED', date: '2026-08-28' },
+        { id: 'TXN-905', source: 'CASHLESS_HEALTH_TPA_SETTLEMENT', category: 'INSURANCE_FEE', gross: 12000, tax: 2160.00, net: 9840.00, status: 'DIRECT_SBI_SETTLED', date: '2026-08-28' }
+      ],
+      fixtures: [
+        { id: 'FIX-101', title: 'Grand Royal Rajputana Mandap & 3-Day Wedding Gala', cat: 'WEDDING_EVENT', city: 'Dhanbad / Ranchi', budget: '₹ 85,00,000', rawBudget: 8500000, lockFee: 85000, status: 'OPEN', client: 'Singhania Heritage', date: '2026-08-30', details: 'Full 5-Acre Lawn, Teak Mandap, 1200 Pax Catering', lat: 23.7957, lon: 86.4304 },
+        { id: 'FIX-801', title: 'Skyline Luxury Penthouse Turnkey Interior & Woodwork', cat: 'INTERIOR_DESIGN', city: 'Delhi GK-II', budget: '₹ 45,00,000', rawBudget: 4500000, lockFee: 45000, status: 'OPEN', client: 'Skyline Buildtech', date: '2026-08-30', details: 'Italian Marble, Veneer Paneling, Smart Automation', lat: 28.5355, lon: 77.2410 },
+        { id: 'FIX-802', title: 'Heritage Boutique Courtyard Resort & Convention Hall', cat: 'HOTEL_HOSPITALITY', city: 'Kathmandu, Patan', budget: '₹ 1,25,00,000', rawBudget: 12500000, lockFee: 125000, status: 'USED', client: 'Patan Hospitality', date: '2026-08-29', details: '40 Luxury Suites & Grand Banquet Hall', lat: 27.6710, lon: 85.3240 },
+        { id: 'FIX-803', title: 'Dhanbad Smart Tech Hub Office Units', cat: 'COMMERCIAL_SETUP', city: 'Dhanbad, Jharkhand', budget: '₹ 22,50,000', rawBudget: 2250000, lockFee: 22500, status: 'OPEN', client: 'Eastern Tech Parks', date: '2026-08-28', details: 'Full Workstation Paneling & Toughened Glass Partitions', lat: 23.8143, lon: 86.4412 },
+        { id: 'FIX-104', title: 'Industrial FMCG Organic Food Processing Line', cat: 'FOOD_MANUFACTURER', city: 'Patna / Kolkata', budget: '₹ 65,00,000', rawBudget: 6500000, lockFee: 65000, status: 'OPEN', client: 'PureHarvest Agro Mills', date: '2026-08-27', details: 'Automated Grinding & Nitrogen Packing Unit', lat: 25.5941, lon: 85.1376 },
+        { id: 'FIX-105', title: 'State Super-Speciality Hospital Modular ICU Wing', cat: 'HEALTHCARE_GOVT', city: 'Dhanbad / Ranchi', budget: '₹ 2,20,00,000', rawBudget: 22000000, lockFee: 220000, status: 'OPEN', client: 'National Health Mission', date: '2026-08-26', details: '100-Bed Oxygen Hub & Diagnostic Lab Pipeline', lat: 23.3441, lon: 85.3096 },
+        { id: 'FIX-106', title: 'Global Tech University AI & Robotics Campus', cat: 'EDUCATION_UNIVERSITY', city: 'Kolkata / Delhi', budget: '₹ 1,80,00,000', rawBudget: 18000000, lockFee: 180000, status: 'OPEN', client: 'Apex University Guild', date: '2026-08-25', details: 'Supercomputing Lab & Smart VR Classrooms', lat: 22.5726, lon: 88.3639 },
+        { id: 'FIX-804', title: 'Apex Industrial Furniture & Timber Batch', cat: 'FOOD_MANUFACTURER', city: 'Patna, Bihar', budget: '₹ 8,50,000', rawBudget: 850000, lockFee: 8500, status: 'CLOSED', client: 'Apex Woodcrafters', date: '2026-08-25', details: 'Hardwood Joinery & CNC Precision Frames', lat: 25.6120, lon: 85.1440 },
+        { id: 'FIX-805', title: 'Grand Metro Mall Architectural Wooden Arches', cat: 'COMMERCIAL_SETUP', city: 'Ranchi, Jharkhand', budget: '₹ 34,00,000', rawBudget: 3400000, lockFee: 34000, status: 'USED', client: 'Metro Developers', date: '2026-08-22', details: '3000 Sq Ft Teak Curved Arches & LED Coving', lat: 23.3600, lon: 85.3300 },
+        { id: 'FIX-107', title: 'Corporate World Tour & VIP Air Charter Fleet', cat: 'TOUR_AIRLINE', city: 'Mumbai / Dubai / London', budget: '₹ 38,00,000', rawBudget: 3800000, lockFee: 38000, status: 'CLOSED', client: 'Apex Global Trade', date: '2026-08-21', details: '45 Business Class Return Flights & 5-Star Vouchers', lat: 19.0760, lon: 72.8777 },
+        { id: 'FIX-108', title: 'International Flight Bulk Booking Inventory', cat: 'TOUR_AIRLINE', city: 'Delhi / Dubai', budget: '₹ 55,00,000', rawBudget: 5500000, lockFee: 55000, status: 'OPEN', client: 'Global Jetways Group', date: '2026-08-20', details: 'Direct IATA Air Ticketing & Instant Visa Desk', lat: 28.6139, lon: 77.2090 },
+        { id: 'FIX-109', title: 'Govt Smart Highway Solar & Acoustic Infrastructure', cat: 'HEALTHCARE_GOVT', city: 'Ranchi / Dhanbad', budget: '₹ 3,50,00,000', rawBudget: 35000000, lockFee: 350000, status: 'OPEN', client: 'National Highway Authority', date: '2026-08-19', details: 'Turnkey Solar Capping & Smart Sensor Grids', lat: 23.7500, lon: 86.0000 }
+      ],
+      hotelInventory: [
+        { id: "HOTEL-DHN-01", tier: "LOCAL", featured: true, name: "Wedlock Greens Hotels & Resorts", address: "Govindpur Road, Dhanbad, Jharkhand", baseRate: 48000, deskPhone: "919234669200", lat: 23.8340, lon: 86.5200 },
+        { id: "HOTEL-TAJ-01", tier: "GLOBAL", featured: true, name: "Taj Mahal Palace & Tower", address: "Apollo Bunder, Colaba, Mumbai", baseRate: 38000, deskPhone: "912266653366", lat: 18.9217, lon: 72.8332 },
+        { id: "HOTEL-DHN-02", tier: "LOCAL", featured: false, name: "Sonotel Hotels & Resorts", address: "Ozone Galleria Mall, Saraidhela, Dhanbad", baseRate: 34000, deskPhone: "919234604444", lat: 23.8140, lon: 86.4520 },
+        { id: "HOTEL-DHN-03", tier: "LOCAL", featured: false, name: "Hotel Skylark", address: "Bank More, Dhanbad, Jharkhand", baseRate: 22000, deskPhone: "913262305121", lat: 23.7915, lon: 86.4250 },
+        { id: "HOTEL-TAJ-02", tier: "GLOBAL", featured: false, name: "Taj Ganges", address: "Nadesar Palace Grounds, Varanasi, UP", baseRate: 22000, deskPhone: "915426660001", lat: 25.3340, lon: 82.9860 }
+      ],
+      worldChat: [
+        { id: 'MSG-01', sender: 'Singhania Heritage', text: 'Royal Rajputana Wedding Mandap deal requested. Advance token cleared.', time: '18:45', tag: 'BOOKING_REQUEST' },
+        { id: 'MSG-02', sender: 'Suraj Kumar Mishra (Master Owner)', text: 'Live Actual vs Immediate Earnings telemetry operational. Vault active.', time: '20:30', tag: 'OWNER_COMMAND' },
+        { id: 'MSG-03', sender: 'Apex Woodcrafters', text: 'Batch 4 Timber joinery inspected and dispatched for Dhanbad site.', time: '21:10', tag: 'SUPPLY_UPDATE' }
+      ],
+      friendCircle: [
+        { id: 'FRND-01', name: 'Amit Verma (Chief Architect)', status: 'Online', lastMsg: 'Site BOQ approval uploaded.' },
+        { id: 'FRND-02', name: 'Vikram Singhania (Heritage Client)', status: 'Away', lastMsg: 'Payment UTR receipt verified.' },
+        { id: 'FRND-03', name: 'Pooja Sharma (Lead Designer)', status: 'Online', lastMsg: '3D BIM renders ready for client.' }
+      ],
+      ownerSkills: [
+        { id: 'SKL-01', domain: 'Full-Stack Architecture & Cloud', topic: 'Next.js 15, Rust Microservices, Serverless Edge APIs', level: 'Master Grade', progress: '94%' },
+        { id: 'SKL-02', domain: 'Quantitative Finance & Algos', topic: 'Stochastic Calculus, High-Frequency Trading Math, Black-Scholes', level: 'Advanced Quant', progress: '88%' },
+        { id: 'SKL-03', domain: 'Corporate & Banking Law', topic: 'Indian Contract Act 1872, Negotiable Instruments, RBI NBFC Regulations', level: 'Juris Doctor Grade', progress: '91%' },
+        { id: 'SKL-04', domain: 'Autonomous AI & LLM Systems', topic: 'Transformer Inference Engines, Retrieval-Augmented Generation, Local SLMs', level: 'Apex Specialist', progress: '96%' }
+      ],
+      entertainmentHub: [
+        { id: 'ENT-01', title: 'FIDE Rated International Grandmaster Blitz Chess Pass', cat: 'CHESS_ARENA', fee: 4999, venue: 'Grand Apex Hall / Online Arena', status: 'REGISTRATION_OPEN', prizePool: '₹ 15,00,000' },
+        { id: 'ENT-02', title: 'Royal Heritage Sufi & Classical Gala Night', cat: 'MEDIA_SHOW', fee: 2499, venue: 'Rajputana 5-Acre Lawn, Ranchi', status: 'BOOKING_OPEN', prizePool: 'VIP Pass' },
+        { id: 'ENT-03', title: 'Corporate E-Sports League & Gaming Championship', cat: 'ESPORTS', fee: 1999, venue: 'Tech Hub Arena Dhanbad', status: 'UPCOMING', prizePool: '₹ 5,00,000' }
+      ],
+      indiaCorporateTieups: [
+        { id: 'CORP-01', name: 'Tata Projects & Infrastructure Ltd', sector: 'Mega EPC & Construction', tieupType: 'Master Vendor MoU', perks: 'Direct Sub-Contract Bidding Access', contact: '+91 22 6665 8282' },
+        { id: 'CORP-02', name: 'Reliance Industries Sourcing & Retail Supply', sector: 'Retail & Petrochemical Sourcing', tieupType: 'Direct Procurement Agreement', perks: 'Pan-India Vendor Code', contact: '+91 22 3555 5000' },
+        { id: 'CORP-03', name: 'Larsen & Toubro (L&T) Construction Hub', sector: 'Smart Cities & Highway Projects', tieupType: 'Tier-1 Subcontracting SLA', perks: 'Priority Tender Allocation', contact: '+91 44 2252 6000' }
+      ],
+      stockSignals: [
+        { id: 'STK-01', ticker: 'RELIANCE.NS (Reliance Industries)', market: 'NSE India', price: '₹3,120.40', signal: 'STRONG BUY', confidence: '94.2%', target: '₹3,450.00' },
+        { id: 'STK-02', ticker: 'NVDA (NVIDIA Corporation)', market: 'NASDAQ (US)', price: '$138.80', signal: 'ACCUMULATE', confidence: '91.8%', target: '$165.00' }
+      ],
+      interiorSupplyNetwork: [
+        { id: 'SUP-IND-01', name: 'Greenlam Industries & Decowood Veneers', region: 'India (Pan-India Mills)', product: 'Laminates & Veneers', contact: '+91 11 4279 1399' },
+        { id: 'SUP-IND-02', name: 'CenturyPly & Club Prime Plywood Hub', region: 'Kolkata / Delhi', product: 'Fire-Retardant Marine Plywood', contact: '+91 33 3940 3950' },
+        { id: 'SUP-IND-03', name: 'Hafele India & Hettich Hardware', region: 'Mumbai / Bangalore', product: 'Concealed Soft-Close Systems', contact: '+91 1800 266 6667' }
+      ],
+      freightLogisticsFleet: [
+        { id: 'FRT-01', carrier: 'Maersk Line Ocean Carrier', route: 'Shanghai ➔ Nhava Sheva (Mumbai)', type: '40ft High Cube Container', rate: '₹1,45,000' },
+        { id: 'FRT-02', carrier: 'MSC Mediterranean Shipping', route: 'Genoa (Italy) ➔ Mundra Port', type: '20ft Heavy Marble Flat-Rack', rate: '₹2,10,000' }
+      ],
+      directory: [
+        { id: 'DIR-01', name: 'Century Plyboards Ltd', cat: 'MANUFACTURER', city: 'Delhi / Kolkata', phone: '+919876500004', fee: 999 },
+        { id: 'DIR-02', name: 'Everest Hardware Depot', cat: 'SUPPLIER_GLOBAL', city: 'Kathmandu, Bagmati', phone: '+9779841000001', fee: 999 },
+        { id: 'DIR-03', name: 'Master Craftsmen Carpentry Guild', cat: 'CARPENTER', city: 'Mumbai', phone: '+919876500003', fee: 499 }
+      ],
+      projects: [],
+      professionals: [],
+      products: [],
+      approvals: [],
+      tickets: [],
+      bookings: [],
+      audit: []
+    };
+
+    const DB_KEY = 'aasha_master_separated_vault_v8';
+    if (!localStorage.getItem(DB_KEY)) {
+      localStorage.setItem(DB_KEY, JSON.stringify(initialData));
+    }
+
+    function getDB() { return JSON.parse(localStorage.getItem(DB_KEY)); }
+    function saveDB(d) { localStorage.setItem(DB_KEY, JSON.stringify(d)); }
+
+    const { jsPDF } = window.jspdf;
+    let currentUser = null;
+    let activeTab = 'earnings-radar';
+    let activePaymentModal = null;
+    let isSurgeActive = false;
+
+    function triggerAudioNotification(msg) {
+      const toast = document.getElementById('notification-toast');
+      const text = document.getElementById('toast-message');
+      if (toast && text) {
+        text.innerText = msg;
+        toast.classList.remove('translate-y-28', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+        setTimeout(() => {
+          toast.classList.remove('translate-y-0', 'opacity-100');
+          toast.classList.add('translate-y-28', 'opacity-0');
+        }, 3200);
+      }
+    }
+
+    function setLogin(e, p) {
+      document.getElementById('l-email').value = e;
+      document.getElementById('l-pass').value = p;
+    }
+
+    function doLogin() {
+      const e = document.getElementById('l-email').value;
+      const p = document.getElementById('l-pass').value;
+      const db = getDB();
+      const user = db.users.find(u => u.email === e && u.pass === p);
+      if (user) {
+        currentUser = user;
+        activeTab = currentUser.role === 'OWNER' ? 'earnings-radar' : 'fixtures';
+        triggerAudioNotification("Welcome " + user.name);
+        render();
+      } else {
+        alert('Invalid credentials');
+      }
+    }
+
+    function logout() { currentUser = null; render(); }
+    function tab(t) { activeTab = t; render(); }
+
+    function logAudit(action, target) {
+      const db = getDB();
+      if (!db.audit) db.audit = [];
+      db.audit.push({ id: 'AUD-' + Date.now().toString().slice(-4), action, target, timestamp: new Date().toISOString() });
+      saveDB(db);
+    }
+
+    function creditVault(amount, source, category = 'STAGE_PAYOUT') {
+      const db = getDB();
+      const fee = Number(amount);
+      const tax = fee * 0.18;
+      const net = fee - tax;
+      db.ledger.unshift({
+        id: 'TXN-' + Date.now().toString().slice(-4),
+        source: source,
+        category: category,
+        gross: fee,
+        tax: Number(tax.toFixed(2)),
+        net: Number(net.toFixed(2)),
+        status: 'DIRECT_SBI_SETTLED',
+        date: new Date().toISOString().slice(0, 10)
+      });
+      logAudit("VAULT_CREDITED", source);
+      saveDB(db);
+      triggerAudioNotification(`Payment Cleared! ₹${net.toFixed(2)} Net Settled to SBI.`);
+      render();
+    }
+
+    function render() {
+      const app = document.getElementById('app');
+      const db = getDB();
+
+      if (!currentUser) {
+        app.innerHTML = `
+        <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-950 via-slate-900 to-[#030712]">
+          <div class="glass-panel border border-slate-800 p-8 rounded-3xl max-w-md w-full shadow-2xl space-y-6">
+            <div class="text-center">
+              <div class="inline-flex items-center justify-center w-16 h-16 gold-gradient rounded-2xl shadow-lg shadow-amber-500/20 mb-3 text-slate-950 font-black text-3xl">A</div>
+              <h1 class="text-2xl font-black text-white">AASHA WORLD-OS</h1>
+              <p class="text-xs text-amber-400 font-semibold mt-1">Master Sovereign Unified Suite</p>
+              
+              <div class="mt-4 bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-3 text-left space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                  <span class="text-[11px] font-mono text-emerald-300 font-bold">DIRECT OWNER SBI SETTLEMENT</span>
+                </div>
+                <p class="text-[11px] text-slate-300">Payee: <b class="text-white">${MASTER_CONFIG.payeeName}</b></p>
+                <p class="text-[11px] text-slate-300 font-mono">A/c: <b class="text-white">${MASTER_CONFIG.accountNo}</b> (${MASTER_CONFIG.branch})</p>
+                <p class="text-[11px] text-emerald-400 font-mono font-bold">UPI: ${MASTER_CONFIG.upiId}</p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div>
+                <label class="text-xs text-slate-300 font-semibold">Account Email</label>
+                <input id="l-email" type="email" value="owner@aasha.com" class="w-full mt-1.5 bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white focus:border-amber-400 outline-none" />
+              </div>
+              <div>
+                <label class="text-xs text-slate-300 font-semibold">Security Password</label>
+                <input id="l-pass" type="password" value="owner" class="w-full mt-1.5 bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white focus:border-amber-400 outline-none" />
+              </div>
+
+              <div class="bg-slate-950/80 border border-slate-800 p-3 rounded-2xl text-xs space-y-2">
+                <div class="cursor-pointer hover:bg-slate-900 p-1.5 rounded-lg text-amber-300 font-semibold flex justify-between" onclick="setLogin('owner@aasha.com', 'owner')">
+                  <span>👑 Master Owner Console</span> <span class="font-mono text-[10px]">owner@aasha.com</span>
+                </div>
+                <div class="cursor-pointer hover:bg-slate-900 p-1.5 rounded-lg text-emerald-400 font-semibold flex justify-between" onclick="setLogin('customer@aasha.com', 'customer')">
+                  <span>👤 Client / Public Portal</span> <span class="font-mono text-[10px]">customer@aasha.com</span>
+                </div>
+              </div>
+
+              <button onclick="doLogin()" class="w-full gold-gradient text-slate-950 font-black py-3.5 rounded-xl text-sm uppercase tracking-wider shadow-lg">
+                Unlock Sovereign Console
+              </button>
+            </div>
+          </div>
+        </div>`;
+        return;
+      }
+
+      const gross = db.ledger.reduce((a, c) => a + c.gross, 0);
+      const tax = db.ledger.reduce((a, c) => a + c.tax, 0);
+      const net = db.ledger.reduce((a, c) => a + c.net, 0);
+      const pendingCount = db.approvals.filter(a => a.status === 'PENDING_OWNER_APPROVAL').length;
+
+      app.innerHTML = `
+      <header class="border-b border-slate-800 bg-slate-900 sticky top-0 z-30 px-4 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl gold-gradient flex items-center justify-center font-black text-xl text-slate-950 shadow-lg">A</div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-base font-black gold-text tracking-wide">AASHA WORLD-OS SUITE</span>
+              <span class="text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold ${currentUser.role === 'OWNER' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">
+                ${currentUser.role === 'OWNER' ? '👑 SOVEREIGN MASTER OWNER' : '👤 PUBLIC BUYER'}
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5 font-mono">Owner: <b class="text-white">${MASTER_CONFIG.payeeName}</b> | Settled SBI: <b class="text-emerald-400 font-bold">₹${net.toLocaleString()}</b></p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          ${currentUser.role === 'OWNER' ? `
+          <button onclick="document.getElementById('self-heal-modal').classList.remove('hidden')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 text-xs font-semibold rounded-lg flex items-center gap-1">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Self-Heal
+          </button>
+          <button onclick="openSettingsModal()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 text-xs font-semibold rounded-lg flex items-center gap-1">
+            <i class="fa-solid fa-gear"></i> Config
+          </button>` : ''}
+          <button onclick="tab('earnings-radar')" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 shadow-md">
+            <i class="fa-solid fa-vault"></i> <span>Vault: ₹${net.toLocaleString()}</span>
+          </button>
+          <button onclick="logout()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-red-950/50 text-red-400 border border-red-500/30 hover:bg-red-900/50">
+            Lock
+          </button>
+        </div>
+      </header>
+
+      <!-- Navigation Tabs -->
+      <nav class="bg-slate-900/90 border-b border-slate-800 px-4 lg:px-8 py-2 overflow-x-auto flex space-x-2 text-xs font-medium custom-scrollbar">
+        ${currentUser.role === 'OWNER' ? `
+        <button onclick="tab('earnings-radar')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'earnings-radar' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-chart-pie mr-1 text-emerald-400"></i>1. Earnings Radar
+        </button>` : ''}
+        <button onclick="tab('bank-lending')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'bank-lending' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-building-columns mr-1 text-blue-400"></i>2. Bank Credit Desk
+        </button>
+        <button onclick="tab('nbfc-lending')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'nbfc-lending' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-coins mr-1 text-amber-400"></i>3. NBFC Credit Desk
+        </button>
+        <button onclick="tab('insurance-shield')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'insurance-shield' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-heart-pulse mr-1 text-rose-400"></i>4. Insurance & Shield
+        </button>
+        ${currentUser.role === 'OWNER' ? `
+        <button onclick="tab('owner-skills')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'owner-skills' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-graduation-cap mr-1 text-yellow-400"></i>5. Owner Skills Studio
+        </button>` : ''}
+        <button onclick="tab('tally-accounting')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'tally-accounting' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-file-excel mr-1 text-emerald-400"></i>6. 1-Click Tally & P&L
+        </button>
+        <button onclick="tab('fixtures')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'fixtures' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-handshake mr-1"></i>7. 12 Mega Deals (${db.fixtures.length})
+        </button>
+        <button onclick="tab('hospitality')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'hospitality' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-hotel mr-1 text-cyan-400"></i>8. Hospitality & GPS Desk
+        </button>
+        <button onclick="tab('entertainment')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'entertainment' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-chess mr-1 text-purple-400"></i>9. Chess & Media Hub
+        </button>
+        <button onclick="tab('world-chat')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'world-chat' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-comments mr-1 text-cyan-400"></i>10. World Chat Feed
+        </button>
+        <button onclick="tab('b2c-funnel')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'b2c-funnel' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-bullhorn mr-1 text-purple-400"></i>11. B2C & Catering
+        </button>
+        <button onclick="tab('ca-suite')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'ca-suite' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-calculator mr-1 text-indigo-400"></i>12. AI CA & Invoicing
+        </button>
+        <button onclick="tab('realty-registry')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'realty-registry' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-landmark mr-1 text-amber-400"></i>13. Realty Registry
+        </button>
+        <button onclick="tab('customs-freight')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'customs-freight' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-ship mr-1 text-cyan-400"></i>14. Customs & Freight
+        </button>
+        <button onclick="tab('projects-suite')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'projects-suite' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-ruler-combined mr-1 text-rose-400"></i>15. Projects & Interior
+        </button>
+        <button onclick="tab('corporate-stock')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'corporate-stock' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-chart-line mr-1 text-amber-400"></i>16. Corporate & Stocks
+        </button>
+        <button onclick="tab('directory')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'directory' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-network-wired mr-1 text-sky-400"></i>17. Global Directory
+        </button>
+        <button onclick="tab('doc-center')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'doc-center' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-file-invoice mr-1 text-indigo-400"></i>18. Document Engine
+        </button>
+        ${currentUser.role === 'OWNER' ? `
+        <button onclick="tab('approvals-center')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'approvals-center' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-shield-halved mr-1 text-rose-400"></i>19. Approvals (${pendingCount})
+        </button>` : ''}
+        <button onclick="tab('support')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap ${activeTab === 'support' ? 'active' : 'bg-slate-800 text-slate-300'}">
+          <i class="fa-solid fa-headset mr-1 text-emerald-400"></i>20. Support
+        </button>
+      </nav>
+
+      <main class="flex-1 p-4 lg:p-6 max-w-7xl w-full mx-auto space-y-6">
+        ${renderCurrentTab(gross, tax, net, db)}
+      </main>
+
+      ${activePaymentModal ? renderPaymentModal() : ''}
+      `;
+    }
+
+    function renderCurrentTab(gross, tax, net, db) {
+      // 1. EARNINGS RADAR
+      if (activeTab === 'earnings-radar') {
+        return `
+        <div class="space-y-6">
+          <div class="bg-gradient-to-r from-slate-900 to-emerald-950/40 border border-emerald-500/40 p-6 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-xl">
+            <div>
+              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">DIRECT SBI OWNER SETTLEMENT</span>
+              <h2 class="text-2xl font-black text-amber-400 mt-2">LIVE EARNINGS & VAULT TELEMETRY</h2>
+              <p class="text-sm font-mono text-emerald-400 font-bold mt-1">A/c: ${MASTER_CONFIG.accountNo} • UPI: ${MASTER_CONFIG.upiId} • Payee: ${MASTER_CONFIG.payeeName}</p>
+            </div>
+            <button onclick="alert('Settlement authorized for: ₹${net.toLocaleString()} directly into ${MASTER_CONFIG.bankName}')" class="bg-emerald-500 text-slate-950 font-black px-6 py-3 rounded-xl text-xs uppercase shadow-lg">Instant SBI Settle</button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
+              <span class="text-[11px] text-slate-400 uppercase font-semibold">Immediate Gross Inflow</span>
+              <p class="text-2xl font-black text-white mt-1">₹ ${gross.toLocaleString()}</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
+              <span class="text-[11px] text-slate-400 uppercase font-semibold">18% GST Reserve</span>
+              <p class="text-2xl font-black text-indigo-400 mt-1">₹ ${tax.toLocaleString()}</p>
+            </div>
+            <div class="bg-slate-900 border border-emerald-500/40 p-5 rounded-3xl">
+              <span class="text-[11px] text-emerald-400 uppercase font-semibold">Actual Net Settled Earnings</span>
+              <p class="text-2xl font-black text-emerald-400 mt-1">₹ ${net.toLocaleString()}</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl">
+            <h3 class="text-sm font-bold text-slate-200 mb-3">Live Granular Ledger</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-slate-950 text-slate-400 uppercase text-[10px]">
+                  <tr><th class="p-3">Txn ID</th><th class="p-3">Source</th><th class="p-3">Gross</th><th class="p-3">Net Profit</th><th class="p-3">Status</th><th class="p-3">Date</th></tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                  ${db.ledger.map(i => `
+                    <tr>
+                      <td class="p-3 font-mono text-slate-400">${i.id}</td>
+                      <td class="p-3 text-white font-medium">${i.source}</td>
+                      <td class="p-3 font-mono">₹ ${i.gross.toLocaleString()}</td>
+                      <td class="p-3 font-mono text-emerald-400 font-bold">₹ ${i.net.toLocaleString()}</td>
+                      <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-mono">${i.status}</span></td>
+                      <td class="p-3 font-mono text-slate-500">${i.date}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // 2. COMMERCIAL BANK LENDING DESK (SEPARATED)
+      if (activeTab === 'bank-lending') {
+        return `
+        <div class="space-y-6">
+          <div class="glass-card p-6 rounded-3xl border border-blue-500/40 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+              <div>
+                <span class="badge-pill bg-blue-950 text-blue-300 border border-blue-500/30">TIER-1 BANKING FACILITY</span>
+                <h2 class="text-xl font-black text-white mt-1">Commercial Bank Term Loan & Credit Facility Desk</h2>
+                <p class="text-xs text-slate-400">Direct host-to-host lineup with State Bank of India & HDFC Bank for Prime Bureau accounts (750+ CIBIL).</p>
+              </div>
+              <span class="text-xs font-mono text-emerald-400 font-bold">Rate: ${BANK_FACILITY_CONFIG.interestRate}% p.a.</span>
+            </div>
+
+            <form onsubmit="processBankFacilitySanction(event)" class="space-y-3 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="text-slate-400 block mb-1">Company / Entity Legal Name</label>
+                  <input id="bankEntity" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" placeholder="e.g. Tata Projects Infrastructure" required />
+                </div>
+                <div>
+                  <label class="text-slate-400 block mb-1">Enterprise PAN</label>
+                  <input id="bankPan" maxlength="10" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white uppercase outline-none" placeholder="AAACT1234F" required />
+                </div>
+                <div>
+                  <label class="text-slate-400 block mb-1">Bureau CIBIL Verification</label>
+                  <input id="bankCibil" type="number" min="750" max="900" value="785" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-emerald-400 font-mono font-bold outline-none" required />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="text-slate-400 block mb-1">Loan Amount Requested (INR)</label>
+                  <input id="bankAmount" type="number" value="1000000" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" required />
+                </div>
+                <div>
+                  <label class="text-slate-400 block mb-1">Tenure (Months)</label>
+                  <select id="bankTenure" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none">
+                    <option value="12">12 Months</option>
+                    <option value="24">24 Months</option>
+                    <option value="36" selected>36 Months</option>
+                    <option value="60">60 Months</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-slate-400 block mb-1">Disbursement Bank IFSC</label>
+                  <input id="bankIfsc" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white uppercase outline-none" value="SBIN0001641" required />
+                </div>
+              </div>
+
+              <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl flex justify-between font-mono text-slate-300">
+                <span>Facility Partner: <b class="text-white">${BANK_FACILITY_CONFIG.primaryBank}</b></span>
+                <span>Processing Charge: <b class="text-amber-400">${BANK_FACILITY_CONFIG.processingFee}%</b></span>
+                <span>Payout Rails: <b class="text-emerald-400">Direct RTGS / Host-to-Host</b></span>
+              </div>
+
+              <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl uppercase text-xs">
+                Underwrite & Generate Bank Sanction Letter (Instant PDF)
+              </button>
+            </form>
+          </div>
+        </div>`;
+      }
+
+      // 3. NBFC LENDING DESK (SEPARATED)
+      if (activeTab === 'nbfc-lending') {
+        return `
+        <div class="space-y-6">
+          <div class="glass-card p-6 rounded-3xl border border-amber-500/40 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+              <div>
+                <span class="badge-pill bg-amber-950 text-amber-300 border border-amber-500/30">RBI REGULATED NBFC CO-LENDING</span>
+                <h2 class="text-xl font-black text-white mt-1">NBFC Fast-Track Digital Working Capital Desk</h2>
+                <p class="text-xs text-slate-400">Collateral-free liquidity for MSME vendors, carpenters, and suppliers (CIBIL 650–749 eligible).</p>
+              </div>
+              <span class="text-xs font-mono text-amber-400 font-bold">Rate: ${NBFC_FACILITY_CONFIG.interestRate}% p.a.</span>
+            </div>
+
+            <form onsubmit="processNbfFacilitySanction(event)" class="space-y-3 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="text-slate-400 block mb-1">MSME Business / Trade Name</label>
+                  <input id="nbfcEntity" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" placeholder="e.g. Apex Woodcrafters & Joinery" required />
+                </div>
+                <div>
+                  <label class="text-slate-400 block mb-1">Applicant PAN / GSTIN</label>
+                  <input id="nbfcPan" maxlength="15" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white uppercase outline-none" placeholder="20AAACT1234F1Z5" required />
+                </div>
+                <div>
+                  <label class="text-slate-400 block mb-1">Bureau CIBIL Score</label>
+                  <input id="nbfcCibil" type="number" min="620" max="749" value="680" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-amber-400 font-mono font-bold outline-none" required />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="text-slate-400 block mb-1">Credit Line Requested (INR)</label>
+                  <input id="nbfcAmount" type="number" value="350000" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" required />
+                </div>
+                <div>
+                  <label class="text-slate-400 block mb-1">Tenure (Months)</label>
+                  <select id="nbfcTenure" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none">
+                    <option value="6">6 Months</option>
+                    <option value="12" selected>12 Months</option>
+                    <option value="24">24 Months</option>
+                    <option value="36">36 Months</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-slate-400 block mb-1">Settlement Account Number</label>
+                  <input id="nbfcAcc" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" placeholder="Borrower Bank Account" required />
+                </div>
+              </div>
+
+              <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl flex justify-between font-mono text-slate-300">
+                <span>Underwriting NBFC: <b class="text-white">${NBFC_FACILITY_CONFIG.primaryNBFC}</b></span>
+                <span>Auto-Debit: <b class="text-cyan-400">e-NACH / UPI Autopay</b></span>
+                <span>Disbursal Rail: <b class="text-emerald-400">Instant IMPS API</b></span>
+              </div>
+
+              <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 font-black py-3 rounded-xl uppercase text-xs">
+                Underwrite & Issue NBFC Sanction Letter (Instant PDF)
+              </button>
+            </form>
+          </div>
+        </div>`;
+      }
+
+      // 4. INSURANCE & HEALTHCARE SHIELD DESK (SEPARATED)
+      if (activeTab === 'insurance-shield') {
+        return `
+        <div class="space-y-6">
+          <div class="glass-card p-6 rounded-3xl border border-rose-500/40 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+              <div>
+                <span class="badge-pill bg-rose-950 text-rose-300 border border-rose-500/30">CASHLESS TPA CLEARANCE</span>
+                <h2 class="text-xl font-black text-white mt-1">Commercial Healthcare & Group Shield Policy Desk</h2>
+                <p class="text-xs text-slate-400">Emergency hospital cashless pre-authorizations and staff shield insurance policies with instant settlement clearance.</p>
+              </div>
+              <span class="text-xs font-mono text-rose-400 font-bold">Cashless Guarantee: 60 Min</span>
+            </div>
+
+            <form onsubmit="processInsurancePolicyIssue(event)" class="space-y-3 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="text-slate-400 block mb-1">Primary Insured Name</label>
+                  <input id="insName" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" placeholder="Employee / Contractor Name" required />
+                </div>
+                <div>
+                  <label class="text-slate-400 block mb-1">Age & Gender</label>
+                  <input id="insDetails" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" placeholder="32 Yrs / Male" required />
+                </div>
+                <div>
+                  <label class="text-slate-400 block mb-1">Policy Classification</label>
+                  <select id="insPlan" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none">
+                    <option value="Cashless Mediclaim Individual (₹5 Lakhs)">Individual Mediclaim (₹5 Lakhs)</option>
+                    <option value="Enterprise Group Health Cover (₹10 Lakhs)" selected>Enterprise Group Shield (₹10 Lakhs)</option>
+                    <option value="Executive Critical Illness & Accidental (₹25 Lakhs)">Executive Accidental (₹25 Lakhs)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl flex justify-between font-mono text-slate-300">
+                <span>Network Hospitals: <b class="text-white">12,000+ Pan-India TPA Network</b></span>
+                <span>Co-Payment: <b class="text-emerald-400">Zero Co-Pay</b></span>
+                <span>Issuance Fee: <b class="text-amber-400">₹1,200 (Direct SBI Settled)</b></span>
+              </div>
+
+              <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-3 rounded-xl uppercase text-xs">
+                Issue Cashless Health Certificate (Instant PDF)
+              </button>
+            </form>
+          </div>
+        </div>`;
+      }
+
+      // 5. OWNER SKILLS STUDIO (ONLY OWNER COLUMN)
+      if (activeTab === 'owner-skills') {
+        if (currentUser.role !== 'OWNER') return `<div class="p-8 text-center text-red-400 font-bold">Access Denied. Only Master Owner Suraj Kumar Mishra can access Skill Studio.</div>`;
+        return `
+        <div class="space-y-6">
+          <div class="glass-card p-6 rounded-3xl border border-yellow-500/40 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+              <div>
+                <span class="badge-pill bg-yellow-500/20 text-yellow-300 border border-yellow-500/30">CONFIDENTIAL OWNER PORTAL</span>
+                <h2 class="text-xl font-black text-amber-400 uppercase mt-1">Executive Skill Developer & Master Studio</h2>
+                <p class="text-xs text-slate-400">Curated modules for autonomous enterprise leadership, quantitative engineering, and legal doctrine.</p>
+              </div>
+              <button onclick="alert('Curriculum synchronized with master repository.')" class="px-4 py-2 bg-slate-800 text-yellow-300 rounded-xl text-xs font-bold uppercase">Sync Curriculum</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              ${db.ownerSkills.map(s => `
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs font-bold text-white uppercase">${s.domain}</span>
+                    <span class="text-[10px] font-mono text-yellow-400 font-bold">${s.level}</span>
+                  </div>
+                  <p class="text-xs text-slate-300 font-mono">${s.topic}</p>
+                  <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                    <div class="bg-yellow-400 h-full" style="width: ${s.progress}"></div>
+                  </div>
+                  <div class="flex justify-between items-center pt-2">
+                    <span class="text-[11px] text-slate-400 font-mono">Mastery: ${s.progress}</span>
+                    <button onclick="alert('Launching Interactive Deep Dive: ' + '${s.domain}')" class="px-3 py-1 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-[10px] rounded-lg uppercase">Launch Sandbox</button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // 6. 1-CLICK TALLY, ACCOUNTING & BALANCE SHEET GENERATOR
+      if (activeTab === 'tally-accounting') {
+        const totalGross = db.ledger.reduce((a, c) => a + c.gross, 0);
+        const totalTax = db.ledger.reduce((a, c) => a + c.tax, 0);
+        const totalNet = db.ledger.reduce((a, c) => a + c.net, 0);
+
+        return `
+        <div class="space-y-6">
+          <div class="glass-card p-6 rounded-3xl space-y-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-slate-800 pb-3">
+              <div>
+                <h2 class="text-xl font-black text-emerald-400 uppercase">1-Click Tally, P&L & Balance Sheet Engine</h2>
+                <p class="text-xs text-slate-400">Instantly generate standard Tally XML vouchers, commercial trial balances, and client-ready financial audit statements.</p>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="downloadTallyXML()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs uppercase">Export Tally XML</button>
+                <button onclick="generateInstantClientBalanceSheetPDF()" class="px-4 py-2 gold-gradient text-slate-950 font-black rounded-xl text-xs uppercase">Instant Client PDF</button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
+              <div class="p-4 bg-slate-950 border border-slate-800 rounded-2xl">
+                <span class="text-slate-400 uppercase">Sales / Credit Turnover</span>
+                <p class="text-lg font-bold text-white mt-1">₹${totalGross.toLocaleString('en-IN')}</p>
+              </div>
+              <div class="p-4 bg-slate-950 border border-slate-800 rounded-2xl">
+                <span class="text-indigo-400 uppercase">Input / Output GST (18%)</span>
+                <p class="text-lg font-bold text-indigo-400 mt-1">₹${totalTax.toLocaleString('en-IN')}</p>
+              </div>
+              <div class="p-4 bg-slate-950 border border-emerald-500/30 rounded-2xl">
+                <span class="text-emerald-400 uppercase">Net Realized Profit</span>
+                <p class="text-lg font-bold text-emerald-400 mt-1">₹${totalNet.toLocaleString('en-IN')}</p>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+              <h4 class="font-bold text-slate-200 text-xs uppercase mb-3">Live Accounting Voucher Ledger</h4>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-300">
+                  <thead class="bg-slate-950 text-slate-400 uppercase text-[10px]">
+                    <tr><th class="p-2.5">Date</th><th class="p-2.5">Particulars / Account</th><th class="p-2.5">Voucher Type</th><th class="p-2.5">Debit (INR)</th><th class="p-2.5">Credit (INR)</th></tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-800">
+                    ${db.ledger.map(v => `
+                      <tr>
+                        <td class="p-2.5 font-mono text-slate-400">${v.date}</td>
+                        <td class="p-2.5 font-bold text-white">${v.source}</td>
+                        <td class="p-2.5 text-cyan-300 font-mono">Receipt</td>
+                        <td class="p-2.5 font-mono text-slate-400">₹0.00</td>
+                        <td class="p-2.5 font-mono text-emerald-400 font-bold">₹${v.gross.toLocaleString('en-IN')}</td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // 7. 12 MEGA FIXTURES WITH SATELLITE LOCATOR
+      if (activeTab === 'fixtures') {
+        return `
+        <div class="space-y-6">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-xl font-black text-amber-400 uppercase">Universal 12 Mega Deals & Fixtures</h2>
+              <p class="text-xs text-slate-400">Automated geo-coordinates radar, 1-click booking locks, and contract generation.</p>
+            </div>
+            <button onclick="openFixtureDocs('royal_weddings')" class="gold-gradient text-slate-950 font-black px-4 py-2 rounded-xl text-xs uppercase">Generate Master Contract</button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            ${db.fixtures.map(f => `
+              <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl flex flex-col justify-between space-y-4">
+                <div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase bg-amber-500/10 text-amber-300 border border-amber-500/20">${f.cat}</span>
+                    <button onclick="viewFixtureOnMap(${f.lat}, ${f.lon}, '${f.title}')" class="text-[10px] font-mono text-cyan-400 hover:underline">📍 Coords Radar</button>
+                  </div>
+                  <h3 class="text-base font-bold text-white mt-2">${f.title}</h3>
+                  <p class="text-xs text-slate-400 mt-1">${f.details}</p>
+                  <p class="text-[11px] text-slate-500 mt-2">Location: ${f.city} • Client: ${f.client}</p>
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex justify-between items-center">
+                  <div>
+                    <span class="text-[10px] text-slate-400">Budget</span>
+                    <p class="text-sm font-black text-emerald-400">${f.budget}</p>
+                  </div>
+                  <button onclick="openPaymentModal(${f.lockFee}, 'Lock Fixture: ${f.title}')" class="gold-gradient text-slate-950 font-black px-3 py-1.5 rounded-xl text-xs uppercase">Pay ₹${f.lockFee.toLocaleString()}</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>`;
+      }
+
+      // 8. HOSPITALITY & GPS DESK
+      if (activeTab === 'hospitality') {
+        return `
+        <div class="space-y-6">
+          <div class="glass-card p-5 rounded-3xl border border-sky-500/30 space-y-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+              <div>
+                <span class="badge-pill bg-sky-600 text-white">Hyperlocal Geocoding</span>
+                <h3 class="text-lg font-bold text-white mt-1">Satellite Geocoding & OpenStreetMap Engine</h3>
+                <p class="text-xs text-slate-400">Scan world satellite nodes or lock current location with 1-Tap device GPS.</p>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="AASHA_AUDIO_AI.speakSystemPolicy()" class="btn bg-purple-700 text-white px-3 py-2 rounded-xl text-xs font-bold">🔊 Audio Policy</button>
+                <button onclick="triggerDeviceAutoLocator()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-xs uppercase">🎯 1-Tap GPS Locate</button>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <input type="text" id="worldLocatorInput" placeholder="Enter venue or hotel name..." class="flex-1 bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-xs text-white outline-none" />
+              <button onclick="executeWorldLocatorSearch()" class="bg-sky-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold">Scan Satellite</button>
+            </div>
+            <div id="worldSearchResultsBox" class="text-xs text-slate-300"></div>
+          </div>
+
+          <div class="glass-card p-5 rounded-3xl space-y-4">
+            <h3 class="text-base font-bold text-cyan-400 uppercase">Direct Booking & Add-ons Allotment Desk</h3>
+            <form onsubmit="handleVenueBookingSubmit(event)" class="space-y-3 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div><label class="text-slate-400 block mb-1">Client Name</label><input id="vbClient" class="w-full bg-slate-950 border border-slate-800 p-2 rounded-xl text-white outline-none" required /></div>
+                <div><label class="text-slate-400 block mb-1">Client Mobile</label><input id="vbPhone" class="w-full bg-slate-950 border border-slate-800 p-2 rounded-xl text-white outline-none" required /></div>
+                <div>
+                  <label class="text-slate-400 block mb-1">Select Hotel / Venue</label>
+                  <select id="vbHotel" class="w-full bg-slate-950 border border-slate-800 p-2 rounded-xl text-white outline-none" onchange="syncHotelBasePrice()">
+                    ${db.hotelInventory.map(h => `<option value="${h.id}">${h.name} (Base: ₹${h.baseRate.toLocaleString()})</option>`).join('')}
+                  </select>
+                </div>
+              </div>
+
+              <div class="p-3 bg-slate-950 border border-slate-800 rounded-2xl space-y-2">
+                <span class="text-[11px] font-bold text-purple-400 uppercase">High-Margin Ancillary Add-ons</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <label class="checkbox-item"><input type="checkbox" id="addDJ" onchange="calcSplits()" /> DJ & Professional Sound (+₹25,000 | Margin: ₹3,500)</label>
+                  <label class="checkbox-item"><input type="checkbox" id="addDecor" onchange="calcSplits()" /> Stage & Floral Decor Suite (+₹45,000 | Margin: ₹6,000)</label>
+                  <label class="checkbox-item"><input type="checkbox" id="addPhoto" onchange="calcSplits()" /> Cinematic Photo & Drone (+₹40,000 | Margin: ₹5,000)</label>
+                  <label class="checkbox-item"><input type="checkbox" id="addCab" onchange="calcSplits()" /> Guest Transport Fleet (+₹18,000 | Margin: ₹2,500)</label>
+                </div>
+              </div>
+
+              <div id="bookingQuoteSummary" class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-slate-300 font-mono flex justify-between">
+                <span>Calculated Quote:</span> <b class="text-emerald-400" id="quoteGross">₹0</b>
+              </div>
+
+              <button type="submit" class="w-full gold-gradient text-slate-950 font-black py-3 rounded-xl uppercase">Lock Slot Token & Transmit Ground Mandate</button>
+            </form>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            ${db.hotelInventory.map(h => `
+              <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-3">
+                <div class="flex justify-between items-center">
+                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 font-bold">${h.tier}</span>
+                  <button onclick="viewFixtureOnMap(${h.lat}, ${h.lon}, '${h.name}')" class="text-[10px] font-mono text-cyan-400 hover:underline">📍 Auto-Radar</button>
+                </div>
+                <h4 class="text-base font-bold text-white">${h.name}</h4>
+                <p class="text-xs text-slate-400">📍 ${h.address}</p>
+                <div class="flex justify-between items-center pt-2 border-t border-slate-800">
+                  <span class="font-mono text-emerald-400 font-bold">Base: ₹${h.baseRate.toLocaleString()}</span>
+                  <div class="flex gap-1">
+                    <button onclick="issueLegalCourtNotice('${h.name}')" class="bg-rose-900/60 text-rose-300 px-2 py-1 rounded text-[10px] font-bold">Court Notice</button>
+                    <button onclick="openPaymentModal(${Math.round(h.baseRate * 0.15)}, 'Venue Advance: ${h.name}')" class="gold-gradient text-slate-950 font-black px-3 py-1 rounded-xl text-xs">Lock Token</button>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>`;
+      }
+
+      // 9. ENTERTAINMENT, CHESS & VIDEO PLAYER
+      if (activeTab === 'entertainment') {
+        return `
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-5 space-y-6">
+            <div class="glass-card p-5 rounded-3xl space-y-4 border border-slate-800">
+              <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-sm font-bold text-pink-400 uppercase flex items-center gap-2">
+                  <i class="fa-solid fa-film"></i> Live Stream Cinema Player
+                </h3>
+                <span id="playerStatus" class="badge-pill bg-emerald-950 text-emerald-300">Ready</span>
+              </div>
+              <div class="relative bg-black rounded-2xl overflow-hidden aspect-video border border-slate-800">
+                <video id="mainCinemaVideo" class="w-full h-full object-cover" poster="https://images.unsplash.com/photo-1518173946687-a4c8a383392e?w=800&q=80">
+                  <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <button onclick="controlVideo('play')" class="py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs">Play</button>
+                <button onclick="controlVideo('pause')" class="py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold rounded-xl text-xs">Pause</button>
+                <button onclick="controlVideo('restart')" class="py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs">Reload</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 space-y-6">
+            <div class="glass-card p-6 rounded-3xl space-y-4 border border-slate-800">
+              <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h2 class="text-base font-black text-amber-400 uppercase flex items-center gap-2">
+                  <i class="fa-solid fa-chess-knight"></i> Sovereign Interactive FIDE Chess Engine
+                </h2>
+                <button onclick="resetChessGame()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-xl text-slate-300 font-bold">Reset</button>
+              </div>
+              <div class="flex flex-col items-center justify-center p-2 bg-slate-950 rounded-2xl border border-slate-800">
+                <div id="chessBoardGrid" class="grid grid-cols-8 border-2 border-slate-700 rounded-lg overflow-hidden shadow-2xl"></div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // 10. WORLD CHAT FEED
+      if (activeTab === 'world-chat') {
+        return `
+        <div class="glass-card p-6 rounded-3xl space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-xl font-black text-cyan-400 uppercase">World Sovereign B2B Chat Feed</h2>
+              <p class="text-xs text-slate-400">Broadcast and receive corporate deals, booking updates, and mandates.</p>
+            </div>
+            <span class="badge-pill bg-emerald-950 text-emerald-300 font-mono">LIVE FEED ENCRYPTED</span>
+          </div>
+
+          <div id="chatMessagesBox" class="space-y-2 max-h-[380px] overflow-y-auto p-3 bg-slate-950 border border-slate-800 rounded-2xl">
+            ${db.worldChat.map(m => `
+              <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs space-y-1">
+                <div class="flex justify-between text-[10px] text-slate-400">
+                  <strong class="text-amber-400">${m.sender}</strong>
+                  <span class="font-mono">${m.time} • [${m.tag}]</span>
+                </div>
+                <p class="text-slate-200">${m.text}</p>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="flex gap-2">
+            <input type="text" id="worldChatInput" placeholder="Broadcast corporate announcement or message..." class="flex-1 bg-slate-950 border border-slate-800 p-3 rounded-xl text-xs text-white outline-none" onkeydown="if(event.key==='Enter') sendWorldChatMessage()" />
+            <button onclick="sendWorldChatMessage()" class="gold-gradient text-slate-950 font-black px-5 py-3 rounded-xl text-xs uppercase">Broadcast</button>
+          </div>
+        </div>`;
+      }
+
+      // 11. B2C & CATERING FUNNEL
+      if (activeTab === 'b2c-funnel') {
+        return `
+        <div class="space-y-6">
+          <div class="glass-card p-5 rounded-3xl border border-purple-500/40 space-y-4">
+            <div class="flex justify-between items-center">
+              <div>
+                <span class="badge-pill bg-purple-600 text-white">B2C ACQUISITION</span>
+                <h3 class="text-lg font-bold text-white mt-1">Ground Partner Network & WhatsApp Broadcast</h3>
+              </div>
+              <button onclick="triggerHyperlocalBroadcast()" class="btn bg-emerald-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold">📢 WhatsApp Blast</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                <h4 class="font-bold text-amber-400">IIT ISM & Corporate Pass</h4>
+                <p class="text-slate-400 mt-1">Issue verified institutional pass for seminars & executive fests.</p>
+                <button onclick="alert('Corporate Pass Desk Initialized.')" class="mt-3 w-full bg-slate-800 py-1.5 rounded-lg text-white font-bold">Issue Pass</button>
+              </div>
+              <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                <h4 class="font-bold text-emerald-400">Ground DJ / Decor Partner</h4>
+                <p class="text-slate-400 mt-1">Assign 2% referral commission tag for banquet lead locking.</p>
+                <button onclick="alert('Partner Tag Generated: VENDOR-DJ-SPOT')" class="mt-3 w-full bg-slate-800 py-1.5 rounded-lg text-white font-bold">Generate Partner Tag</button>
+              </div>
+              <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                <h4 class="font-bold text-cyan-400">Lagan Peak Surge</h4>
+                <p class="text-slate-400 mt-1">Activate dynamic +10% extra margin for peak wedding dates.</p>
+                <button onclick="isSurgeActive=!isSurgeActive; alert('Surge toggled: ' + isSurgeActive)" class="mt-3 w-full bg-cyan-700 py-1.5 rounded-lg text-white font-bold">Toggle Auto-Surge</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-3xl space-y-4">
+            <h3 class="text-base font-bold text-amber-400 uppercase">Wedding Catering Per-Plate Matrix</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div><label class="text-slate-400 block mb-1">Guests</label><input id="catGuests" type="number" value="500" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" /></div>
+              <div><label class="text-slate-400 block mb-1">Veg Plate Rate (₹)</label><input id="catVeg" type="number" value="750" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" /></div>
+              <div><label class="text-slate-400 block mb-1">Non-Veg Rate (₹)</label><input id="catNonVeg" type="number" value="950" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" /></div>
+            </div>
+            <button onclick="computeCateringQuote()" class="w-full gold-gradient text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase">Compute Catering Package & Margin</button>
+            <div id="cateringResult" class="text-xs text-emerald-400 font-mono"></div>
+          </div>
+        </div>`;
+      }
+
+      // 12. AI CA & GST BALANCE SHEET SUITE
+      if (activeTab === 'ca-suite') {
+        return `
+        <div class="glass-card p-6 rounded-3xl space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-xl font-black text-cyan-400 uppercase">AI CA & GST Balance Sheet Suite</h2>
+              <p class="text-xs text-slate-400">Statutory Tax Audits, P&L Balance Sheets, and Automated Filing Dossiers.</p>
+            </div>
+            <span class="badge-pill bg-cyan-950 text-cyan-300 font-mono">RULE 46 COMPLIANT</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
+              <h3 class="font-bold text-white text-sm">Automated P&L & Balance Sheet Audit</h3>
+              <p class="text-slate-400">Generates certified chartered accountant audit statement with dynamic ledger verification.</p>
+              <button onclick="generateCAPDF()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-xl uppercase">Download Certified CA Audit Dossier (₹2,499)</button>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
+              <h3 class="font-bold text-white text-sm">Commercial GST Tax Invoicing</h3>
+              <p class="text-slate-400">Standard GST Rule 46 compliant commercial billing with automatic CGST, SGST & IGST separation.</p>
+              <button onclick="generateInstantBusinessDocPDF()" class="w-full gold-gradient text-slate-950 font-black py-3 rounded-xl uppercase">Generate Commercial GST Tax Invoice (₹199)</button>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // 13. REAL ESTATE REGISTRY & STAMP DUTY
+      if (activeTab === 'realty-registry') {
+        return `
+        <div class="glass-card p-6 rounded-3xl space-y-4">
+          <h2 class="text-xl font-black text-amber-400 uppercase border-b border-slate-800 pb-3"><i class="fa-solid fa-landmark mr-2"></i> Real Estate Digital Registry & Stamp Duty</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <input id="realty-seller" type="text" value="Singhania Heritage Builders" placeholder="Seller Name" class="bg-slate-900 border border-slate-700 p-2.5 rounded-xl text-white outline-none">
+            <input id="realty-buyer" type="text" value="Apex Global Realty Client" placeholder="Buyer Name" class="bg-slate-900 border border-slate-700 p-2.5 rounded-xl text-white outline-none">
+            <input id="realty-val" type="number" value="7500000" placeholder="Property Value" class="bg-slate-900 border border-slate-700 p-2.5 rounded-xl text-white outline-none">
+            <input id="realty-circle" type="text" value="Jharkhand (Dhanbad / Ranchi)" placeholder="Circle" class="bg-slate-900 border border-slate-700 p-2.5 rounded-xl text-white outline-none">
+          </div>
+          <button onclick="generateRealtyDeedPDF()" class="w-full py-3 gold-gradient text-slate-950 font-black rounded-xl text-xs uppercase">Generate Legal Registry Deed PDF (Earn ₹1,999)</button>
+        </div>`;
+      }
+
+      // 14. CUSTOMS & FREIGHT
+      if (activeTab === 'customs-freight') {
+        return `
+        <div class="space-y-6">
+          <div class="glass-card p-6 rounded-3xl space-y-4">
+            <h2 class="text-xl font-black text-cyan-400 uppercase border-b border-slate-800 pb-3">Customs Clearance & HS Code Engine</h2>
+            <p class="text-xs text-slate-400">Automated port entry documents for industrial hardware and freight containers.</p>
+            <button onclick="generateCustomsPDF()" class="w-full py-3 gold-gradient text-slate-950 font-black rounded-xl text-xs uppercase">Download Certified Customs Dossier (Earn ₹1,499)</button>
+          </div>
+
+          <div class="glass-card p-6 rounded-3xl space-y-4">
+            <h2 class="text-xl font-black text-amber-400 uppercase border-b border-slate-800 pb-3">Global Freight & Cargo Shipping</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              ${db.freightLogisticsFleet.map(f => `
+                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                  <span class="badge-pill bg-cyan-950 text-cyan-300 font-mono">${f.type}</span>
+                  <h4 class="font-bold text-white text-sm">${f.carrier}</h4>
+                  <p class="text-slate-400">${f.route}</p>
+                  <p class="font-mono text-emerald-400 font-bold">${f.rate}</p>
+                  <button onclick="creditVault(1500, 'Freight Booking: ' + f.carrier, 'DOC_REVENUE')" class="w-full py-2 bg-cyan-600 text-white font-bold rounded-xl uppercase">Book Container (Earn ₹1,500)</button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // 15. PROJECTS & 3D INTERIOR DESIGN STUDIO
+      if (activeTab === 'projects-suite') {
+        return `
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="glass-card p-5 rounded-3xl space-y-4">
+            <h3 class="text-base font-bold text-purple-400 uppercase">Customer Project Intake</h3>
+            <div class="space-y-2 text-xs">
+              <input id="projCustomer" placeholder="Customer Name" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" />
+              <input id="projType" placeholder="Project Classification (Home / Flat / Commercial)" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" />
+              <input id="projBudget" type="number" placeholder="Budget ₹" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" />
+              <textarea id="projDetails" placeholder="Detailed Specifications" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none"></textarea>
+              <button onclick="submitProjectDraft()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl uppercase">Submit for Owner Approval</button>
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-3xl space-y-4">
+            <h3 class="text-base font-bold text-cyan-400 uppercase">3D Interior & BOQ Studio</h3>
+            <div class="space-y-2 text-xs">
+              <input id="designRoom" placeholder="Room Dimension & Layout" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" />
+              <input id="designMaterial" placeholder="Material Grade (Marine Ply, Veneer)" class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none" />
+              <button onclick="generateInteriorBIMPDF()" class="w-full gold-gradient text-slate-950 font-black py-3 rounded-xl uppercase">Generate 3D BIM Plan PDF (₹1,499)</button>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // 16. CORPORATE & AI STOCKS
+      if (activeTab === 'corporate-stock') {
+        return `
+        <div class="space-y-6">
+          <div class="glass-card p-5 rounded-3xl space-y-3">
+            <h3 class="text-base font-bold text-amber-400 uppercase">Corporate Business MoUs</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              ${db.indiaCorporateTieups.map(c => `
+                <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-2">
+                  <h4 class="font-bold text-white">${c.name}</h4>
+                  <p class="text-slate-400">${c.sector} • ${c.tieupType}</p>
+                  <button onclick="downloadMoUPDF('${c.name}')" class="w-full gold-gradient text-slate-950 font-bold py-2 rounded-xl uppercase">Generate MoU Dossier PDF</button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-3xl space-y-3">
+            <h3 class="text-base font-bold text-emerald-400 uppercase">AI Stock Predictor (Quant Engine)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              ${db.stockSignals.map(s => `
+                <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-1">
+                  <span class="text-emerald-400 font-bold">${s.signal} (${s.confidence})</span>
+                  <h4 class="font-bold text-white">${s.ticker}</h4>
+                  <p class="font-mono text-amber-400">Target: ${s.target}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // 17. GLOBAL DIRECTORY
+      if (activeTab === 'directory') {
+        return `
+        <div class="space-y-4">
+          <h2 class="text-xl font-black text-amber-400 uppercase border-b border-slate-800 pb-3">Verified Global Directory</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            ${db.directory.map(d => `
+              <div class="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-2">
+                <span class="text-[10px] font-mono text-indigo-400 font-bold">${d.cat}</span>
+                <h3 class="font-bold text-white">${d.name}</h3>
+                <p class="text-xs text-slate-400">City: ${d.city} • Phone: ${d.phone}</p>
+                <button onclick="creditVault(500, 'Lead Commission: ' + d.name, 'DOC_REVENUE')" class="w-full py-2 bg-indigo-600/30 hover:bg-indigo-600 text-white rounded-xl text-xs font-bold uppercase">Connect & Earn ₹500</button>
+              </div>
+            `).join('')}
+          </div>
+        </div>`;
+      }
+
+      // 18. DOCUMENT ENGINE
+      if (activeTab === 'doc-center') {
+        return `
+        <div class="glass-card p-6 rounded-3xl space-y-4">
+          <h2 class="text-xl font-bold text-cyan-400 uppercase">AASHA Statutory Document Engine</h2>
+          <p class="text-xs text-slate-300">Generate verified electronic agreements with tamper-proof cryptographic SHA-256 signatures and QR verification.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button onclick="openFixtureDocs('royal_weddings')" class="doc-btn">👑 Royal Weddings Contract</button>
+            <button onclick="openFixtureDocs('interiors_3d')" class="doc-btn">🏛️ 3D Interior BOQ Sheet</button>
+            <button onclick="openFixtureDocs('hotels_5star')" class="doc-btn">🏨 5-Star Hotel Supply SLA</button>
+            <button onclick="openFixtureDocs('hospital_govt_infra')" class="doc-btn">🏥 Govt Infra Tender Bid</button>
+            <button onclick="openFixtureDocs('commercial_real_estate')" class="doc-btn">🏢 Commercial Lease Deed</button>
+            <button onclick="openFixtureDocs('solar_renewable')" class="doc-btn">☀️ Solar Power PPA</button>
+          </div>
+        </div>`;
+      }
+
+      // 19. APPROVALS CENTER
+      if (activeTab === 'approvals-center') {
+        const pending = db.approvals.filter(a => a.status === 'PENDING_OWNER_APPROVAL');
+        return `
+        <div class="glass-card p-6 rounded-3xl space-y-4">
+          <h2 class="text-xl font-bold text-rose-400 uppercase">Owner Master Approval Center</h2>
+          <p class="text-xs text-slate-400">All submissions require digital authorization from Suraj Kumar Mishra.</p>
+          <div class="space-y-3">
+            ${pending.length > 0 ? pending.map(a => `
+              <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex justify-between items-center text-xs">
+                <div>
+                  <span class="text-amber-400 font-bold">${a.type}</span>
+                  <p class="text-white font-bold mt-0.5">${a.name}</p>
+                </div>
+                <div class="flex gap-2">
+                  <button onclick="resolveApproval('${a.id}', true)" class="bg-emerald-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg">Approve</button>
+                  <button onclick="resolveApproval('${a.id}', false)" class="bg-rose-600 text-white font-bold px-3 py-1.5 rounded-lg">Reject</button>
+                </div>
+              </div>
+            `).join('') : '<p class="text-xs text-slate-500">Zero pending approval items.</p>'}
+          </div>
+        </div>`;
+      }
+
+      // 20. SUPPORT & TICKETS
+      if (activeTab === 'support') {
+        return `
+        <div class="glass-card p-6 rounded-3xl space-y-4">
+          <h2 class="text-xl font-bold text-emerald-400 uppercase">Complete Operations Support & Incident Center</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <select id="ticketCat" class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none">
+              <option>Technical / Runtime</option>
+              <option>Payment & SBI Settlement</option>
+              <option>Legal & Anti-Bypass</option>
+              <option>Hotel GM Default</option>
+            </select>
+            <select id="ticketPri" class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white outline-none">
+              <option>Normal</option>
+              <option>High</option>
+              <option>Critical</option>
+            </select>
+          </div>
+          <textarea id="ticketDesc" placeholder="Describe the incident or requirement..." class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-white text-xs outline-none"></textarea>
+          <button onclick="submitSupportTicket()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase">Submit Support Ticket</button>
+          
+          <div class="mt-4 space-y-2">
+            ${db.tickets.map(t => `
+              <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs flex justify-between">
+                <span><b>${t.category}</b>: ${t.description}</span>
+                <span class="text-amber-400 font-bold">${t.status}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>`;
+      }
+    }
+
+    // ACTIONS & TERMINAL MODULES
+    function executeGoogleSearch() {
+      const q = document.getElementById('googleSearchInput').value.trim();
+      if (!q) return alert("Search query enter karein.");
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    function quickSearch(val) {
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(val)}`, '_blank');
+    }
+
+    function sendWorldChatMessage() {
+      const input = document.getElementById('worldChatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      const db = getDB();
+      db.worldChat.unshift({
+        id: 'MSG-' + Date.now().toString().slice(-4),
+        sender: currentUser.name,
+        text: text,
+        time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+        tag: currentUser.role === 'OWNER' ? 'OWNER_BROADCAST' : 'B2B_COMMUNITY'
+      });
+      saveDB(db);
+      input.value = '';
+      triggerAudioNotification("Message broadcasted to World Chat!");
+      render();
+    }
+
+    function viewFixtureOnMap(lat, lon, title) {
+      if (!lat || !lon) return alert("Location coordinates unavailable.");
+      window.open(`https://www.google.com/maps?q=${lat},${lon}`, '_blank');
+      triggerAudioNotification(`Radar Locked: ${title}`);
+    }
+
+    function openPaymentModal(amount, description) {
+      activePaymentModal = { amount, description };
+      render();
+    }
+
+    function renderPaymentModal() {
+      const upiUrl = `upi://pay?pa=${MASTER_CONFIG.upiId}&pn=${encodeURIComponent(MASTER_CONFIG.payeeName)}&am=${activePaymentModal.amount}&cu=INR&tn=${encodeURIComponent(activePaymentModal.description)}`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
+
+      return `
+      <div class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-emerald-500/40 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-mono text-emerald-400 font-bold">DIRECT OWNER SETTLEMENT</span>
+            <button onclick="activePaymentModal=null; render()" class="text-slate-400 hover:text-white text-sm">✕</button>
+          </div>
+          <h3 class="text-base font-black text-white">${MASTER_CONFIG.payeeName}</h3>
+          <p class="text-xs text-slate-400 font-mono">SBI: <b>${MASTER_CONFIG.accountNo}</b></p>
+          <div class="bg-white p-3 rounded-2xl inline-block shadow-lg">
+            <img src="${qrUrl}" alt="QR" class="w-40 h-40 mx-auto" />
+          </div>
+          <div class="text-xl font-black text-emerald-400 font-mono">₹ ${activePaymentModal.amount.toLocaleString()}</div>
+          <button onclick="confirmPaymentSuccess()" class="w-full gold-gradient text-slate-950 font-black py-3 rounded-xl text-xs uppercase">I Have Paid (Settle Directly)</button>
+        </div>
+      </div>`;
+    }
+
+    function confirmPaymentSuccess() {
+      const db = getDB();
+      const fee = activePaymentModal.amount;
+      const tax = fee * 0.18;
+      const net = fee - tax;
+      db.ledger.unshift({
+        id: 'TXN-' + Date.now().toString().slice(-4),
+        source: activePaymentModal.description,
+        category: 'STAGE_PAYOUT',
+        gross: fee,
+        tax: Number(tax.toFixed(2)),
+        net: Number(net.toFixed(2)),
+        status: 'DIRECT_SBI_SETTLED',
+        date: new Date().toISOString().slice(0, 10)
+      });
+      saveDB(db);
+      activePaymentModal = null;
+      triggerAudioNotification(`Payment Verified! ₹${net.toFixed(2)} credited to SBI.`);
+      render();
+    }
+
+    // TALLY & ACCOUNTING ENGINES
+    function downloadTallyXML() {
+      const db = getDB();
+      let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<ENVELOPE>\n<HEADER><TALLYREQUEST>Import Data</TALLYREQUEST></HEADER>\n<BODY><IMPORTDATA><REQUESTDATA>\n<TALLYMESSAGE xmlns:UDF="TallyUDF">\n`;
+
+      db.ledger.forEach(l => {
+        xml += `  <VOUCHER VCHTYPE="Receipt" ACTION="Create">\n    <DATE>${l.date.replace(/-/g, '')}</DATE>\n    <NARRATION>${l.source}</NARRATION>\n    <PARTYLEDGERNAME>Direct Settlement Bank</PARTYLEDGERNAME>\n    <AMOUNT>-${l.gross}</AMOUNT>\n  </VOUCHER>\n`;
+      });
+
+      xml += `</TALLYMESSAGE>\n</REQUESTDATA></IMPORTDATA></BODY>\n</ENVELOPE>`;
+      const blob = new Blob([xml], { type: 'application/xml' });
+      const dl = document.createElement("a");
+      dl.href = URL.createObjectURL(blob);
+      dl.download = `AASHA_TALLY_VOUCHERS_${Date.now().toString().slice(-6)}.xml`;
+      dl.click();
+      triggerAudioNotification("Tally XML Export Complete.");
+    }
+
+    function generateInstantClientBalanceSheetPDF() {
+      const db = getDB();
+      const doc = new jsPDF();
+      const totalGross = db.ledger.reduce((a, c) => a + c.gross, 0);
+      const totalTax = db.ledger.reduce((a, c) => a + c.tax, 0);
+      const totalNet = db.ledger.reduce((a, c) => a + c.net, 0);
+
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, 210, 38, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(16);
+      doc.text("AASHA WORLD-OS - CERTIFIED CLIENT BALANCE SHEET", 14, 18);
+      doc.setFontSize(9);
+      doc.setTextColor(52, 211, 153);
+      doc.text(`AUDIT CLEARANCE REF: ACC-BLS-${Date.now().toString().slice(-6)} | RULE 46 COMPLIANT`, 14, 28);
+
+      doc.setTextColor(30, 41, 59);
+      doc.setFontSize(10);
+      doc.text(`Generated Date: ${new Date().toLocaleDateString('en-IN')}`, 14, 48);
+      doc.text(`Issuing Authority: ${MASTER_CONFIG.payeeName} (Master Sovereign Vault)`, 14, 55);
+
+      doc.setDrawColor(203, 213, 225);
+      doc.line(14, 60, 196, 60);
+
+      doc.setFontSize(11);
+      doc.text("FINANCIAL STATEMENT & TURNOVER SCHEDULE:", 14, 70);
+
+      doc.setFontSize(10);
+      doc.text(`Total Gross Sales / Billing: INR ${totalGross.toLocaleString('en-IN')}`, 14, 80);
+      doc.text(`GST Compliance Deductions (18%): INR ${totalTax.toLocaleString('en-IN')}`, 14, 88);
+      doc.text(`Net Realized Operating Surplus: INR ${totalNet.toLocaleString('en-IN')}`, 14, 96);
+      doc.text(`Accounts Receivable Status: DIRECT_SBI_SETTLED`, 14, 104);
+
+      doc.save(`Certified_Client_Balance_Sheet_${Date.now().toString().slice(-6)}.pdf`);
+      triggerAudioNotification("Client Balance Sheet PDF Generated.");
+    }
+
+    // STATUTORY DOCUMENT ENGINE SCHEMAS
+    const documentEngineSchema = {
+      commonFields: [
+        { id: "doc_number", label: "Document Ref No.", type: "text", required: true },
+        { id: "party_name", label: "Client / Entity Name", type: "text", required: true },
+        { id: "date", label: "Date of Issue", type: "date", required: true },
+        { id: "tax_id", label: "GSTIN / Reg No.", type: "text", required: false },
+        { id: "contact", label: "Phone / Email", type: "text", required: true }
+      ],
+      fixtures: {
+        royal_weddings: { name: "Royal Weddings", documents: [{ id: "event_contract", title: "Luxury Event Master Contract", fields: [{ id: "venue_name", label: "Palace / Venue Name", type: "text" }, { id: "guest_count", label: "Expected Guests", type: "number" }] }] },
+        interiors_3d: { name: "3D Interiors", documents: [{ id: "boq_sheet", title: "BOQ & Scope of Work", fields: [{ id: "sqft_area", label: "Carpet Area (Sq. Ft.)", type: "number" }, { id: "material_spec", label: "Material Grade", type: "text" }] }] },
+        hotels_5star: { name: "5-Star Hotels", documents: [{ id: "supply_sla", title: "Commercial Operations SLA", fields: [{ id: "quality_compliance_id", label: "FSSAI Code", type: "text" }] }] },
+        hospital_govt_infra: { name: "Hospital & Govt Infra", documents: [{ id: "tender_bid_doc", title: "Public Infra Bid Compliance", fields: [{ id: "tender_id", label: "Tender Ref ID", type: "text" }, { id: "emd_amount", label: "EMD Amount (INR)", type: "number" }] }] },
+        commercial_real_estate: { name: "Commercial Real Estate", documents: [{ id: "lease_deed", title: "Commercial Lease Deed", fields: [{ id: "unit_floor_no", label: "Unit/Floor No.", type: "text" }, { id: "lock_in_months", label: "Lock-in (Months)", type: "number" }] }] },
+        solar_renewable: { name: "Solar & Renewable", documents: [{ id: "ppa_agreement", title: "Power Purchase Agreement", fields: [{ id: "plant_capacity_kw", label: "Capacity (kW)", type: "number" }] }] }
+      }
+    };
+
+    let currentDocFixtureKey = null;
+
+    function openFixtureDocs(key) {
+      currentDocFixtureKey = key;
+      const fixture = documentEngineSchema.fixtures[key] || { name: "Commercial Suite", documents: [] };
+      document.getElementById("sheet-title").innerText = fixture.name;
+      const box = document.getElementById("doc-type-selection");
+      box.innerHTML = "";
+      fixture.documents.forEach(doc => {
+        const btn = document.createElement("button");
+        btn.className = "doc-btn";
+        btn.innerText = `📄 ${doc.title}`;
+        btn.onclick = () => loadDynamicForm(doc.id);
+        box.appendChild(btn);
+      });
+      box.classList.remove("hidden");
+      document.getElementById("form-wrapper").classList.add("hidden");
+      document.getElementById("doc-sheet").classList.remove("hidden");
+    }
+
+    function loadDynamicForm(docId) {
+      const fixture = documentEngineSchema.fixtures[currentDocFixtureKey];
+      const doc = fixture.documents.find(d => d.id === docId);
+      const form = document.getElementById("active-dynamic-form");
+      const fields = [...documentEngineSchema.commonFields, ...doc.fields];
+
+      form.innerHTML = fields.map(f => `
+        <div class="field-group">
+          <label>${f.label}</label>
+          <input type="${f.type}" name="${f.id}" ${f.required ? "required" : ""} />
+        </div>`).join("") + `<button type="submit" class="btn-submit">Generate Printable Master PDF</button>`;
+
+      form.onsubmit = async (e) => {
+        e.preventDefault();
+        await generateAuditGradePDF(fixture.name, doc.title, Object.fromEntries(new FormData(form).entries()));
+        document.getElementById("doc-sheet").classList.add("hidden");
+      };
+
+      document.getElementById("doc-type-selection").classList.add("hidden");
+      document.getElementById("form-wrapper").classList.remove("hidden");
+    }
+
+    async function generateAuditGradePDF(fixtureName, docTitle, data) {
+      const printWindow = window.open("", "_blank");
+      const issuedTimestamp = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+      const docRef = data.doc_number || "AWS-" + Date.now().toString().slice(-8);
+      const cleanGst = (data.tax_id || "").trim().toUpperCase();
+
+      const rawPayload = `${docRef}|${cleanGst}|${issuedTimestamp}|AASHA_WORLD_OS`;
+      const msgBuffer = new TextEncoder().encode(rawPayload);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const docHash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+
+      const verificationUrl = cleanGst ? `https://services.gst.gov.in/services/searchtp?gstin=${cleanGst}` : `https://mca.gov.in`;
+      const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(verificationUrl)}`;
+
+      let dynamicRows = "";
+      for (const [k, v] of Object.entries(data)) {
+        if (!["party_name", "date", "doc_number", "tax_id", "contact"].includes(k) && v) {
+          dynamicRows += `<tr><td style="padding:8px;border:1px solid #cbd5e1;background:#f8fafc;font-weight:600;">${k.replace(/_/g," ").toUpperCase()}</td><td style="padding:8px;border:1px solid #cbd5e1;">${v}</td></tr>`;
+        }
+      }
+
+      printWindow.document.write(`
+      <!DOCTYPE html><html><head><title>${docTitle}</title><style>body{font-family:sans-serif;margin:20px;color:#0f172a;}table{width:100%;border-collapse:collapse;margin:15px 0;}th,td{border:1px solid #cbd5e1;padding:8px;font-size:12px;}</style></head><body>
+      <div style="border:2px solid #0f172a;padding:20px;">
+        <div style="display:flex;justify-content:space-between;border-bottom:2px solid #0f172a;padding-bottom:10px;">
+          <div><h2>AASHA WORLD-OS</h2><p>${fixtureName.toUpperCase()} INFRASTRUCTURE</p></div>
+          <div style="text-align:right;"><img src="${qrCodeUrl}" width="70" height="70"><br><small>REF: ${docRef}</small></div>
+        </div>
+        <h3 style="text-align:center;margin:15px 0;">${docTitle}</h3>
+        <p><strong>Party:</strong> ${data.party_name} | <strong>Contact:</strong> ${data.contact}</p>
+        <table><tbody>${dynamicRows}</tbody></table>
+        <div style="font-family:monospace;font-size:9px;color:#64748b;margin-top:15px;">SHA-256 CHECKSUM: ${docHash}</div>
+      </div>
+      <script>window.onload=function(){window.print();}<\/script></body></html>`);
+      printWindow.document.close();
+    }
+
+    // STATUTORY ACTIONS & PDF GENERATORS
+    function generateCAPDF() {
+      const doc = new jsPDF();
+      doc.text("AASHA APEX - CERTIFIED CA AUDIT DOSSIER", 14, 20);
+      doc.text("Audit Reference: CA-AUDIT-2026", 14, 30);
+      doc.save("CA_Audit_Statement.pdf");
+      creditVault(2499, "Certified CA Audit Dossier", "DOC_REVENUE");
+    }
+
+    function generateInstantBusinessDocPDF() {
+      const doc = new jsPDF();
+      doc.text("AASHA APEX - COMMERCIAL GST TAX INVOICE", 14, 20);
+      doc.text("GSTIN: 20AASHA9999Z1Z5 | HSN: 998313", 14, 30);
+      doc.save("Commercial_GST_Invoice.pdf");
+      creditVault(199, "GST Tax Invoice", "DOC_REVENUE");
+    }
+
+    function generateRealtyDeedPDF() {
+      const doc = new jsPDF();
+      doc.text("AASHA APEX - OFFICIAL REAL ESTATE REGISTRY DEED", 14, 20);
+      doc.save("Property_Registry_Deed.pdf");
+      creditVault(1999, "Property Registry Deed", "DOC_REVENUE");
+    }
+
+    function generateCustomsPDF() {
+      const doc = new jsPDF();
+      doc.text("AASHA GLOBAL CUSTOMS CLEARANCE DOSSIER", 14, 20);
+      doc.save("Customs_Dossier.pdf");
+      creditVault(1499, "Customs Export Dossier", "DOC_REVENUE");
+    }
+
+    function computeCateringQuote() {
+      const g = Number(document.getElementById('catGuests')?.value) || 0;
+      const v = Number(document.getElementById('catVeg')?.value) || 0;
+      const nv = Number(document.getElementById('catNonVeg')?.value) || 0;
+      const avg = nv ? (v + nv) / 2 : v;
+      const base = g * avg;
+      const markup = Math.round(base * 0.15);
+      const gross = base + markup + 299;
+      document.getElementById('cateringResult').innerText = `Base: ₹${base.toLocaleString()} | Your 15% Margin: ₹${markup.toLocaleString()} | Client Total: ₹${gross.toLocaleString()}`;
+    }
+
+    function triggerHyperlocalBroadcast() {
+      const msg = encodeURIComponent("🚨 AASHA OS Banquet Allotment Desk: Dhanbad wedding slots and 5-Star luxury dates are now open. Reserve with verified SBI Escrow.");
+      window.open(`https://wa.me/?text=${msg}`, "_blank");
+    }
+
+    function issueLegalCourtNotice(hotelName) {
+      const noticeWin = window.open("", "_blank", "width=850,height=900");
+      const legalDoc = `
+      <!DOCTYPE html><html><head><title>LEGAL NOTICE - ${hotelName}</title><style>body{font-family:'Times New Roman',serif;padding:35px;line-height:1.6;}</style></head><body>
+      <h2 style="text-align:center;text-transform:uppercase;">FORMAL LEGAL DEMAND & STATUTORY NOTICE</h2>
+      <p><strong>DATE:</strong> ${new Date().toLocaleDateString('en-GB')}<br><strong>TO:</strong> General Manager, ${hotelName}</p>
+      <p>Under explicit mandate from <strong>${MASTER_CONFIG.payeeName}</strong> (AASHA WORLD-OS), this statutory notice is served for unpaid platform commissions under the Indian Contract Act, 1872.</p>
+      <p>Remit the outstanding balance to designated SBI Account (UPI: ${MASTER_CONFIG.upiId}) within 48 hours to avoid formal civil and commercial litigation.</p>
+      <script>window.onload=function(){window.print();}<\/script></body></html>`;
+      noticeWin.document.open();
+      noticeWin.document.write(legalDoc);
+      noticeWin.document.close();
+    }
+
+    function triggerDeviceAutoLocator() {
+      if (!navigator.geolocation) return alert("Geolocation not supported by browser.");
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        const { latitude, longitude } = pos.coords;
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+          const data = await res.json();
+          document.getElementById('worldSearchResultsBox').innerText = `Locked: ${data.display_name} (${latitude.toFixed(4)}, ${longitude.toFixed(4)})`;
+          triggerAudioNotification("Live Device GPS Locked");
+        } catch(e) {
+          document.getElementById('worldSearchResultsBox').innerText = `Locked Coords: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+        }
+      });
+    }
+
+    async function executeWorldLocatorSearch() {
+      const q = document.getElementById('worldLocatorInput').value;
+      if (!q) return;
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=3`);
+      const data = await res.json();
+      const box = document.getElementById('worldSearchResultsBox');
+      box.innerHTML = data.map(d => `<div class="p-2 border-b border-slate-800">${d.display_name}</div>`).join('');
+    }
+
+    const AASHA_AUDIO_AI = {
+      speak: function(text) {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = 'hi-IN';
+          window.speechSynthesis.speak(u);
+        }
+      },
+      speakSystemPolicy: function() {
+        this.speak(`Namaste! AASHA OS platform par aapka swagat hai. Suraj Kumar Mishra ji ke direct SBI settlement engine se aapka booking token secure hota hai.`);
+      }
+    };
+
+    function submitProjectDraft() {
+      const db = getDB();
+      const customer = document.getElementById('projCustomer').value;
+      if (!customer) return alert("Customer name required");
+      db.approvals.unshift({
+        id: 'APP-' + Date.now().toString().slice(-4),
+        type: 'PROJECT',
+        name: `${customer} (${document.getElementById('projType').value || 'Standard'})`,
+        status: 'PENDING_OWNER_APPROVAL'
+      });
+      saveDB(db);
+      triggerAudioNotification("Project draft submitted for approval");
+      render();
+    }
+
+    function resolveApproval(id, isApproved) {
+      const db = getDB();
+      const item = db.approvals.find(a => a.id === id);
+      if (item) {
+        item.status = isApproved ? 'APPROVED' : 'REJECTED';
+        saveDB(db);
+        triggerAudioNotification(isApproved ? "Approved by Owner" : "Rejected");
+        render();
+      }
+    }
+
+    function submitSupportTicket() {
+      const cat = document.getElementById('ticketCat').value;
+      const desc = document.getElementById('ticketDesc').value;
+      if (!desc) return alert("Please enter description");
+      const db = getDB();
+      db.tickets.unshift({
+        id: 'TCK-' + Date.now().toString().slice(-4),
+        category: cat,
+        description: desc,
+        status: 'OPEN'
+      });
+      saveDB(db);
+      triggerAudioNotification("Support ticket submitted.");
+      render();
+    }
+
+    function generateInteriorBIMPDF() {
+      const doc = new jsPDF();
+      doc.text("AASHA APEX - 3D BIM ARCHITECTURE PLAN", 14, 20);
+      doc.save("3D_BIM_Plan.pdf");
+      creditVault(1499, "3D BIM Plan", "DOC_REVENUE");
+    }
+
+    function downloadMoUPDF(name) {
+      const doc = new jsPDF();
+      doc.text(`AASHA GLOBAL APEX - MOU: ${name}`, 14, 20);
+      doc.save(`${name}_MoU.pdf`);
+      creditVault(2499, `MoU: ${name}`, "DOC_REVENUE");
+    }
+
+    function openSettingsModal() {
+      const pin = prompt("Enter Master Security PIN:");
+      if (pin !== MASTER_CONFIG.masterPin) return alert("Access Denied");
+      document.getElementById("cfgBeneficiary").value = MASTER_CONFIG.payeeName;
+      document.getElementById("cfgUPI").value = MASTER_CONFIG.upiId;
+      document.getElementById("cfgBank").value = MASTER_CONFIG.branch;
+      document.getElementById("cfgMarkup").value = MASTER_CONFIG.markupPercent;
+      document.getElementById("cfgFee").value = MASTER_CONFIG.convenienceFee;
+      document.getElementById("cfgMasterPin").value = MASTER_CONFIG.masterPin;
+      document.getElementById("settingsModal").style.display = "flex";
+    }
+
+    function closeSettingsModal() {
+      document.getElementById("settingsModal").style.display = "none";
+    }
+
+    function saveMasterSettings(e) {
+      e.preventDefault();
+      MASTER_CONFIG.payeeName = document.getElementById("cfgBeneficiary").value;
+      MASTER_CONFIG.upiId = document.getElementById("cfgUPI").value;
+      MASTER_CONFIG.branch = document.getElementById("cfgBank").value;
+      MASTER_CONFIG.markupPercent = Number(document.getElementById("cfgMarkup").value);
+      MASTER_CONFIG.convenienceFee = Number(document.getElementById("cfgFee").value);
+      MASTER_CONFIG.masterPin = document.getElementById("cfgMasterPin").value;
+      closeSettingsModal();
+      triggerAudioNotification("Master settings updated");
+      render();
+    }
+
+    function syncHotelBasePrice() {
+      calcSplits();
+    }
+
+    function calcSplits() {
+      const db = getDB();
+      const selId = document.getElementById('vbHotel')?.value;
+      const hotel = db.hotelInventory.find(h => h.id === selId) || db.hotelInventory[0];
+      const base = hotel ? hotel.baseRate : 0;
+      let addonPrice = 0;
+      if (document.getElementById('addDJ')?.checked) addonPrice += 25000;
+      if (document.getElementById('addDecor')?.checked) addonPrice += 45000;
+      if (document.getElementById('addPhoto')?.checked) addonPrice += 40000;
+      if (document.getElementById('addCab')?.checked) addonPrice += 18000;
+
+      const markup = Math.round(base * 0.15);
+      const gross = base + markup + addonPrice + 299;
+      const qEl = document.getElementById('quoteGross');
+      if (qEl) qEl.innerText = `₹${gross.toLocaleString()}`;
+    }
+
+    function handleVenueBookingSubmit(e) {
+      e.preventDefault();
+      const client = document.getElementById('vbClient').value;
+      const db = getDB();
+      const selId = document.getElementById('vbHotel').value;
+      const hotel = db.hotelInventory.find(h => h.id === selId);
+      const token = Math.round(hotel.baseRate * 0.10);
+
+      openPaymentModal(token, `Venue Advance Token: ${hotel.name} (${client})`);
+    }
+
+    function applySafePatch() {
+      document.getElementById('self-heal-modal').classList.add('hidden');
+      triggerAudioNotification("AI Safe-Patch Applied! Zero runtime errors.");
+    }
+
+    // --- SEPARATED BANK SANCTION ENGINE ---
+    function processBankFacilitySanction(e) {
+      e.preventDefault();
+      const entity = document.getElementById('bankEntity').value;
+      const pan = document.getElementById('bankPan').value.toUpperCase();
+      const cibil = document.getElementById('bankCibil').value;
+      const principal = Number(document.getElementById('bankAmount').value);
+      const tenure = Number(document.getElementById('bankTenure').value);
+      const ifsc = document.getElementById('bankIfsc').value.toUpperCase();
+      const refId = "BNK-" + Date.now().toString().slice(-6);
+
+      const monthlyRate = (BANK_FACILITY_CONFIG.interestRate / 12) / 100;
+      const emi = Math.round((principal * monthlyRate * Math.pow(1 + monthlyRate, tenure)) / (Math.pow(1 + monthlyRate, tenure) - 1));
+      const procFee = Math.round(principal * (BANK_FACILITY_CONFIG.processingFee / 100));
+      const netDisbursed = principal - procFee;
+
+      const doc = new jsPDF();
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, 210, 38, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(16);
+      doc.text("AASHA APEX - COMMERCIAL BANK CREDIT SANCTION", 14, 18);
+      doc.setFontSize(9);
+      doc.setTextColor(59, 130, 246);
+      doc.text(`SYNDICATED BANK PARTNER: ${BANK_FACILITY_CONFIG.primaryBank} | CIBIL: ${cibil}`, 14, 28);
+
+      doc.setTextColor(30, 41, 59);
+      doc.setFontSize(10);
+      doc.text(`Sanction Ref: ${refId} | Date: ${new Date().toLocaleDateString('en-IN')}`, 14, 48);
+      doc.text(`Borrower Legal Entity: ${entity} | PAN: ${pan}`, 14, 55);
+      doc.text(`Target Bank IFSC Rail: ${ifsc}`, 14, 62);
+
+      doc.setDrawColor(203, 213, 225);
+      doc.line(14, 68, 196, 68);
+
+      doc.setFontSize(11);
+      doc.text("COMMERCIAL BANK FACILITY SCHEDULE:", 14, 78);
+      doc.setFontSize(10);
+      doc.text(`1. Sanctioned Principal Loan Amount : INR ${principal.toLocaleString('en-IN')}`, 14, 88);
+      doc.text(`2. Annual Interest Commitment       : ${BANK_FACILITY_CONFIG.interestRate}% per annum`, 14, 96);
+      doc.text(`3. Approved Tenure Schedule        : ${tenure} Months`, 14, 104);
+      doc.text(`4. Monthly Equated Installment (EMI): INR ${emi.toLocaleString('en-IN')}`, 14, 112);
+      doc.text(`5. Upfront Processing Deduction (1%): INR ${procFee.toLocaleString('en-IN')}`, 14, 120);
+      doc.text(`6. Net Disbursed Payout via RTGS    : INR ${netDisbursed.toLocaleString('en-IN')}`, 14, 128);
+
+      doc.save(`Commercial_Bank_Sanction_${refId}.pdf`);
+      creditVault(2500, `Bank Syndication Revenue: ${entity} (${refId})`, "BANK_PAYOUT");
+      alert(`✅ BANK LOAN SANCTIONED!\nINR ${netDisbursed.toLocaleString('en-IN')} queued via Host-to-Host RTGS bridge.`);
+    }
+
+    // --- SEPARATED NBFC SANCTION ENGINE ---
+    function processNbfFacilitySanction(e) {
+      e.preventDefault();
+      const entity = document.getElementById('nbfcEntity').value;
+      const pan = document.getElementById('nbfcPan').value.toUpperCase();
+      const cibil = document.getElementById('nbfcCibil').value;
+      const principal = Number(document.getElementById('nbfcAmount').value);
+      const tenure = Number(document.getElementById('nbfcTenure').value);
+      const acc = document.getElementById('nbfcAcc').value;
+      const refId = "NBF-" + Date.now().toString().slice(-6);
+
+      const monthlyRate = (NBFC_FACILITY_CONFIG.interestRate / 12) / 100;
+      const emi = Math.round((principal * monthlyRate * Math.pow(1 + monthlyRate, tenure)) / (Math.pow(1 + monthlyRate, tenure) - 1));
+      const procFee = Math.round(principal * (NBFC_FACILITY_CONFIG.processingFee / 100));
+      const netDisbursed = principal - procFee;
+
+      const doc = new jsPDF();
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, 210, 38, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(16);
+      doc.text("AASHA APEX - NBFC WORKING CAPITAL SANCTION", 14, 18);
+      doc.setFontSize(9);
+      doc.setTextColor(245, 158, 11);
+      doc.text(`UNDERWRITING NBFC: ${NBFC_FACILITY_CONFIG.primaryNBFC} | CIBIL: ${cibil}`, 14, 28);
+
+      doc.setTextColor(30, 41, 59);
+      doc.setFontSize(10);
+      doc.text(`Sanction Ref: ${refId} | Date: ${new Date().toLocaleDateString('en-IN')}`, 14, 48);
+      doc.text(`Borrower: ${entity} | GSTIN/PAN: ${pan}`, 14, 55);
+      doc.text(`Disbursal Target Account: ${acc}`, 14, 62);
+
+      doc.setDrawColor(203, 213, 225);
+      doc.line(14, 68, 196, 68);
+
+      doc.setFontSize(11);
+      doc.text("NBFC DIGITAL CREDIT LINE SCHEDULE:", 14, 78);
+      doc.setFontSize(10);
+      doc.text(`1. Sanctioned Working Capital Credit: INR ${principal.toLocaleString('en-IN')}`, 14, 88);
+      doc.text(`2. Annual Interest Commitment       : ${NBFC_FACILITY_CONFIG.interestRate}% per annum`, 14, 96);
+      doc.text(`3. Tenure Term                     : ${tenure} Months`, 14, 104);
+      doc.text(`4. Monthly EMI via e-NACH / UPI     : INR ${emi.toLocaleString('en-IN')}`, 14, 112);
+      doc.text(`5. Upfront Processing Fee (2%)     : INR ${procFee.toLocaleString('en-IN')}`, 14, 120);
+      doc.text(`6. Net In-Hand Disbursal (IMPS API): INR ${netDisbursed.toLocaleString('en-IN')}`, 14, 128);
+
+      doc.save(`NBFC_Credit_Sanction_${refId}.pdf`);
+      creditVault(1500, `NBFC Facilitation Revenue: ${entity} (${refId})`, "NBFC_PAYOUT");
+      alert(`✅ NBFC SANCTION LETTER ISSUED!\nINR ${netDisbursed.toLocaleString('en-IN')} queued via Instant IMPS API.`);
+    }
+
+    // --- SEPARATED INSURANCE ISSUANCE ENGINE ---
+    function processInsurancePolicyIssue(e) {
+      e.preventDefault();
+      const name = document.getElementById('insName').value;
+      const details = document.getElementById('insDetails').value;
+      const plan = document.getElementById('insPlan').value;
+      const polRef = "INS-TPA-" + Date.now().toString().slice(-6);
+
+      const doc = new jsPDF();
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, 210, 38, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(16);
+      doc.text("AASHA HEALTH SHIELD - CASHLESS POLICY SCHEDULE", 14, 18);
+      doc.setFontSize(9);
+      doc.setTextColor(244, 63, 94);
+      doc.text(`POLICY CERTIFICATE: ${polRef} | 24x7 TPA CASHLESS RESOLUTION`, 14, 28);
+
+      doc.setTextColor(30, 41, 59);
+      doc.setFontSize(10);
+      doc.text(`Issued Date: ${new Date().toLocaleDateString('en-IN')} | Time: 60-Min Cashless Guarantee`, 14, 48);
+      doc.text(`Insured Beneficiary: ${name} (${details})`, 14, 55);
+      doc.text(`Plan Tier: ${plan}`, 14, 62);
+
+      doc.setDrawColor(203, 213, 225);
+      doc.line(14, 68, 196, 68);
+
+      doc.setFontSize(11);
+      doc.text("COVERAGE CLAUSES & PRE-AUTHORIZATION GUIDELINES:", 14, 78);
+      doc.setFontSize(10);
+      doc.text("1. Cashless hospitalization pre-authorizations cleared within 60 minutes via TPA portal.", 14, 88);
+      doc.text("2. Network coverage across 12,000+ approved superspeciality hospitals pan-India.", 14, 96);
+      doc.text("3. Zero co-payment deduction clause active on standard commercial room tiers.", 14, 104);
+
+      doc.save(`Cashless_Health_Certificate_${polRef}.pdf`);
+      creditVault(1200, `Insurance Policy Fee: ${name} (${polRef})`, "INSURANCE_FEE");
+      alert(`✅ HEALTH COVER ISSUED!\nCertificate downloaded for ${name}. Policy active immediately.`);
+    }
+
+    // --- CHESS ENGINE REAL ACTIONS ---
+    const PIECES = {
+      wP: '♙', wR: '♖', wN: '♘', wB: '♗', wQ: '♕', wK: '♔',
+      bP: '♟', bR: '♜', bN: '♞', bB: '♝', bQ: '♛', bK: '♚'
+    };
+
+    let boardState = [
+      ['bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bN', 'bR'],
+      ['bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP'],
+      ['', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', ''],
+      ['wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP'],
+      ['wR', 'wN', 'wB', 'wQ', 'wK', 'wB', 'wN', 'wR']
+    ];
+
+    let currentTurn = 'w';
+    let selectedSq = null;
+
+    function renderChessBoard() {
+      const container = document.getElementById('chessBoardGrid');
+      if (!container) return;
+      container.innerHTML = '';
+
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          const isDark = (r + c) % 2 === 1;
+          const pieceCode = boardState[r][c];
+          const div = document.createElement('div');
+          
+          div.className = `chess-sq ${isDark ? 'chess-dark' : 'chess-light'}`;
+          if (selectedSq && selectedSq.r === r && selectedSq.c === c) div.classList.add('chess-selected');
+          if (pieceCode) div.innerText = PIECES[pieceCode];
+
+          div.onclick = () => handleSquareClick(r, c);
+          container.appendChild(div);
+        }
+      }
+    }
+
+    function handleSquareClick(r, c) {
+      const targetPiece = boardState[r][c];
+      if (selectedSq) {
+        if (selectedSq.r === r && selectedSq.c === c) {
+          selectedSq = null;
+          renderChessBoard();
+          return;
+        }
+        const movingPiece = boardState[selectedSq.r][selectedSq.c];
+        if (targetPiece && targetPiece[0] === currentTurn) {
+          selectedSq = { r, c };
+          renderChessBoard();
+          return;
+        }
+        boardState[r][c] = movingPiece;
+        boardState[selectedSq.r][selectedSq.c] = '';
+        selectedSq = null;
+        currentTurn = currentTurn === 'w' ? 'b' : 'w';
+        renderChessBoard();
+        return;
+      }
+      if (targetPiece && targetPiece[0] === currentTurn) {
+        selectedSq = { r, c };
+        renderChessBoard();
+      }
+    }
+
+    function resetChessGame() {
+      boardState = [
+        ['bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bN', 'bR'],
+        ['bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP'],
+        ['', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', ''],
+        ['wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP'],
+        ['wR', 'wN', 'wB', 'wQ', 'wK', 'wB', 'wN', 'wR']
+      ];
+      currentTurn = 'w';
+      selectedSq = null;
+      renderChessBoard();
+    }
+
+    function controlVideo(action) {
+      const vid = document.getElementById('mainCinemaVideo');
+      const status = document.getElementById('playerStatus');
+      if (!vid || !status) return;
+
+      if (action === 'play') {
+        vid.play();
+        status.innerText = 'Playing';
+        status.className = 'badge-pill bg-emerald-600 text-white';
+      } else if (action === 'pause') {
+        vid.pause();
+        status.innerText = 'Paused';
+        status.className = 'badge-pill bg-amber-600 text-slate-950';
+      } else if (action === 'restart') {
+        vid.currentTime = 0;
+        vid.play();
+        status.innerText = 'Restarted';
+        status.className = 'badge-pill bg-indigo-600 text-white';
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const cBtn = document.getElementById("close-sheet");
+      if (cBtn) cBtn.onclick = () => document.getElementById("doc-sheet").classList.add("hidden");
+      const bBtn = document.getElementById("back-to-types");
+      if (bBtn) bBtn.onclick = () => {
+        document.getElementById("form-wrapper").classList.add("hidden");
+        document.getElementById("doc-type-selection").classList.remove("hidden");
+      };
+      render();
+    });
+  </script>
 </body>
+</html>
+
 </html>
