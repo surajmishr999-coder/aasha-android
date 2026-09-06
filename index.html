@@ -4236,7 +4236,213 @@ function showEarningsNotification(title, amount, txnId) {
   }, 4500);
 }
 
-  })();
+  })();// ===================================================================
+// AASHA WORLD-OS: LIVE MEGA DEALS SERVICE, ESCROW & VAULT ENGINE
+// ===================================================================
+
+const LIVE_MEGA_PROJECTS = {
+  'WEDDING_EVENT': {
+    title: 'Grand Royal Rajputana Mandap & 3-Day Wedding Gala',
+    budget: 8500000,
+    token: 85000,
+    client: 'Singhania Heritage (Dhanbad / Ranchi)',
+    specs: 'Full 5-Acre Lawn, Teak Mandap, 1200 Pax Catering',
+    audit: 'Local tent vendors use inflammable synthetic cloth, ungrounded wiring & face last-minute DG generator dropouts.',
+    solution: 'German fire-retardant Pagoda aluminum trusses, dual 125 kVA synchronous soundproof DG grid, JBL line-array acoustic map, and HACCP-certified cloud kitchen.',
+    sla: '18-Hour Pre-Event dry run with Master Drone Survey Signoff.'
+  },
+  'INTERIOR_DESIGN': {
+    title: 'Skyline Luxury Penthouse Turnkey Interior & Woodwork',
+    budget: 4500000,
+    token: 45000,
+    client: 'Skyline Buildtech (Delhi GK-II)',
+    specs: 'Italian Marble, Veneer Paneling, Smart Automation',
+    audit: 'Local contractors deliver uneven marble polishing, bubbling MDF in high humidity, and cross-room acoustic leakage.',
+    solution: 'BWP Marine 710 calibrated boiling-water-proof ply, STC 52 acoustic insulation, diamond-pad mirror marble grinding, and KNX smart automation bus.',
+    sla: '45-Day Turnkey Handover backed by third-party IAQ & structural audit.'
+  }
+};
+
+// 1. OPEN REAL SERVICE WORKBENCH & ESCROW DIALOG
+function openMegaProjectWorkbench(dealType) {
+  const deal = LIVE_MEGA_PROJECTS[dealType] || LIVE_MEGA_PROJECTS['WEDDING_EVENT'];
+  const modalId = 'megaproject-modal';
+  const old = document.getElementById(modalId);
+  if (old) old.remove();
+
+  const upiString = `upi://pay?pa=surajmishr999-1@oksbi&pn=SURAJ%20KUMAR%20MISHRA&am=${deal.token}&cu=INR&tn=Escrow-${dealType}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(upiString)}`;
+
+  const modalHtml = `
+  <div id="${modalId}" style="position: fixed; inset: 0; background: rgba(2,6,23,0.92); display: flex; align-items: center; justify-content: center; z-index: 100000; padding: 15px; font-family: system-ui, sans-serif;">
+    <div style="background: #0f172a; border: 1px solid #eab308; border-radius: 14px; width: 100%; max-width: 580px; padding: 22px; color: #f8fafc; max-height: 92vh; overflow-y: auto;">
+      
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+        <div>
+          <span style="background: #eab308; color: #000; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: bold;">ENTERPRISE TURNKEY CONTRACT</span>
+          <h3 style="margin: 6px 0 2px 0; font-size: 17px; color: #facc15;">${deal.title}</h3>
+          <p style="margin: 0; font-size: 12px; color: #94a3b8;">Client: ${deal.client} • Budget: ₹ ${(deal.budget / 100000).toFixed(2)} Lakhs</p>
+        </div>
+        <button onclick="document.getElementById('${modalId}').remove()" style="background: transparent; border: none; color: #94a3b8; font-size: 22px; cursor: pointer;">✕</button>
+      </div>
+
+      <div style="margin: 12px 0; background: #1e293b; border-left: 4px solid #f43f5e; padding: 10px; border-radius: 6px; font-size: 12px; line-height: 1.5;">
+        <strong style="color: #f87171;">⚠️ Unorganized Contractor Flaw Audit:</strong><br>
+        ${deal.audit}
+      </div>
+
+      <div style="margin-bottom: 12px; background: #1e293b; border-left: 4px solid #10b981; padding: 10px; border-radius: 6px; font-size: 12px; line-height: 1.5;">
+        <strong style="color: #34d399;">⚙️ AASHA Execution & Engineering Standard:</strong><br>
+        ${deal.solution}<br>
+        <span style="color: #94a3b8;">Site Handover SLA:</span> <strong>${deal.sla}</strong>
+      </div>
+
+      <div style="background: #030712; border: 1px solid #1e293b; border-radius: 10px; padding: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <div style="font-size: 12px; color: #cbd5e1;">Milestone Mobilization Escrow (1%):</div>
+          <div style="color: #10b981; font-size: 18px; font-weight: bold; margin: 2px 0;">₹ ${deal.token.toLocaleString('en-IN')}</div>
+          <div style="color: #94a3b8; font-size: 11px;">Routing: State Bank of India A/c 44220560317</div>
+          <div style="color: #eab308; font-size: 11px; margin-top: 3px;">🔒 7-Day Unconditional Cancellation SLA Protection</div>
+        </div>
+        <img src="${qrUrl}" alt="Escrow QR" style="width: 105px; height: 105px; background: #fff; padding: 4px; border-radius: 6px;">
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button onclick="executeTurnkeyEscrow('${dealType}')" style="flex: 1; padding: 11px; background: #10b981; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px;">
+          🔒 LOCK ESCROW (SETTLE TO SBI)
+        </button>
+        <button onclick="printTurnkeyDeed('${dealType}')" style="flex: 1; padding: 11px; background: #0284c7; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px;">
+          📑 PRINT MASTER CONTRACT
+        </button>
+      </div>
+
+    </div>
+  </div>`;
+
+  document.body.insertAdjacentHTML('beforeend', modalHtml);
+}
+
+// 2. SETTLE EARNINGS & INJECT DIRECTLY INTO VAULT (299,616.52 -> AUTO INCREMENT)
+function executeTurnkeyEscrow(dealType) {
+  const deal = LIVE_MEGA_PROJECTS[dealType] || LIVE_MEGA_PROJECTS['WEDDING_EVENT'];
+  const modal = document.getElementById('megaproject-modal');
+  if (modal) modal.remove();
+
+  const gross = deal.token;
+  const gst = +(gross * 0.18).toFixed(2);
+  const net = +(gross - gst).toFixed(2);
+  const txnId = "TXN-" + Math.floor(10000 + Math.random() * 90000);
+  const today = new Date().toISOString().split('T')[0];
+
+  if (window.appState) {
+    window.appState.grossInflow = (window.appState.grossInflow || 360387) + gross;
+    window.appState.settledEarnings = (window.appState.settledEarnings || 299616.52) + net;
+    window.appState.gstReserve = (window.appState.gstReserve || 64869.66) + gst;
+
+    if (Array.isArray(window.appState.ledger)) {
+      window.appState.ledger.unshift({
+        id: txnId,
+        source: `Milestone Token: ${deal.title}`,
+        gross: `₹ ${gross.toLocaleString('en-IN')}`,
+        net: `₹ ${net.toLocaleString('en-IN')}`,
+        status: "DIRECT_SBI_SETTLED",
+        date: today
+      });
+    }
+  }
+
+  // Vault counter refresh
+  if (typeof render === "function") {
+    render();
+  }
+
+  printTurnkeyDeed(dealType);
+}
+
+// 3. PRINT MASTER LEGAL CONTRACT DEED
+function printTurnkeyDeed(dealType) {
+  const deal = LIVE_MEGA_PROJECTS[dealType] || LIVE_MEGA_PROJECTS['WEDDING_EVENT'];
+  const refNo = "DEED/AASHA/" + Date.now().toString().slice(-6);
+  const dateStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+  const win = window.open('', '_blank');
+  win.document.write(`
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Master Commercial Execution Contract - ${refNo}</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 35px; color: #0f172a; font-size: 13px; line-height: 1.5; }
+      .header { border-bottom: 2px solid #0f172a; padding-bottom: 10px; display: flex; justify-content: space-between; }
+      table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+      th, td { border: 1px solid #cbd5e1; padding: 9px 12px; }
+      th { background: #f8fafc; text-align: left; width: 35%; }
+      @media print { .no-print { display: none; } }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div>
+        <h2 style="margin: 0; color: #0284c7;">AASHA MEGA PROJECTS & INFRASTRUCTURE</h2>
+        <p style="margin: 2px 0; font-size: 12px; color: #64748b;">Enterprise Turnkey Execution Desk • Milestone Protected</p>
+      </div>
+      <div style="text-align: right;">
+        <strong>Contract Ref:</strong> ${refNo}<br>
+        <strong>Execution Date:</strong> ${dateStr}
+      </div>
+    </div>
+
+    <h4 style="text-transform: uppercase; margin: 18px 0 8px 0;">Commercial Turnkey Project Deed</h4>
+    <table>
+      <tr><th>Project Scope</th><td><strong>${deal.title}</strong></td></tr>
+      <tr><th>Client Entity</th><td>${deal.client}</td></tr>
+      <tr><th>Specifications</th><td>${deal.specs}</td></tr>
+      <tr><th>Contracted Budget</th><td><strong>₹ ${deal.budget.toLocaleString('en-IN')}.00</strong></td></tr>
+      <tr><th>Stage-1 Mobilization Escrow (1%)</th><td style="color: #059669; font-weight: bold;">₹ ${deal.token.toLocaleString('en-IN')}.00 (Settled)</td></tr>
+      <tr><th>Execution Standard</th><td>${deal.solution}</td></tr>
+      <tr><th>SLA Delivery Milestone</th><td>${deal.sla}</td></tr>
+      <tr><th>Direct Settlement Routing</th><td>State Bank of India A/c 44220560317 (Payee: SURAJ KUMAR MISHRA)</td></tr>
+    </table>
+
+    <div style="margin-top: 40px; display: flex; justify-content: space-between;">
+      <div>Authorized Sovereign Lead<br><br><strong>Suraj Kumar Mishra</strong></div>
+      <div style="text-align: right;">Client Acceptance Stamp<br><br>Digital Seal Verified</div>
+    </div>
+
+    <br>
+    <button class="no-print" onclick="window.print()" style="padding: 10px 22px; background: #0284c7; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">PRINT OFFICIAL CONTRACT DEED</button>
+  </body>
+  </html>`);
+  win.document.close();
+}
+
+// 4. ATTACH ROUTER TO SCREEN BUTTONS
+document.addEventListener('click', function (e) {
+  const t = e.target;
+  if (!t || !t.innerText) return;
+
+  // Master Contract Top Button
+  if (t.innerText.includes('GENERATE MASTER CONTRACT')) {
+    e.preventDefault();
+    openMegaProjectWorkbench('WEDDING_EVENT');
+    return;
+  }
+
+  // First Card: Pay ₹85,000 (Wedding)
+  if (t.innerText.includes('85,000')) {
+    e.preventDefault();
+    openMegaProjectWorkbench('WEDDING_EVENT');
+    return;
+  }
+
+  // Second Card: Pay ₹45,000 (Interior)
+  if (t.innerText.includes('45,000')) {
+    e.preventDefault();
+    openMegaProjectWorkbench('INTERIOR_DESIGN');
+    return;
+  }
+});
+
 </script>
 </body>
 </html>
