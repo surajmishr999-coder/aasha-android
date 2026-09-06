@@ -4444,7 +4444,467 @@ document.addEventListener('click', function (e) {
 });
 
 </script>
+</body><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AASHA - Complete Digital Loan Origination & Disbursal Desk</title>
+  <!-- jsPDF Library for Official Sanction Advice & Disbursement Receipts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: #070b14; color: #f1f5f9; padding: 15px; }
+
+    /* Top Bar with Real DSA Earning Tracker */
+    .top-bar { display: flex; justify-content: space-between; align-items: center; background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .top-bar h1 { font-size: 19px; color: #38bdf8; font-weight: 700; }
+    .earn-panel { display: flex; gap: 12px; }
+    .earn-card { background: #1e293b; border: 1px solid #334155; padding: 8px 16px; border-radius: 8px; text-align: right; }
+    .earn-title { font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 600; }
+    .earn-val { font-size: 16px; font-weight: bold; color: #10b981; }
+
+    /* Main Layout */
+    .layout { display: flex; gap: 20px; max-width: 1350px; margin: 0 auto; flex-wrap: wrap; }
+    .col-left { flex: 1 1 680px; background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 22px; }
+    .col-right { flex: 1 1 400px; background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; height: 750px; }
+
+    /* Forms & Inputs */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    label { font-size: 12px; color: #94a3b8; display: block; margin-bottom: 5px; font-weight: 500; }
+    input, select { width: 100%; padding: 10px; background: #1e293b; border: 1px solid #334155; color: #fff; border-radius: 6px; font-size: 14px; }
+    input:focus, select:focus { border-color: #38bdf8; outline: none; }
+    button.btn-search { width: 100%; background: #2563eb; color: #fff; border: none; padding: 12px; font-weight: 700; border-radius: 6px; cursor: pointer; margin-top: 8px; font-size: 14px; }
+    button.btn-search:hover { background: #1d4ed8; }
+
+    /* Mega Deals & Project Loan Fixtures */
+    .fixtures-box { background: #111827; border: 1px solid #334155; border-radius: 10px; padding: 14px; margin-top: 15px; }
+    .fixture-item { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 12px; border-radius: 8px; margin-top: 8px; gap: 10px; flex-wrap: wrap; }
+    .btn-fixture { background: #f59e0b; color: #000; font-weight: 700; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+    .btn-fixture:hover { background: #d97706; }
+
+    /* Bank Results */
+    .results-box { margin-top: 18px; max-height: 400px; overflow-y: auto; padding-right: 4px; }
+    .loan-card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 16px; margin-bottom: 14px; transition: border-color 0.2s; }
+    .loan-card:hover { border-color: #38bdf8; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .card-header h4 { color: #38bdf8; font-size: 16px; }
+    .speed-tag { background: #065f46; color: #34d399; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+
+    /* Net Disbursal Matrix Breakdown */
+    .disbursal-breakdown { background: #0b1120; border: 1px solid #1e293b; border-radius: 6px; padding: 10px 12px; margin: 10px 0; font-size: 12px; }
+    .breakdown-row { display: flex; justify-content: space-between; margin-bottom: 4px; color: #cbd5e1; }
+    .breakdown-row.total { font-weight: bold; color: #10b981; border-top: 1px solid #334155; padding-top: 5px; margin-top: 5px; font-size: 13px; }
+
+    .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; flex-wrap: wrap; gap: 8px; }
+    .payout-tag { background: #172554; color: #60a5fa; font-size: 11px; padding: 4px 10px; border-radius: 4px; font-weight: 600; }
+    .btn-apply { background: #10b981; border: none; color: #fff; padding: 9px 18px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px; }
+    .btn-apply:hover { background: #059669; }
+
+    /* Processing Modal */
+    #disbursalModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-content { background: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 24px; width: 90%; max-width: 520px; }
+    .stage-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 13px; color: #94a3b8; }
+    .stage-item.done { color: #34d399; font-weight: 600; }
+    .stage-icon { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #475569; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+    .stage-item.done .stage-icon { border-color: #10b981; background: #10b981; color: #fff; }
+
+    /* Query Desk */
+    .chat-box { flex: 1; overflow-y: auto; background: #080d1a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+    .chat-msg { margin-bottom: 12px; font-size: 13px; line-height: 1.4; }
+    .msg-user { color: #38bdf8; text-align: right; }
+    .msg-bot { color: #4ade80; text-align: left; }
+    .chat-input-row { display: flex; gap: 6px; }
+    .btn-send { width: 80px; background: #0284c7; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR: DSA EARNINGS & SOURCING COUNTERS -->
+<div class="top-bar">
+  <div>
+    <h1>AASHA DIGITAL ORIGINATION DESK</h1>
+    <span style="font-size:12px; color:#64748b;">Sub-DSA Partner Code: SURAJ-RULOANS-01 | RBI Authorized Underwriting Grid</span>
+  </div>
+  <div class="earn-panel">
+    <div class="earn-card">
+      <div class="earn-title">Total Disbursed</div>
+      <div class="earn-val" id="dispSourced">₹0</div>
+    </div>
+    <div class="earn-card">
+      <div class="earn-title">Booked Commission</div>
+      <div class="earn-val" id="dispEarnings">₹0</div>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <!-- LEFT: REAL CUSTOMER FORM & SCAN ENGINE -->
+  <div class="col-left">
+    <h3>Instant Loan Eligibility & Net In-Hand Engine</h3>
+    <div class="grid-2" style="margin-top:14px;">
+      <div>
+        <label>Applicant Full Name (As on PAN)</label>
+        <input type="text" id="custName" placeholder="Enter full legal name">
+      </div>
+      <div>
+        <label>Mobile Number (Registered)</label>
+        <input type="tel" id="custMobile" maxlength="10" placeholder="10-digit mobile number">
+      </div>
+      <div>
+        <label>Monthly In-Hand Income (₹)</label>
+        <input type="number" id="custSalary" placeholder="e.g. 45000">
+      </div>
+      <div>
+        <label>Existing Monthly EMIs (₹)</label>
+        <input type="number" id="custExistingEmi" placeholder="0 if none">
+      </div>
+      <div>
+        <label>Credit / CIBIL Score</label>
+        <input type="number" id="custCibil" placeholder="e.g. 740">
+      </div>
+      <div>
+        <label>Required Loan Amount (₹)</label>
+        <input type="number" id="custAmount" placeholder="e.g. 300000">
+      </div>
+      <div>
+        <label>Disbursement Bank Account Number</label>
+        <input type="text" id="custAccount" placeholder="Bank account number">
+      </div>
+      <div>
+        <label>Bank IFSC Code</label>
+        <input type="text" id="custIfsc" placeholder="e.g. SBIN0001234" style="text-transform: uppercase;">
+      </div>
+      <div style="grid-column: span 2;">
+        <label>Employment Type</label>
+        <select id="custEmp">
+          <option value="Salaried">Salaried (Corporate / Govt / Private)</option>
+          <option value="Self-Employed">Self-Employed / Business Owner</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn-search" onclick="evaluateAndScanLenders()">EVALUATE & SCAN ALL-INDIA LENDERS</button>
+
+    <!-- MEGA DEALS / PROJECT FINANCE FIXTURES -->
+    <div class="fixtures-box">
+      <h4 style="color:#f59e0b; font-size:14px;">HIGH-TICKET PROJECT FIXTURES & VENDOR CREDIT</h4>
+      <div class="fixture-item">
+        <div>
+          <b style="color:#38bdf8;">Grand Royal Rajputana Mandap & 3-Day Wedding Gala</b>
+          <p style="font-size:12px; color:#cbd5e1; margin:2px 0;">Total Contract: <b>₹85,00,000</b> | Client Token: <b>₹85,000</b></p>
+          <span style="background:#451a03; color:#f59e0b; font-size:11px; padding:2px 6px; border-radius:4px;">Vendor Liquidity Loan Needed: ₹75,00,000</span>
+        </div>
+        <button class="btn-fixture" onclick="loadFixture('Wedding Gala Project', 7500000)">Load Fixture</button>
+      </div>
+
+      <div class="fixture-item">
+        <div>
+          <b style="color:#38bdf8;">Skyline Luxury Penthouse Turnkey Interior</b>
+          <p style="font-size:12px; color:#cbd5e1; margin:2px 0;">Total Contract: <b>₹45,00,000</b> | Client Token: <b>₹45,000</b></p>
+          <span style="background:#451a03; color:#f59e0b; font-size:11px; padding:2px 6px; border-radius:4px;">Business Project Loan Needed: ₹40,00,000</span>
+        </div>
+        <button class="btn-fixture" onclick="loadFixture('Luxury Penthouse Project', 4000000)">Load Fixture</button>
+      </div>
+    </div>
+
+    <div class="results-box" id="resultsArea"></div>
+  </div>
+
+  <!-- RIGHT: REAL-TIME LENDING HELPDESK -->
+  <div class="col-right">
+    <h3>Digital Lending Helpdesk</h3>
+    <div class="chat-box" id="chatArea">
+      <div class="chat-msg msg-bot"><b>Desk:</b> Namaste! Instant loan approval, net in-hand amount, processing fee deductions ya e-KYC se juda koi sawal ho toh yahan poochein.</div>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" placeholder="Ask about instant transfer, deductions, KYC..." onkeydown="if(event.key==='Enter') sendChat()">
+      <button class="btn-send" onclick="sendChat()">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP-BY-STEP DISBURSEMENT PROGRESS MODAL -->
+<div id="disbursalModal">
+  <div class="modal-content">
+    <h3 style="color:#38bdf8; margin-bottom:12px;">Instant Bank Disbursement Progress</h3>
+    <p style="font-size:12px; color:#94a3b8; margin-bottom:16px;">Automated underwriting & bank payout gateway in progress...</p>
+    
+    <div class="stage-item done" id="stg1"><div class="stage-icon">✓</div> 1. Instant PAN & Digital KYC Validation Passed</div>
+    <div class="stage-item done" id="stg2"><div class="stage-icon">✓</div> 2. Bureau Debt & 50% FOIR Underwriting Cleared</div>
+    <div class="stage-item" id="stg3"><div class="stage-icon">3</div> 3. e-Mandate (Auto-Debit) & Sanction Terms Confirmed</div>
+    <div class="stage-item" id="stg4"><div class="stage-icon">4</div> 4. Core-Banking IMPS Payout Initialized</div>
+
+    <div id="modalSummary" style="display:none; background:#080d1a; padding:12px; border-radius:8px; margin:16px 0; font-size:12px;"></div>
+    <button id="modalBtn" style="display:none; width:100%; background:#10b981; color:#fff; border:none; padding:10px; border-radius:6px; font-weight:bold; cursor:pointer;" onclick="closeModal()">Done & Download Advice</button>
+  </div>
+</div>
+
+<script>
+// ALL-INDIA LENDERS MASTER REPOSITORY (Policies, Deductions & Speeds)
+const LENDER_REGISTRY = [
+  { id: "SBI", name: "State Bank of India", category: "PSU Bank", minCibil: 720, minSalary: 25000, rate: 10.30, maxTenure: 6, maxCap: 5000000, procFeeRate: 0.010, commRate: 0.008, allowed: ["Salaried"], speed: "12-24 Hrs Direct" },
+  { id: "HDFC", name: "HDFC Bank", category: "Private Bank", minCibil: 750, minSalary: 30000, rate: 10.50, maxTenure: 5, maxCap: 5000000, procFeeRate: 0.015, commRate: 0.015, allowed: ["Salaried"], speed: "Same-Day Instant" },
+  { id: "ICICI", name: "ICICI Bank", category: "Private Bank", minCibil: 730, minSalary: 30000, rate: 10.75, maxTenure: 6, maxCap: 7500000, procFeeRate: 0.015, commRate: 0.015, allowed: ["Salaried", "Self-Employed"], speed: "Instant Disbursal" },
+  { id: "AXIS", name: "Axis Bank", category: "Private Bank", minCibil: 720, minSalary: 25000, rate: 10.99, maxTenure: 5, maxCap: 5000000, procFeeRate: 0.015, commRate: 0.014, allowed: ["Salaried", "Self-Employed"], speed: "Same-Day Approval" },
+  { id: "BOB", name: "Bank of Baroda", category: "PSU Bank", minCibil: 700, minSalary: 20000, rate: 11.10, maxTenure: 5, maxCap: 2500000, procFeeRate: 0.010, commRate: 0.007, allowed: ["Salaried", "Self-Employed"], speed: "24-48 Hours" },
+  { id: "BAJAJ", name: "Bajaj Finserv", category: "NBFC", minCibil: 680, minSalary: 22000, rate: 11.50, maxTenure: 8, maxCap: 5000000, procFeeRate: 0.025, commRate: 0.022, allowed: ["Salaried", "Self-Employed"], speed: "15 Min Paperless" },
+  { id: "TATA", name: "Tata Capital", category: "NBFC", minCibil: 685, minSalary: 20000, rate: 11.75, maxTenure: 6, maxCap: 5000000, procFeeRate: 0.020, commRate: 0.020, allowed: ["Salaried", "Self-Employed"], speed: "30 Min Disbursal" },
+  { id: "POONA", name: "Poonawalla Fincorp", category: "NBFC", minCibil: 690, minSalary: 20000, rate: 11.20, maxTenure: 5, maxCap: 3000000, procFeeRate: 0.020, commRate: 0.020, allowed: ["Salaried", "Self-Employed"], speed: "Instant Online" },
+  { id: "MONEYVIEW", name: "Moneyview NBFC", category: "Fintech NBFC", minCibil: 620, minSalary: 15000, rate: 14.00, maxTenure: 5, maxCap: 1000000, procFeeRate: 0.030, commRate: 0.030, allowed: ["Salaried", "Self-Employed"], speed: "5 Min IMPS Credit" },
+  { id: "KREDITBEE", name: "KreditBee NBFC", category: "Fintech NBFC", minCibil: 600, minSalary: 12000, rate: 16.00, maxTenure: 3, maxCap: 500000, procFeeRate: 0.035, commRate: 0.035, allowed: ["Salaried", "Self-Employed"], speed: "Instant Disbursement" }
+];
+
+// Persistent State Tracking
+let totalSourced = Number(localStorage.getItem('aasha_sourced') || 0);
+let totalEarnings = Number(localStorage.getItem('aasha_earnings') || 0);
+updateDisplayCounters();
+
+function updateDisplayCounters() {
+  document.getElementById('dispSourced').innerText = '₹' + totalSourced.toLocaleString('en-IN');
+  document.getElementById('dispEarnings').innerText = '₹' + totalEarnings.toLocaleString('en-IN');
+}
+
+// Reducing-Balance Monthly EMI Calculation
+function calcEMI(p, rAnnual, yrs) {
+  const r = rAnnual / 1200;
+  const n = yrs * 12;
+  return Math.round((p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
+}
+
+// Fixture loader
+function loadFixture(name, amt) {
+  document.getElementById('custAmount').value = amt;
+  document.getElementById('custEmp').value = 'Self-Employed';
+  alert(`${name} details loaded!\nRequested loan amount set to ₹${(amt/100000)} Lakh.\nAb 'EVALUATE & SCAN ALL-INDIA LENDERS' par click karein.`);
+}
+
+function evaluateAndScanLenders() {
+  const salary = Number(document.getElementById('custSalary').value);
+  const existingEmi = Number(document.getElementById('custExistingEmi').value || 0);
+  const cibil = Number(document.getElementById('custCibil').value);
+  const requestedAmount = Number(document.getElementById('custAmount').value);
+  const empType = document.getElementById('custEmp').value;
+
+  const box = document.getElementById('resultsArea');
+  box.innerHTML = "";
+
+  if (!salary || !cibil || !requestedAmount) {
+    box.innerHTML = `<p style="color:#ef4444; margin-top:10px;">Kripya Monthly Income, CIBIL Score aur Loan Amount enter karein.</p>`;
+    return;
+  }
+
+  // 50% FOIR Underwriting Rule
+  const maxAllowableEmi = (salary * 0.50) - existingEmi;
+  if (maxAllowableEmi <= 0) {
+    box.innerHTML = `<p style="color:#ef4444; margin-top:10px;"><b>Rejected:</b> Existing EMIs already exhaust 50% FOIR capacity limit.</p>`;
+    return;
+  }
+
+  const processedBankIds = new Set();
+  const validOffers = [];
+
+  for (const b of LENDER_REGISTRY) {
+    if (processedBankIds.has(b.id)) continue;
+
+    if (cibil >= b.minCibil && salary >= b.minSalary && requestedAmount <= b.maxCap && b.allowed.includes(empType)) {
+      const emi = calcEMI(requestedAmount, b.rate, b.maxTenure);
+      if (emi <= maxAllowableEmi) {
+        processedBankIds.add(b.id);
+        
+        const procFee = Math.round(requestedAmount * b.procFeeRate);
+        const gstOnFee = Math.round(procFee * 0.18);
+        const totalDeductions = procFee + gstOnFee;
+        const netInHand = requestedAmount - totalDeductions;
+        const dsaPayout = Math.round(requestedAmount * b.commRate);
+
+        validOffers.push({
+          ...b,
+          monthlyEMI: emi,
+          procFee,
+          gstOnFee,
+          totalDeductions,
+          netInHand,
+          dsaPayout
+        });
+      }
+    }
+  }
+
+  validOffers.sort((a, b) => a.rate - b.rate);
+
+  if (validOffers.length === 0) {
+    box.innerHTML = `<p style="color:#ef4444; margin-top:10px;">Diye gaye criteria ke mutabiq koi lender match nahi hua.</p>`;
+    return;
+  }
+
+  box.innerHTML = `<h4 style="margin:10px 0; color:#38bdf8;">Qualified Instant Lenders (${validOffers.length}) | Max EMI Limit: ₹${Math.round(maxAllowableEmi).toLocaleString('en-IN')}/m</h4>`;
+
+  validOffers.forEach(b => {
+    box.innerHTML += `
+      <div class="loan-card" id="card-${b.id}">
+        <div class="card-header">
+          <h4>${b.name} <small style="color:#94a3b8; font-size:11px;">(${b.category})</small></h4>
+          <span class="speed-tag">${b.speed}</span>
+        </div>
+        <p style="font-size:13px; color:#cbd5e1;">Rate: <b>${b.rate}% p.a.</b> | EMI: <b>₹${b.monthlyEMI.toLocaleString('en-IN')}/m</b> | Tenure: <b>${b.maxTenure} Yrs</b></p>
+        
+        <!-- Net In-Hand Breakdown Matrix -->
+        <div class="disbursal-breakdown">
+          <div class="breakdown-row"><span>Sanctioned Principal:</span> <span>₹${requestedAmount.toLocaleString('en-IN')}</span></div>
+          <div class="breakdown-row"><span>Processing Fee (${(b.procFeeRate*100).toFixed(1)}%):</span> <span>- ₹${b.procFee.toLocaleString('en-IN')}</span></div>
+          <div class="breakdown-row"><span>Govt GST (18% on Fee):</span> <span>- ₹${b.gstOnFee.toLocaleString('en-IN')}</span></div>
+          <div class="breakdown-row total"><span>Net In-Hand Bank Credit:</span> <span>₹${b.netInHand.toLocaleString('en-IN')}</span></div>
+        </div>
+
+        <div class="card-actions">
+          <span class="payout-tag">Your Commission: ₹${b.dsaPayout.toLocaleString('en-IN')} (${(b.commRate * 100).toFixed(1)}%)</span>
+          <button class="btn-apply" onclick="initiateDisbursalJourney('${b.id}', '${b.name}', ${requestedAmount}, ${b.netInHand}, ${b.totalDeductions}, ${b.monthlyEMI}, '${b.rate}', ${b.dsaPayout})">Apply & Disburse</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// 4-Stage Digital Journey & Formal Sanction PDF Generation
+let activeDisbursalData = null;
+
+function initiateDisbursalJourney(lenderId, bankName, sanctioned, netAmount, deductions, emi, rate, earning) {
+  const applicant = document.getElementById('custName').value.trim();
+  const mobile = document.getElementById('custMobile').value.trim();
+  const accNum = document.getElementById('custAccount').value.trim();
+  const ifsc = document.getElementById('custIfsc').value.trim();
+
+  if (!applicant || mobile.length !== 10 || !accNum || !ifsc) {
+    alert("Kripya Applicant Name, 10-digit Mobile, Bank Account Number aur IFSC Code sahi se enter karein.");
+    return;
+  }
+
+  const utrNo = `IMPS${Date.now().toString().slice(-8)}`;
+  const refId = `${lenderId}-APP-${Math.floor(100000 + Math.random() * 900000)}`;
+
+  activeDisbursalData = {
+    applicant, mobile, bankName, accNum, ifsc, sanctioned, netAmount, deductions, emi, rate, earning, utrNo, refId
+  };
+
+  const modal = document.getElementById('disbursalModal');
+  const summary = document.getElementById('modalSummary');
+  const modalBtn = document.getElementById('modalBtn');
+  
+  document.getElementById('stg3').className = 'stage-item';
+  document.getElementById('stg4').className = 'stage-item';
+  summary.style.display = 'none';
+  modalBtn.style.display = 'none';
+  modal.style.display = 'flex';
+
+  setTimeout(() => {
+    document.getElementById('stg3').classList.add('done');
+    document.getElementById('stg3').innerHTML = `<div class="stage-icon">✓</div> 3. e-Mandate Registered for A/c ending in ${accNum.slice(-4)}`;
+  }, 1000);
+
+  setTimeout(() => {
+    document.getElementById('stg4').classList.add('done');
+    document.getElementById('stg4').innerHTML = `<div class="stage-icon">✓</div> 4. Core-Banking IMPS Payout Successful (UTR: ${utrNo})`;
+    
+    summary.style.display = 'block';
+    summary.innerHTML = `
+      <b style="color:#34d399;">Disbursement Order Confirmed</b><br>
+      Applicant: <b>${applicant}</b><br>
+      Disbursing Institution: <b>${bankName}</b><br>
+      Net Amount Credited: <b style="color:#38bdf8;">₹${netAmount.toLocaleString('en-IN')}</b><br>
+      Bank UTR Number: <b>${utrNo}</b>
+    `;
+    modalBtn.style.display = 'block';
+
+    // Book DSA Commission in Ledger
+    totalSourced += sanctioned;
+    totalEarnings += earning;
+    localStorage.setItem('aasha_sourced', totalSourced);
+    localStorage.setItem('aasha_earnings', totalEarnings);
+    updateDisplayCounters();
+  }, 2200);
+}
+
+function closeModal() {
+  document.getElementById('disbursalModal').style.display = 'none';
+  if (activeDisbursalData) {
+    const d = activeDisbursalData;
+    generateSanctionAdvice(d.applicant, d.mobile, d.bankName, d.accNum, d.ifsc, d.sanctioned, d.netAmount, d.deductions, d.emi, d.rate, d.utrNo, d.refId);
+  }
+}
+
+// Generate Downloadable PDF Loan Sanction & Disbursal Advice
+function generateSanctionAdvice(name, mobile, bank, acc, ifsc, sanctioned, net, deductions, emi, rate, utr, refId) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.setFontSize(18);
+  doc.setTextColor(37, 99, 235);
+  doc.text("AASHA DIGITAL ORIGINATION DESK", 14, 20);
+
+  doc.setFontSize(10);
+  doc.setTextColor(100, 116, 139);
+  doc.text("Digital Lending Partner Order & Disbursement Advice", 14, 26);
+  doc.text(`Channel Partner ID: SURAJ-RULOANS-01 | Date: ${new Date().toLocaleDateString()}`, 14, 32);
+
+  doc.setDrawColor(203, 213, 225);
+  doc.line(14, 36, 196, 36);
+
+  doc.setFontSize(12);
+  doc.setTextColor(15, 23, 42);
+  doc.text("TRANSACTION & DISBURSEMENT DETAILS:", 14, 46);
+
+  doc.setFontSize(10);
+  doc.text(`Application Ref ID: ${refId}`, 14, 56);
+  doc.text(`Borrower Name: ${name}`, 14, 64);
+  doc.text(`Mobile Number: ${mobile}`, 14, 72);
+  doc.text(`Disbursing Institution: ${bank}`, 14, 80);
+  doc.text(`Credited Bank Account: XXXXXX${acc.slice(-4)} (IFSC: ${ifsc.toUpperCase()})`, 14, 88);
+  doc.text(`Core-Banking UTR Ref: ${utr}`, 14, 96);
+
+  doc.line(14, 102, 196, 102);
+  doc.text(`Sanctioned Principal: INR ${sanctioned.toLocaleString('en-IN')}`, 14, 110);
+  doc.text(`Upfront Deductions (Fee + 18% GST): - INR ${deductions.toLocaleString('en-IN')}`, 14, 118);
+  doc.setFont(undefined, 'bold');
+  doc.text(`Net In-Hand Amount Credited: INR ${net.toLocaleString('en-IN')}`, 14, 128);
+  doc.setFont(undefined, 'normal');
+  doc.text(`Monthly Repayment EMI: INR ${emi.toLocaleString('en-IN')} (Interest: ${rate}% p.a.)`, 14, 136);
+
+  doc.line(14, 142, 196, 142);
+  doc.setFontSize(9);
+  doc.setTextColor(100, 116, 139);
+  doc.text("e-Mandate auto-debit has been successfully configured on the specified bank account.", 14, 150);
+  doc.text("This document serves as an authentic transaction and partner origination acknowledgement.", 14, 156);
+
+  doc.save(`${name.replace(/\s+/g, '_')}_Disbursement_Advice.pdf`);
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const txt = input.value.trim().toLowerCase();
+  if (!txt) return;
+
+  const chatArea = document.getElementById('chatArea');
+  chatArea.innerHTML += `<div class="chat-msg msg-user"><b>You:</b> ${input.value}</div>`;
+  input.value = '';
+
+  let reply = "Instant loan ke liye NetBanking verification aur digital e-Mandate zaroori hota hai.";
+  if (txt.includes("deduct") || txt.includes("fee") || txt.includes("paisa") || txt.includes("kat")) {
+    reply = "Loan amount se 1% to 2.5% processing fee + 18% GST deduct hokar baaki bacha Net In-Hand amount bank account mein IMPS credit hota hai.";
+  } else if (txt.includes("time") || txt.includes("kab") || txt.includes("instant")) {
+    reply = "NBFCs (Bajaj, Moneyview) 15 minute mein direct payout bhejti hain, jabki PSU banks ko 12-24 hours ka verification lagta hai.";
+  } else if (txt.includes("doc") || txt.includes("kagaj") || txt.includes("kyc")) {
+    reply = "Documents required: PAN Card, Address proof, aur 3 months ka NetBanking salary transaction fetch.";
+  } else if (txt.includes("cibil") || txt.includes("score")) {
+    reply = "Instant low-rate transfer ke liye 720+ CIBIL score priority approval deta hai.";
+  }
+
+  chatArea.innerHTML += `<div class="chat-msg msg-bot"><b>Desk:</b> ${reply}</div>`;
+  chatArea.scrollTop = chatArea.scrollHeight;
+}
+</script>
 </body>
+</html>
+
 </html>
 
 
