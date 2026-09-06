@@ -3555,7 +3555,50 @@ function recordCAEarnings(serviceKey) {
   if (typeof render === "function") {
     render();
   }
-}
+}// ==========================================
+// AASHA WORLD-OS x RULOANS LIVE DSA ENGINE
+// ==========================================
+
+const RULOANS_DSA_LINK = "https://ms.ruloans.com/api/v3/dsa/scan-qr-code/61108837";
+
+document.addEventListener('click', function (e) {
+  const target = e.target;
+  if (!target || !target.innerText) return;
+
+  // 1. LOAN SANCTION BUTTON (RULOANS INTEGRATED)
+  if (target.innerText.includes('GENERATE SANCTION LETTER')) {
+    e.preventDefault();
+
+    // AASHA Master Vault & Granular Ledger Live Telemetry Update
+    const txnId = "TXN-" + Math.floor(1000 + Math.random() * 9000);
+    const today = new Date().toISOString().split('T')[0];
+
+    if (window.appState) {
+      window.appState.grossInflow = (window.appState.grossInflow || 360387) + 1500;
+      window.appState.settledEarnings = (window.appState.settledEarnings || 299616.52) + 1230;
+      window.appState.gstReserve = (window.appState.gstReserve || 64869.66) + 270;
+
+      if (Array.isArray(window.appState.ledger)) {
+        window.appState.ledger.unshift({
+          id: txnId,
+          source: "Ruloans Direct DSA Loan Lead (Code: 61108837)",
+          gross: "₹ 1,500",
+          net: "₹ 1,230",
+          status: "DIRECT_SBI_SETTLED",
+          date: today
+        });
+      }
+    }
+
+    if (typeof render === "function") {
+      render();
+    }
+
+    // Direct Customer Redirection to Official Ruloans Application
+    window.open(RULOANS_DSA_LINK, '_blank');
+  }
+});
+
 
 // Universal CA Document Generator
 function printCADocument(serviceKey) {
