@@ -139,7 +139,7 @@
         { id: 'FIX-805', title: 'Grand Metro Mall Architectural Wooden Arches', cat: 'COMMERCIAL_SETUP', city: 'Ranchi, Jharkhand', budget: '₹ 34,00,000', rawBudget: 3400000, lockFee: 34000, status: 'USED', client: 'Metro Developers', date: '2026-08-22', details: '3000 Sq Ft Teak Curved Arches & LED Coving', lat: 23.3600, lon: 85.3300, claimedStages: ['OPEN'] },
         { id: 'FIX-107', title: 'Corporate World Tour & VIP Air Charter Fleet', cat: 'TOUR_AIRLINE', city: 'Mumbai / Dubai / London', budget: '₹ 38,00,000', rawBudget: 3800000, lockFee: 38000, status: 'CLOSED', client: 'Apex Global Trade', date: '2026-08-21', details: '45 Business Class Return Flights & 5-Star Vouchers', lat: 19.0760, lon: 72.8777, claimedStages: ['OPEN', 'USED', 'CLOSED'] },
         { id: 'FIX-108', title: 'International Flight Bulk Booking Inventory', cat: 'TOUR_AIRLINE', city: 'Delhi / Dubai', budget: '₹ 55,00,000', rawBudget: 5500000, lockFee: 55000, status: 'OPEN', client: 'Global Jetways Group', date: '2026-08-20', details: 'Direct IATA Air Ticketing & Instant Visa Desk', lat: 28.6139, lon: 77.2090, claimedStages: [] },
-        { id: 'FIX-109', title: 'Govt Smart Highway Solar & Acoustic Infrastructure', cat: 'HEALTHCARE_GOVT', city: 'Ranchi / Dhanbad', budget: '₹ 3,50,00,000', rawBudget: 35000000, lockFee: 350000, status: 'OPEN', client: 'National Highway Authority', date: '2026-08-19', details: 'Turnkey Solar Capping & Smart Sensor Grids', lat: 23.7500, lon: 86.0000, claimedStages: [] }
+        { id: 'FIX-109', title: 'Govt Smart Highway Solar & Acoustic Infrastructure', cat: 'HEALTHCARE_GOVT', city: 'Ranchi / Dhanbad', budget: '₹ 3,50,00,000', rawBudget: 35000000, lockFee: 350050, status: 'OPEN', client: 'National Highway Authority', date: '2026-08-19', details: 'Turnkey Solar Capping & Smart Sensor Grids', lat: 23.7500, lon: 86.0000, claimedStages: [] }
       ],
       hotelInventory: [
         { id: "HOTEL-DHN-01", tier: "LOCAL", featured: true, name: "Wedlock Greens Hotels & Resorts", address: "Govindpur Road, Dhanbad, Jharkhand", baseRate: 48000, deskPhone: "919234669200", lat: 23.8340, lon: 86.5200 },
@@ -1360,114 +1360,29 @@
 
     function handleVenueBookingSubmit(e) {
       e.preventDefault();
-      const client = document.getElementById('vbClient').value;
+      const client = document.getElementById('vbClient')?.value || "Client";
+      const phone = document.getElementById('vbPhone')?.value || "N/A";
+      const selId = document.getElementById('vbHotel')?.value;
       const db = getDB();
-      const selId = document.getElementById('vbHotel').value;
-      const hotel = db.hotelInventory.find(h => h.id === selId);
-      const token = Math.round(hotel.baseRate * 0.10);
+      const hotel = db.hotelInventory.find(h => h.id === selId) || db.hotelInventory[0];
+      
+      let addonPrice = 0;
+      if (document.getElementById('addDJ')?.checked) addonPrice += 25000;
+      if (document.getElementById('addDecor')?.checked) addonPrice += 45000;
+      if (document.getElementById('addPhoto')?.checked) addonPrice += 40000;
+      if (document.getElementById('addCab')?.checked) addonPrice += 18000;
 
-      openPaymentModal(token, `Venue Advance Token: ${hotel.name} (${client})`);
+      const base = hotel ? hotel.baseRate : 0;
+      const markup = Math.round(base * 0.15);
+      const gross = base + markup + addonPrice + 299;
+      
+      openPaymentModal(Math.round(gross * 0.10), `Venue Slot Lock: ${hotel.name} (${client})`);
     }
 
-    function applySafePatch() {
-      document.getElementById('self-heal-modal').classList.add('hidden');
-      triggerAudioNotification("AI Safe-Patch Applied! Zero runtime errors.");
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const cBtn = document.getElementById("close-sheet");
-      if (cBtn) cBtn.onclick = () => document.getElementById("doc-sheet").classList.add("hidden");
-      const bBtn = document.getElementById("back-to-types");
-      if (bBtn) bBtn.onclick = () => {
-        document.getElementById("form-wrapper").classList.add("hidden");
-        document.getElementById("doc-type-selection").classList.remove("hidden");
-      };
+    // Initialize application on load
+    window.onload = function() {
       render();
-    });
+    };
   </script>
-</body><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Super App - Master Command Center</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #0f172a; color: #fff; margin: 0; padding: 20px; }
-        .container { max-width: 850px; margin: auto; background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-        h1 { color: #38bdf8; text-align: center; }
-        .card { background: #334155; padding: 20px; margin: 15px 0; border-radius: 8px; }
-        .btn { background: #22c55e; color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; }
-        .btn:hover { background: #16a34a; }
-        .upi-box { text-align: center; background: #fff; color: #000; padding: 15px; border-radius: 8px; margin-top: 10px; font-weight: bold; }
-        ul { padding-left: 20px; }
-        li { margin: 8px 0; color: #cbd5e1; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Global Super App Final Portal</h1>
-        <p style="text-align: center;">Master Administrator & Owner: <b>Suraj Kumar Mishra</b></p>
-        
-        <div class="card">
-            <h3>💰 Official Direct UPI Payment & Settlement</h3>
-            <p>All platform commissions, B2C escrow splits, and service bookings route directly to your verified account:</p>
-            <div class="upi-box">
-                UPI ID: surajmishr999-1@oksbi
-            </div>
-        </div>
-
-        <div class="card">
-            <h3>🌍 15-Pillar Active Modules</h3>
-            <ul>
-                <li><b>Social & Professional Network:</b> Facebook Feed & LinkedIn Style Job/Business Hiring.</li>
-                <li><b>B2C & B2B Escrow Marketplace:</b> Amazon/Meesho & IndiaMART Style Sourcing with Lead Wallet.</li>
-                <li><b>Professional Services:</b> CA, Lawyer, Doctor, Engineer, Interior Designer & Accountant Bookings.</li>
-                <li><b>Global Manufacturers & RFQ:</b> Direct Factory Tier-Pricing & Industrial Tenders.</li>
-                <li><b>Corporate Audit Suite:</b> 1-Click ROC Filings, Statutory Audits, & Financial Statements.</li>
-                <li><b>Auto-Locator & AI Translator:</b> Sub-meter GPS Radar & Real-Time Voice Easy-Talk.</li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h3>📍 Live GPS Auto-Locator</h3>
-            <p>Status: <span id="gpsStatus" style="color: #4ade80;">Ready for Proximity Scan</span></p>
-            <button class="btn" style="background: #3b82f6;" onclick="detectLocation()">Detect Precise Location</button>
-            <p id="locationResult" style="margin-top: 10px; font-family: monospace;"></p>
-        </div>
-
-        <div class="card">
-            <h3>📊 Master Admin Earnings Ledger</h3>
-            <button class="btn" onclick="fetchLiveLedger()">Fetch Real-Time Revenue</button>
-            <pre id="earningsDisplay" style="background:#0f172a; padding:15px; margin-top:15px; border-radius:6px; color:#38bdf8; font-size:14px;"></pre>
-        </div>
-    </div>
-
-    <script>
-        function detectLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    document.getElementById('locationResult').innerHTML = 
-                        `Latitude: ${position.coords.latitude.toFixed(4)}<br>Longitude: ${position.coords.longitude.toFixed(4)} (GPS Locked)`;
-                }, () => {
-                    alert('Location access denied by device.');
-                });
-            } else {
-                alert('Geolocation is not supported by your browser.');
-            }
-        }
-
-        function fetchLiveLedger() {
-            const sampleData = {
-                "Master Administrator": "Suraj Kumar Mishra",
-                "Official Destination UPI": "surajmishr999-1@oksbi",
-                "System Status": "100% Hack-Proof & Secure",
-                "Total Lifetime Revenue": "₹1,45,200 (Escrow Verified)",
-                "Active Modules": "All 15 Pillars Operational"
-            };
-            document.getElementById('earningsDisplay').innerText = JSON.stringify(sampleData, null, 2);
-        }
-    </script>
 </body>
 </html>
-
-
